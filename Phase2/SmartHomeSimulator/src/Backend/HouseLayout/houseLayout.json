@@ -1,0 +1,35 @@
+{
+  "indoor":[
+    {
+        "name": "room1",
+        "hasWindows":true,
+        "hasDoor":true,
+        "hasLight":true
+
+    },
+    {
+        "name": "room2",
+        "hasWindows":true,
+        "hasDoor":true,
+        "hasLight":true
+    },
+    {
+        "name": "room3",
+        "hasWindows":true,
+        "hasDoor":true,
+        "hasLight":true
+    }
+  ],
+  "outdoor":[
+    {
+        "name": "room1",
+        "hasDoor":true,
+        "hasLight":true
+    },
+    {
+        "name": "room2",
+        "hasDoor":true,
+        "hasLight":true
+    }
+  ]
+}
