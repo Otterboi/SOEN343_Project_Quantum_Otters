@@ -88,7 +88,21 @@ public class SimulatorHomeController implements Initializable {
         } catch (Exception e) {
             System.out.println("oops");
         }
-        
-       
+    }
+
+    @FXML
+    public void handleEditClick(ActionEvent event) {
+        try {
+            Parent usr = FXMLLoader.load(getClass().getResource("/UI/Simulator/User.fxml"));
+            Scene scene = new Scene(usr);
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.setTitle("User Profiles");
+            stage.show();
+
+        } catch (Exception e) {
+            System.out.println("error edit user button");
+        }
     }
 }
