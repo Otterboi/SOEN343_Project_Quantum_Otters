@@ -8,6 +8,7 @@ package Backend;
 
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.OutdoorRoom;
+import Backend.Users.User;
 import com.sun.source.tree.WhileLoopTree;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -53,8 +54,8 @@ public class SmartHomeSimulator extends Application {
      */
     public static void main(String[] args) throws IOException, ParseException {
         House.getInstance();
-
-        Object obj = new JSONParser().parse(new FileReader("src/Backend/HouseLayout/houseLayout.json"));
+        FileReader fr = new FileReader("src/Backend/HouseLayout/houseLayout.json");
+        Object obj = new JSONParser().parse(fr);
         JSONObject json = (JSONObject) obj;
 
         JSONArray indoorRooms = (JSONArray) json.get("indoor");
@@ -70,6 +71,18 @@ public class SmartHomeSimulator extends Application {
             House.addOutdoorRoom(new OutdoorRoom((String) items.get("name"), (boolean) items.get("hasLight"), (boolean) items.get("hasDoor")));
         }
 
+        fr.close();
+
+        FileReader fr2 = new FileReader("src/Backend/Users/userProfiles.json");
+
+        JSONObject json2 = ((JSONObject) new JSONParser().parse(fr2));
+        JSONArray users = (JSONArray) json2.get("users");
+
+        for (int i = 0; i < users.size(); i++){
+            System.out.println(i);
+            JSONObject items = (JSONObject) users.get(i);
+            House.addUser(new User((String) items.get("name"), (String) items.get("password"), (String) items.get("role")));
+        }
         launch(args);
     }
 

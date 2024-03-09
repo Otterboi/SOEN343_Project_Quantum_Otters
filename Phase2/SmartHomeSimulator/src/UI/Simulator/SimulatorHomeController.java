@@ -13,17 +13,23 @@ import java.util.ResourceBundle;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.RoomObserver;
+import Backend.Users.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+
 
 /**
  * FXML Controller class
@@ -39,6 +45,13 @@ public class SimulatorHomeController implements Initializable {
     @FXML
     Pane r1, r2, r3, r4, r5, r6 ,r7 ,r8 ,r9, r10, r11, r12;
 
+    @FXML
+    ListView<String> userList;
+
+    ObservableList<String> userLabels = FXCollections.observableArrayList();
+
+
+
     //Pane bedroom1, bedroom2, bedroom3, bathroom1, bathroom2, livingroom1, kitchen1, diningroom1, basement1, frontporch1, backporch1, garage1;
 
     Stage stage;
@@ -50,6 +63,12 @@ public class SimulatorHomeController implements Initializable {
         RoomObserver o = new RoomObserver(r1, r);
         r.attachObserver(o);
         r.notifyObservers(r);
+
+        for(User u : House.getUsers()){
+            userLabels.add(u.getName());
+        }
+
+        userList.setItems(userLabels);
 
     }    
     

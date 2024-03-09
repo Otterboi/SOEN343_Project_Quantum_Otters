@@ -1,0 +1,24 @@
+{
+  "users":[
+    {
+        "name": "bob123",
+        "password": "bob",
+        "role": "parent"
+
+
+    },
+    {
+      "name": "jimmy123",
+      "password": "jimmy",
+      "role": "child"
+    },
+
+    {
+      "name": "gibby123",
+      "password": "gibby",
+      "role": "stranger"
+    }
+
+  ]
+
+}
