@@ -1,5 +1,5 @@
 package Backend.Users;
-enum Role {STRANGER, GUEST, CHILD, PARENT}
+enum Role {STRANGER, GUEST, CHILD, PARENT, ADMIN}
 public class User {
 
 
@@ -20,7 +20,10 @@ public class User {
             role = Role.CHILD;
         }else if(r.toLowerCase().equals("parent")){
             role = Role.PARENT;
-        }else{
+        }else if(r.toLowerCase().equals("admin")){
+            role = Role.ADMIN;
+        }
+        else{
             role = Role.STRANGER;
         }
 
@@ -31,6 +34,8 @@ public class User {
     public Role getRole() {
         return role;
     }
+
+    public String getRoleString(){return role.toString().toLowerCase();}
 
     public void setRole(Role role) {
         this.role = role;

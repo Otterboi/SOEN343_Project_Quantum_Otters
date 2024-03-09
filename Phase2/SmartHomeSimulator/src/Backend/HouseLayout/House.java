@@ -12,10 +12,14 @@ public class House {
     private static ArrayList<User> users;
     private static House INSTANCE;
 
+    private static User loggedInUser;
+
     private House(){
         indoorRooms = new ArrayList<>();
         outdoorRooms = new ArrayList<>();
         users = new ArrayList<>();
+        loggedInUser = null;
+
     }
 
     public static House getInstance(){
@@ -50,5 +54,13 @@ public class House {
 
     public static void setUsers(ArrayList<User> users) {
         House.users = users;
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(User u) {
+        loggedInUser = u;
     }
 }

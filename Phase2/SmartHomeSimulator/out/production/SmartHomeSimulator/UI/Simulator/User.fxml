@@ -11,8 +11,8 @@
    <children>
       <ListView fx:id="interactables" layoutX="19.0" layoutY="32.0" prefHeight="317.0" prefWidth="206.0" />
       <Label layoutX="89.0" layoutY="14.0" text="User Profiles" />
-      <Button layoutX="19.0" layoutY="360.0" mnemonicParsing="false" text="Add" />
-      <Button layoutX="92.0" layoutY="360.0" mnemonicParsing="false" text="Remove" />
+      <Button layoutX="78.0" layoutY="360.0" mnemonicParsing="false" text="Add" />
+      <Button layoutX="122.0" layoutY="360.0" mnemonicParsing="false" text="Remove" />
       <Button layoutX="188.0" layoutY="360.0" mnemonicParsing="false" text="Edit" />
       <AnchorPane layoutX="225.0" layoutY="32.0" prefHeight="318.0" prefWidth="347.0">
          <children>
@@ -27,5 +27,6 @@
             <Label layoutX="161.0" layoutY="6.0" text="Mode" />
          </children>
       </AnchorPane>
+      <Button fx:id="backButton" layoutX="19.0" layoutY="360.0" mnemonicParsing="false" text="Back" />
    </children>
 </AnchorPane>

@@ -83,6 +83,8 @@ public class SmartHomeSimulator extends Application {
             JSONObject items = (JSONObject) users.get(i);
             House.addUser(new User((String) items.get("name"), (String) items.get("password"), (String) items.get("role")));
         }
+
+        fr2.close();
         launch(args);
     }
 

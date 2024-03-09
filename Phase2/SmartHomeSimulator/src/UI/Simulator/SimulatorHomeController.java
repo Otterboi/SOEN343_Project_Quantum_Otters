@@ -23,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
@@ -47,8 +48,11 @@ public class SimulatorHomeController implements Initializable {
 
     @FXML
     ListView<String> userList;
+    @FXML
+    private AnchorPane simulatorHome;
 
     ObservableList<String> userLabels = FXCollections.observableArrayList();
+
 
 
 
@@ -69,6 +73,8 @@ public class SimulatorHomeController implements Initializable {
         }
 
         userList.setItems(userLabels);
+
+
 
     }    
     
@@ -103,6 +109,7 @@ public class SimulatorHomeController implements Initializable {
 
         } catch (Exception e) {
             System.out.println("error edit user button");
+            System.out.println(e);
         }
     }
 }
