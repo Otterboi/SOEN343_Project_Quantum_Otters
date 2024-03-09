@@ -27,11 +27,15 @@ public class SHModulesController implements Initializable {
     @FXML
     ListView<String> interactables;
     ObservableList<String> items = FXCollections.observableArrayList("a", "b", "c");
+
+
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         interactables.setItems(items);
+
+
     }    
     
 }

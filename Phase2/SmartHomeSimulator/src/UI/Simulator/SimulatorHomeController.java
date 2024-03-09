@@ -9,12 +9,17 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Backend.HouseLayout.House;
+import Backend.HouseLayout.IndoorRoom;
+import Backend.HouseLayout.RoomObserver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
@@ -32,14 +37,20 @@ public class SimulatorHomeController implements Initializable {
      */
     
     @FXML
-    Rectangle bedroom1, bedroom2, bedroom3, bathroom1, bathroom2, livingroom1, kitchen1, diningroom1, basement1, frontporch1, backporch1, garage1;
-    Label bed1Text, bed2Text, bed3Text, bath1Text, bath2Text, livingRoomText, kitchenText, diningText, basementText, frontPorchText, backPorchText, garageText;
-    
+    Pane r1, r2, r3, r4, r5, r6 ,r7 ,r8 ,r9, r10, r11, r12;
+
+    //Pane bedroom1, bedroom2, bedroom3, bathroom1, bathroom2, livingroom1, kitchen1, diningroom1, basement1, frontporch1, backporch1, garage1;
+
     Stage stage;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Read rooms from House object
         // REMINDER: when hiding shape also hide text.
+        IndoorRoom r = House.getIndoorRooms().get(0);
+        RoomObserver o = new RoomObserver(r1, r);
+        r.attachObserver(o);
+        r.notifyObservers(r);
+
     }    
     
     @FXML

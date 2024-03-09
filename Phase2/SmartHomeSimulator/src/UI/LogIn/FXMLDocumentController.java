@@ -42,7 +42,7 @@ public class FXMLDocumentController implements Initializable {
             stage.show();
         
         } catch (Exception e) {
-            System.out.println("oopsies");
+            System.out.println(e);
         }
         
        

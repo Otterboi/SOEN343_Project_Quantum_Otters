@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.AmbientLight?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -39,30 +41,127 @@
             </Label>
             <AnchorPane layoutX="34.0" layoutY="54.0" prefHeight="520.0" prefWidth="747.0">
                <children>
-                  <Rectangle fx:id="bedroom1" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Rectangle fx:id="bedroom2" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" layoutX="158.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Rectangle fx:id="bedroom3" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" layoutX="316.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Rectangle fx:id="bathroom1" arcHeight="5.0" arcWidth="5.0" fill="#ab865f" height="146.0" layoutX="474.0" stroke="BLACK" strokeType="INSIDE" width="94.0" />
-                  <Rectangle fx:id="bathroom2" arcHeight="5.0" arcWidth="5.0" fill="#ab865f" height="146.0" layoutX="568.0" stroke="BLACK" strokeType="INSIDE" width="94.0" />
-                  <Rectangle fx:id="garage1" arcHeight="5.0" arcWidth="5.0" fill="#949494" height="146.0" layoutX="317.0" layoutY="292.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Rectangle fx:id="livingroom1" arcHeight="5.0" arcWidth="5.0" fill="#ff861f" height="146.0" layoutY="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Rectangle fx:id="kitchen1" arcHeight="5.0" arcWidth="5.0" fill="#6cbc49" height="146.0" layoutX="152.0" layoutY="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Rectangle fx:id="diningroom1" arcHeight="5.0" arcWidth="5.0" fill="#6c49ba" height="146.0" layoutX="310.0" layoutY="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Rectangle fx:id="backporch1" arcHeight="5.0" arcWidth="5.0" fill="#ffca1f" height="146.0" layoutX="159.0" layoutY="293.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Rectangle fx:id="frontporch1" arcHeight="5.0" arcWidth="5.0" fill="#ffca1f" height="146.0" layoutY="292.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Label fx:id="bed1Text" layoutX="55.0" layoutY="65.0" text="Bedroom" />
-                  <Label fx:id="bed2Text" layoutX="213.0" layoutY="65.0" text="Bedroom" />
-                  <Label fx:id="bed3Text" layoutX="371.0" layoutY="65.0" text="Bedroom" />
-                  <Label fx:id="bath1Text" layoutX="497.0" layoutY="65.0" text="Bathroom" />
-                  <Label fx:id="bath2Text" layoutX="589.0" layoutY="65.0" text="Bathroom" />
-                  <Label fx:id="livingRoomText" layoutX="46.0" layoutY="211.0" text="Living Room" />
-                  <Label fx:id="kitchenText" layoutX="211.0" layoutY="211.0" text="Kitchen" />
-                  <Label fx:id="diningText" layoutX="360.0" layoutY="211.0" text="Dining Room" />
-                  <Label fx:id="frontPorchText" layoutX="49.0" layoutY="358.0" text="Front Porch" />
-                  <Label fx:id="backPorchText" layoutX="209.0" layoutY="358.0" text="Back Porch" />
-                  <Label fx:id="garageText" layoutX="376.0" layoutY="358.0" text="Garage" />
-                  <Rectangle fx:id="basement1" arcHeight="5.0" arcWidth="5.0" fill="#b6d0e8" height="146.0" layoutX="468.0" layoutY="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
-                  <Label fx:id="basementText" layoutX="518.0" layoutY="211.0" text="Basement" />
+                  <AmbientLight color="CHARTREUSE" layoutX="50.0" layoutY="50.0" lightOn="true" AnchorPane.leftAnchor="0.0" />
+                  <Pane fx:id="r1">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r2" layoutX="158.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text1" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r3" layoutX="316.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text11" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r4" layoutX="474.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text111" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r5" layoutY="146.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text1111" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r6" layoutX="158.0" layoutY="146.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text11111" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r7" layoutX="316.0" layoutY="146.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text111111" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r8" layoutX="474.0" layoutY="146.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text1111111" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r9" layoutY="292.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text11111111" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r10" layoutX="158.0" layoutY="292.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text111111111" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r11" layoutX="316.0" layoutY="292.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text1111111111" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="r12" layoutX="474.0" layoutY="292.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" onMouseClicked="#handleBedroomClick" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+                        <Label fx:id="bed1Text11111111111" alignment="CENTER" layoutX="55.0" layoutY="64.0" text="Bedroom" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
                </children></AnchorPane>
          </children>
       </AnchorPane>
