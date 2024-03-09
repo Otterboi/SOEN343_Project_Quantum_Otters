@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SmartHomeSimulator">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/SmartHomeSimulator.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

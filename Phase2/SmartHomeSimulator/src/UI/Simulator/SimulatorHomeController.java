@@ -5,6 +5,7 @@
  */
 package UI.Simulator;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,11 +33,13 @@ public class SimulatorHomeController implements Initializable {
     
     @FXML
     Rectangle bedroom1, bedroom2, bedroom3, bathroom1, bathroom2, livingroom1, kitchen1, diningroom1, basement1, frontporch1, backporch1, garage1;
+    Label bed1Text, bed2Text, bed3Text, bath1Text, bath2Text, livingRoomText, kitchenText, diningText, basementText, frontPorchText, backPorchText, garageText;
     
     Stage stage;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // Read rooms from House object
+        // REMINDER: when hiding shape also hide text.
     }    
     
     @FXML
