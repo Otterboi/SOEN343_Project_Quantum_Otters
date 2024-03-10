@@ -1,11 +1,10 @@
-package Backend.HouseLayout;
+package Backend.Observer;
 
-import Backend.Observer;
+import Backend.HouseLayout.IndoorRoom;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 
 public class RoomObserver implements Observer {
     private ImageView light;
@@ -35,7 +34,7 @@ public class RoomObserver implements Observer {
         light.setImage(lightOff);
         door.setImage(doorClose);
         window.setImage(windowClose);
-        person.setImage(personInRoom);
+        person.setImage(personNotInRoom);
     }
     @Override
     public void update(Observable o) {
@@ -64,5 +63,6 @@ public class RoomObserver implements Observer {
         }else{
             person.setImage(personNotInRoom);
         }
+
     }
 }

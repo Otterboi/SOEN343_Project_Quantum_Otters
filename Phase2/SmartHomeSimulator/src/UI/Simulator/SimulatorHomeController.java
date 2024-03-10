@@ -5,38 +5,36 @@
  */
 package UI.Simulator;
 import Backend.Model.DateTime;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.text.DateFormat;
 import java.util.ResourceBundle;
 
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
-import Backend.HouseLayout.RoomObserver;
 import Backend.Users.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import Backend.Observer.*;
+import Backend.SimulatorMenu.SimulatorHome;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+
 import java.text.SimpleDateFormat;
 import java.util.Timer;
 
@@ -50,7 +48,7 @@ public class SimulatorHomeController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
+
     @FXML
     Pane r1, r2, r3, r4, r5, r6 ,r7 ,r8 ,r9, r10, r11, r12;
 
@@ -61,6 +59,10 @@ public class SimulatorHomeController implements Initializable {
 
     ObservableList<String> userLabels = FXCollections.observableArrayList();
 
+    @FXML
+    ToggleButton toggleSimulationBTN;
+    @FXML
+    Button editSimulationBTN;
 
 
 
@@ -83,11 +85,18 @@ public class SimulatorHomeController implements Initializable {
     @FXML
     private Label chosenTime;
 
+    @FXML
+    private Label userLabel, tempLabel, roomLabel;
+
     private DateTime dateTime; // Instance of DateTime model for managing time
     private Timer timer = new Timer(); // Timer for scheduling time updates
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        SimulatorHome menu = SimulatorHome.getInstance();
+        SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
+        menu.attachObserver(menuObserver);
+
         dateTime = new DateTime();
         // Assuming dateTime object is correctly initialized
         dateTime.dateTimeProperty().addListener((observable, oldValue, newValue) -> {
@@ -101,21 +110,26 @@ public class SimulatorHomeController implements Initializable {
 
         // Read rooms from House object
         // REMINDER: when hiding shape also hide text.
+
+
         IndoorRoom r = House.getIndoorRooms().get(0);
-        RoomObserver o = new RoomObserver(r1, r);
-        r.attachObserver(o);
-        r.notifyObservers(r);
+        RoomObserver ui = new RoomObserver(r1, r);
+        r.attachObserver(ui);
+
 
         for(User u : House.getUsers()){
             userLabels.add(u.getName());
         }
 
         userList.setItems(userLabels);
-
-
-
     }
-    
+
+
+
+
+
+
+
     @FXML
     public void handleBedroomClick() {
         try {
@@ -165,6 +179,33 @@ public class SimulatorHomeController implements Initializable {
             dateTime.setClockSpeedMultiplier(multiplier);
             currentMultiplier.setText(String.format("x %.2f", multiplier));
         });
+    }
+
+    public void toggleSimulation() {
+        if (toggleSimulationBTN.isSelected()) {
+            toggleSimulationBTN.setText("ON");
+            // Run simulation
+        } else {
+            toggleSimulationBTN.setText("OFF");
+            // Pause simulation
+        }
+    }
+
+    public void editSimulation() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/UI/EditSimulation/EditSimulation.fxml"));
+
+            stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setResizable(false);
+
+            stage.setScene(scene);
+            stage.setTitle("Edit");
+            stage.show();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
 //    @FXML

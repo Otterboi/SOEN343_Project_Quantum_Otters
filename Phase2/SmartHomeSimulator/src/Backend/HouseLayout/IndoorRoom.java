@@ -1,16 +1,10 @@
 package Backend.HouseLayout;
 
-import Backend.Observer;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
+import java.util.List;
+import Backend.Observer.*;
 
-public class IndoorRoom implements Observable{
+public class IndoorRoom implements Observable {
     private String roomName;
     private boolean hasWindow;
     private boolean hasLight;
@@ -20,24 +14,17 @@ public class IndoorRoom implements Observable{
     private boolean isDoorOpen;
     private boolean isWindowBlocked;
     private boolean isPersonInRoom;
-
+    private List<String> peopleInRoom;
     private ArrayList<Observer> observers = new ArrayList<>();
 
 
-
-
-
-
-    public IndoorRoom(String roomName, boolean hasWindow, boolean hasDoor, boolean hasLight){
+    public IndoorRoom(String roomName, boolean hasWindow, boolean hasDoor, boolean hasLight) {
         this.roomName = roomName;
         this.hasDoor = hasDoor;
         this.hasLight = hasLight;
         this.hasWindow = hasWindow;
         isPersonInRoom = false;
-
-
-
-
+        this.peopleInRoom = new ArrayList<>();
         isWindowBlocked = false;
         isLightOn = false;
         isDoorOpen = false;
@@ -115,28 +102,39 @@ public class IndoorRoom implements Observable{
         return isPersonInRoom;
     }
 
-    public void setPersonInRoom(boolean personInRoom) {
+    public void setPersonInRoom(boolean personInRoom, String person) {
         isPersonInRoom = personInRoom;
+        this.peopleInRoom.add(person);
         notifyObservers(this);
     }
 
+    public void removePersonInRoom(String person){
+        this.peopleInRoom.remove(person);
+
+        if(this.peopleInRoom.isEmpty()){
+            this.isPersonInRoom = false;
+            this.notifyObservers(this);
+        }
+    }
+
+    public List<String> getPeopleInRoom(){
+        return this.peopleInRoom;
+    }
 
     @Override
     public void attachObserver(Observer o) {
-    observers.add(o);
+        observers.add(o);
     }
 
     @Override
     public void detachObserver(Observer o) {
-    observers.remove(o);
+        observers.remove(o);
     }
 
     @Override
     public void notifyObservers(Observable o) {
-    for(Observer observer : observers){
-        observer.update(o);
+        for (Observer observer : observers) {
+            observer.update(o);
+        }
     }
-    }
-
-
 }

@@ -5,6 +5,7 @@
  */
 package UI.LogIn;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -45,12 +46,11 @@ public class FXMLDocumentController implements Initializable {
     private AnchorPane loginPane;
     @FXML
     private Label errorLabel;
-
     
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        try {
+    private void handleButtonAction(ActionEvent event) throws IOException {
+        //try {
 
             for(User u : House.getUsers()){
                 if(usernameField.getText().equals(u.getName())){
@@ -75,11 +75,10 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
 
-
         
-        } catch (Exception e) {
+        /*} catch (Exception e) {
             System.out.println(e);
-        }
+        }*/
         
        
     }
@@ -106,6 +105,6 @@ public class FXMLDocumentController implements Initializable {
         // TODO
         errorLabel.setVisible(false);
 
-    }    
+    }
     
 }
