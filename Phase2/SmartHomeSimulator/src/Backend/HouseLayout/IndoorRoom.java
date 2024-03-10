@@ -1,6 +1,14 @@
 package Backend.HouseLayout;
 
-public class IndoorRoom {
+import Backend.Observer.Observer;
+import java.util.ArrayList;
+import java.util.List;
+import Backend.Observer.Observable;
+import Backend.Observer.Observer;
+import java.util.ArrayList;
+import java.util.List;
+
+public class IndoorRoom implements Observable {
     private String roomName;
     private boolean hasWindow;
     private boolean hasLight;
@@ -10,11 +18,21 @@ public class IndoorRoom {
     private boolean isDoorOpen;
     private boolean isWindowBlocked;
 
-    public IndoorRoom(String roomName, boolean hasWindow, boolean hasDoor, boolean hasLight){
+    private boolean isPersonInRoom;
+    private List<String> peopleInRoom;
+
+    private ArrayList<Observer> observers = new ArrayList<>();
+
+
+    public IndoorRoom(String roomName, boolean hasWindow, boolean hasDoor, boolean hasLight) {
         this.roomName = roomName;
         this.hasDoor = hasDoor;
         this.hasLight = hasLight;
         this.hasWindow = hasWindow;
+
+        this.peopleInRoom = new ArrayList<>();
+        isPersonInRoom = false;
+
         isWindowBlocked = false;
         isLightOn = false;
         isDoorOpen = false;
@@ -83,5 +101,45 @@ public class IndoorRoom {
 
     public void setWindowBlocked(boolean windowBlocked) {
         isWindowBlocked = windowBlocked;
+    }
+
+    public boolean isPersonInRoom() {
+        return isPersonInRoom;
+    }
+
+    public void setPersonInRoom(boolean personInRoom, String person) {
+        isPersonInRoom = personInRoom;
+        this.peopleInRoom.add(person);
+        notifyObservers(this);
+    }
+
+    public void removePersonInRoom(String person){
+        this.peopleInRoom.remove(person);
+
+        if(this.peopleInRoom.isEmpty()){
+            this.isPersonInRoom = false;
+            this.notifyObservers(this);
+        }
+    }
+
+    public List<String> getPeopleInRoom(){
+        return this.peopleInRoom;
+    }
+
+    @Override
+    public void attachObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void detachObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers(Observable o) {
+        for (Observer observer : observers) {
+            observer.update(o);
+        }
     }
 }

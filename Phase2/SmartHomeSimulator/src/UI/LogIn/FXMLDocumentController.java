@@ -28,6 +28,7 @@ public class FXMLDocumentController implements Initializable {
     Scene scene;
     @FXML
     private Button logInButton;
+    @FXML
     private Button signUpButton;
     
     
@@ -42,7 +43,7 @@ public class FXMLDocumentController implements Initializable {
             stage.show();
         
         } catch (Exception e) {
-            System.out.println("oopsies");
+            System.out.println(e);
         }
         
        
