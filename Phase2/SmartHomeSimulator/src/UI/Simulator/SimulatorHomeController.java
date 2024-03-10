@@ -19,6 +19,9 @@ import java.util.ResourceBundle;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.RoomObserver;
+import Backend.Users.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +29,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
@@ -45,9 +50,19 @@ public class SimulatorHomeController implements Initializable {
     /**
      * Initializes the controller class.
      */
-
+    
     @FXML
     Pane r1, r2, r3, r4, r5, r6 ,r7 ,r8 ,r9, r10, r11, r12;
+
+    @FXML
+    ListView<String> userList;
+    @FXML
+    private AnchorPane simulatorHome;
+
+    ObservableList<String> userLabels = FXCollections.observableArrayList();
+
+
+
 
     //Pane bedroom1, bedroom2, bedroom3, bathroom1, bathroom2, livingroom1, kitchen1, diningroom1, basement1, frontporch1, backporch1, garage1;
 
@@ -91,8 +106,16 @@ public class SimulatorHomeController implements Initializable {
         r.attachObserver(o);
         r.notifyObservers(r);
 
-    }
+        for(User u : House.getUsers()){
+            userLabels.add(u.getName());
+        }
 
+        userList.setItems(userLabels);
+
+
+
+    }
+    
     @FXML
     public void handleBedroomClick() {
         try {
@@ -109,8 +132,23 @@ public class SimulatorHomeController implements Initializable {
         } catch (Exception e) {
             System.out.println("oops");
         }
+    }
 
+    @FXML
+    public void handleEditClick(ActionEvent event) {
+        try {
+            Parent usr = FXMLLoader.load(getClass().getResource("/UI/Simulator/User.fxml"));
+            Scene scene = new Scene(usr);
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.setTitle("User Profiles");
+            stage.show();
 
+        } catch (Exception e) {
+            System.out.println("error edit user button");
+            System.out.println(e);
+        }
     }
     private void updateDateTimeDisplay() {
         // This method updates the displayed date and time based on the current dateTime
