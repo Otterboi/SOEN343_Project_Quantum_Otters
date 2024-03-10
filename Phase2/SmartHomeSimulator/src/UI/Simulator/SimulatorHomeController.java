@@ -9,6 +9,9 @@ import Backend.Model.DateTime;
 
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import Backend.HouseLayout.House;
@@ -58,13 +61,8 @@ public class SimulatorHomeController implements Initializable {
     private AnchorPane simulatorHome;
 
     ObservableList<String> userLabels = FXCollections.observableArrayList();
-
-    @FXML
-    ToggleButton toggleSimulationBTN;
     @FXML
     Button editSimulationBTN;
-
-
 
     //Pane bedroom1, bedroom2, bedroom3, bathroom1, bathroom2, livingroom1, kitchen1, diningroom1, basement1, frontporch1, backporch1, garage1;
 
@@ -96,8 +94,18 @@ public class SimulatorHomeController implements Initializable {
         SimulatorHome menu = SimulatorHome.getInstance();
         SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
         menu.attachObserver(menuObserver);
+        menu.notifyObservers(menu);
 
         dateTime = new DateTime();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        try {
+            Date date = formatter.parse(menu.getDate());
+            //dateTime.setTime(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         // Assuming dateTime object is correctly initialized
         dateTime.dateTimeProperty().addListener((observable, oldValue, newValue) -> {
             // This method will be called every second
@@ -111,6 +119,7 @@ public class SimulatorHomeController implements Initializable {
         // Read rooms from House object
         // REMINDER: when hiding shape also hide text.
 
+        System.out.println(userLabel.getText());
 
         IndoorRoom r = House.getIndoorRooms().get(0);
         RoomObserver ui = new RoomObserver(r1, r);
@@ -123,12 +132,6 @@ public class SimulatorHomeController implements Initializable {
 
         userList.setItems(userLabels);
     }
-
-
-
-
-
-
 
     @FXML
     public void handleBedroomClick() {
@@ -182,11 +185,13 @@ public class SimulatorHomeController implements Initializable {
     }
 
     public void toggleSimulation() {
-        if (toggleSimulationBTN.isSelected()) {
-            toggleSimulationBTN.setText("ON");
+        if (startStopToggle.isSelected()) {
+            startStopToggle.setText("Stop Simulation");
+            dateTime.startTime();
             // Run simulation
         } else {
-            toggleSimulationBTN.setText("OFF");
+            startStopToggle.setText("Start Simulation");
+            dateTime.stopTime();
             // Pause simulation
         }
     }

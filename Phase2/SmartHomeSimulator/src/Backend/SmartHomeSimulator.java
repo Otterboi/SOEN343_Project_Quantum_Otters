@@ -8,6 +8,7 @@ package Backend;
 
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.OutdoorRoom;
+import Backend.SimulatorMenu.SimulatorHome;
 import Backend.Users.User;
 import com.sun.source.tree.WhileLoopTree;
 import javafx.application.Application;
@@ -54,6 +55,8 @@ public class SmartHomeSimulator extends Application {
      */
     public static void main(String[] args) throws IOException, ParseException {
         House.getInstance();
+        SimulatorHome.getInstance();
+        
         FileReader fr = new FileReader("src/Backend/HouseLayout/houseLayout.json");
         Object obj = new JSONParser().parse(fr);
         JSONObject json = (JSONObject) obj;
