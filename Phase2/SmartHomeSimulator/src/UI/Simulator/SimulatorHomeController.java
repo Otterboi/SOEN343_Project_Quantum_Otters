@@ -62,13 +62,9 @@ public class SimulatorHomeController implements Initializable {
         // REMINDER: when hiding shape also hide text.
 
 
-        IndoorRoom r3 = House.getIndoorRooms().get(0);
-
-        IndoorRoom r = House.getIndoorRooms().get(1);
-        RoomObserver o1 = new RoomObserver(r1, r3);
-        RoomObserver o = new RoomObserver(r2, r);
+        IndoorRoom r = House.getIndoorRooms().get(0);
+        RoomObserver o = new RoomObserver(r1, r);
         r.attachObserver(o);
-        r3.attachObserver(o1);
     }
 
     @FXML

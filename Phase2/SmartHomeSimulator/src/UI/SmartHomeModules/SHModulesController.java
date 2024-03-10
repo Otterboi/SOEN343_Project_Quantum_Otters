@@ -26,7 +26,6 @@ import javafx.scene.control.ToggleButton;
 public class SHModulesController implements Initializable {
 
     private IndoorRoom indoorRoom;
-    private IndoorRoom indoorRoom2;
 
     @FXML
     ListView<String> interactables;
@@ -39,9 +38,26 @@ public class SHModulesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        indoorRoom = House.getIndoorRooms().get(1);
-        indoorRoom2 = House.getIndoorRooms().get(0);
+        indoorRoom = House.getIndoorRooms().get(0);
         interactables.setItems(items);
+        
+        for(String person : indoorRoom.getPeopleInRoom()){
+            if(person.equals("Parent")){
+                addParentBTN.setText("Remove Parent from Room");
+                addParentBTN.setSelected(true);
+            }else if (person.equals("Child")){
+                addChildBTN.setText("Remove Child from Room");
+                addChildBTN.setSelected(true);
+            } else if (person.equals("Guest")) {
+                addGuestBTN.setText("Remove Guest from Room");
+                addGuestBTN.setSelected(true);
+            }
+        }
+
+        if(indoorRoom.isWindowBlocked()){
+            blockWindowBTN.setText("Unblock Window");
+            blockWindowBTN.setSelected(true);
+        }
     }
 
     public void addParent() {
@@ -77,10 +93,10 @@ public class SHModulesController implements Initializable {
     public void blockWindow() {
         if (blockWindowBTN.isSelected()) {
             blockWindowBTN.setText("Unblock Window");
-            indoorRoom.setWindowBlocked(false);
+            indoorRoom.setWindowBlocked(true);
         } else {
             blockWindowBTN.setText("Block Window");
-            indoorRoom.setWindowBlocked(true);
+            indoorRoom.setWindowBlocked(false);
         }
     }
 }
