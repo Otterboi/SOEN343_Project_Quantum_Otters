@@ -5,6 +5,10 @@
  */
 package UI.Simulator;
 import Backend.Model.DateTime;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -70,7 +74,14 @@ public class SimulatorHomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dateTime = new DateTime();
-        updateDateTimeDisplay();
+        // Assuming dateTime object is correctly initialized
+        dateTime.dateTimeProperty().addListener((observable, oldValue, newValue) -> {
+            // This method will be called every second
+            Platform.runLater(() -> {
+                updateDateTimeDisplay(); // Ensure this method updates UI based on dateTime.getDate()
+            });
+        });
+        dateTime.startTime(); // Start the clock
         setupMultiplierSliderListener();
 
         // Read rooms from House object

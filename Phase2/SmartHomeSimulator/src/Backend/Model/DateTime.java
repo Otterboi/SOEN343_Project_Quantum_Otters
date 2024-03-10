@@ -26,13 +26,17 @@ public class DateTime {
     }
 
     private void initializeClock() {
-        clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            date.add(Calendar.SECOND, 1);
-            // Notify observers (e.g., the controller) of the change
-            dateTimeProperty.set(dateTimeProperty.get() + 1); // Trigger an update
-        }), new KeyFrame(Duration.seconds(1)));
+        clock = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+
+            int baseMultiplier = 3700;
+            int secondsToAdd = (int) Math.pow(baseMultiplier, clockSpeedMultiplier.get() - 1);
+
+            date.add(Calendar.SECOND, secondsToAdd);
+
+            dateTimeProperty.set(System.currentTimeMillis());
+        }));
         clock.setCycleCount(Animation.INDEFINITE);
-        clock.rateProperty().bind(clockSpeedMultiplier);
+
     }
 
     public void startTime() {
@@ -41,6 +45,10 @@ public class DateTime {
 
     public void stopTime() {
         clock.pause();
+    }
+    // In DateTime class
+    public DoubleProperty dateTimeProperty() {
+        return dateTimeProperty;
     }
 
     public void setTime(Date date) {
