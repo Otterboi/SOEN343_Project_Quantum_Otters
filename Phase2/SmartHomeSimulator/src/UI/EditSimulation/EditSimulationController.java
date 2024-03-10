@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 public class EditSimulationController implements Initializable {
 
     private String[] userTypes = {"Parent", "Child", "Guest", "Stranger"};
-    //private String[] roomTypes = {"Master Bedroom", "Kid's Room", "Guest Room", "Upstairs Bathroom", "Downstairs Bathroom", "Kitchen", "Living Room", "Dinning Room", "Basement", "Front Porch", "Back Porch"};
     private IndoorRoom[] rooms = new IndoorRoom[12];
 
     @FXML
@@ -60,12 +59,5 @@ public class EditSimulationController implements Initializable {
         SimulatorHome.getInstance().setTemp(newTemp.getText());
         SimulatorHome.getInstance().setRoom(changeRoomBox.getValue());
         SimulatorHome.getInstance().setUser(changeUserBox.getValue());
-
-        for(IndoorRoom room: House.getIndoorRooms()){
-            if(room.getRoomName().equals(changeRoomBox.getValue())){
-                room.removePersonInRoom(changeUserBox.getValue());
-                room.setPersonInRoom(true,changeRoomBox.getValue());
-            }
-        }
     }
 }

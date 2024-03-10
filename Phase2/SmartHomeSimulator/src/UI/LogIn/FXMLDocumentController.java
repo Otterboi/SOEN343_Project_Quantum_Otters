@@ -5,6 +5,7 @@
  */
 package UI.LogIn;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -33,8 +34,8 @@ public class FXMLDocumentController implements Initializable {
     
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        try {
+    private void handleButtonAction(ActionEvent event) throws IOException {
+        //try {
             sim = FXMLLoader.load(getClass().getResource("/UI/Simulator/SimulatorHome.fxml"));
             scene = new Scene(sim);
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -42,9 +43,9 @@ public class FXMLDocumentController implements Initializable {
             stage.setScene(scene);
             stage.show();
         
-        } catch (Exception e) {
+        /*} catch (Exception e) {
             System.out.println(e);
-        }
+        }*/
         
        
     }

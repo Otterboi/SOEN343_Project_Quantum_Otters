@@ -40,11 +40,6 @@ public class SimulatorHomeController implements Initializable {
      */
 
     @FXML
-    Rectangle bedroom1, bedroom2, bedroom3, bathroom1, bathroom2, livingroom1, kitchen1, diningroom1, basement1, frontporch1, backporch1, garage1;
-    @FXML
-    Label bed1Text, bed2Text, bed3Text, bath1Text, bath2Text, livingRoomText, kitchenText, diningText, basementText, frontPorchText, backPorchText, garageText;
-
-    @FXML
     Pane r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12;
     @FXML
     ToggleButton toggleSimulationBTN;

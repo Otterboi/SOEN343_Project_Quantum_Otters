@@ -32,7 +32,6 @@ public class RegisterPageController implements Initializable {
     Stage stage;
     Scene scene;
     @FXML
-    
     private ChoiceBox<String> userTypes;
     
     private String[] types = {"Parent", "Child", "Guest", "Stranger"};

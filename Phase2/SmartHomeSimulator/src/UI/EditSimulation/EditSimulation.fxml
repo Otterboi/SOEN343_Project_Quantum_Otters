@@ -15,7 +15,7 @@
       <DatePicker fx:id="datePicker" layoutX="255.0" layoutY="81.0" />
       <TextField fx:id="newTime" layoutX="255.0" layoutY="116.0" prefHeight="25.0" prefWidth="84.0" />
       <TextField fx:id="newTemp" layoutX="255.0" layoutY="148.0" prefHeight="25.0" prefWidth="47.0" />
-      <Button fx:id="saveChangesBTN" layoutX="210.0" layoutY="306.0" mnemonicParsing="false" onAction="#updateSimulation" prefHeight="25.0" prefWidth="174.0" text="Save Changes and Exit" />
+      <Button fx:id="saveChangesBTN" layoutX="210.0" layoutY="306.0" mnemonicParsing="false" onAction="#updateSimulation" prefHeight="25.0" prefWidth="174.0" text="Save Changes" />
       <Text layoutX="176.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change User:" wrappingWidth="74.13671875" />
       <Text layoutX="171.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change Room:" wrappingWidth="84.13671875" />
       <ChoiceBox fx:id="changeUserBox" layoutX="255.0" layoutY="187.0" prefHeight="25.0" prefWidth="97.0" />
