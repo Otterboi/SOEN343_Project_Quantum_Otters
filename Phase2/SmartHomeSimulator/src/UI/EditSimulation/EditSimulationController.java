@@ -2,7 +2,6 @@ package UI.EditSimulation;
 
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
-import Backend.Observer.SimulatorHomeObserver;
 import Backend.SimulatorMenu.SimulatorHome;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,8 +12,6 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class EditSimulationController implements Initializable {

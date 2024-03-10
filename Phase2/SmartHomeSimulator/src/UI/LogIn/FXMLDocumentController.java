@@ -39,7 +39,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button logInButton, signUpButton;
     @FXML
-    @FXML
     private TextField usernameField;
     @FXML
     private PasswordField passwordField;

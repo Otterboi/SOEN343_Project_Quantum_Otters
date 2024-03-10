@@ -2,6 +2,7 @@ package Backend.Observer;
 
 import Backend.SimulatorMenu.SimulatorHome;
 import javafx.scene.control.Label;
+import Backend.Observer.Observer;
 
 public class SimulatorHomeObserver implements Observer{
 

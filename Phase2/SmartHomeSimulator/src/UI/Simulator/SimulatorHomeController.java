@@ -5,48 +5,36 @@
  */
 package UI.Simulator;
 import Backend.Model.DateTime;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.text.DateFormat;
 import java.util.ResourceBundle;
 
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
-import Backend.HouseLayout.RoomObserver;
 import Backend.Users.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-
-import Backend.HouseLayout.House;
-import Backend.HouseLayout.IndoorRoom;
-import Backend.Observer.RoomObserver;
-import Backend.Observer.SimulatorHomeObserver;
+import Backend.Observer.*;
 import Backend.SimulatorMenu.SimulatorHome;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+
 import java.text.SimpleDateFormat;
 import java.util.Timer;
 
@@ -97,13 +85,16 @@ public class SimulatorHomeController implements Initializable {
     @FXML
     private Label chosenTime;
 
+    @FXML
+    private Label userLabel, tempLabel, roomLabel;
+
     private DateTime dateTime; // Instance of DateTime model for managing time
     private Timer timer = new Timer(); // Timer for scheduling time updates
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         SimulatorHome menu = SimulatorHome.getInstance();
-        SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, timeLabel, dateLabel, userLabel, tempLabel, roomLabel);
+        SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
         menu.attachObserver(menuObserver);
 
         dateTime = new DateTime();
@@ -122,24 +113,22 @@ public class SimulatorHomeController implements Initializable {
 
 
         IndoorRoom r = House.getIndoorRooms().get(0);
-        RoomObserver o = new RoomObserver(r1, r);
-        r.attachObserver(o);
-    }
+        RoomObserver ui = new RoomObserver(r1, r);
+        r.attachObserver(ui);
 
-        IndoorRoom r = House.getIndoorRooms().get(0);
-        RoomObserver o = new RoomObserver(r1, r);
-        r.attachObserver(o);
-        r.notifyObservers(r);
 
         for(User u : House.getUsers()){
             userLabels.add(u.getName());
         }
 
         userList.setItems(userLabels);
-
-
-
     }
+
+
+
+
+
+
 
     @FXML
     public void handleBedroomClick() {

@@ -1,9 +1,7 @@
 package Backend.SimulatorMenu;
 
-import Backend.Observer.Observable;
-import Backend.Observer.Observer;
-
 import java.util.ArrayList;
+import Backend.Observer.*;
 
 public class SimulatorHome implements Observable {
 

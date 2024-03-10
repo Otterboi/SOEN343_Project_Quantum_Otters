@@ -1,12 +1,8 @@
 package Backend.HouseLayout;
 
-import Backend.Observer.Observer;
 import java.util.ArrayList;
 import java.util.List;
-import Backend.Observer.Observable;
-import Backend.Observer.Observer;
-import java.util.ArrayList;
-import java.util.List;
+import Backend.Observer.*;
 
 public class IndoorRoom implements Observable {
     private String roomName;
