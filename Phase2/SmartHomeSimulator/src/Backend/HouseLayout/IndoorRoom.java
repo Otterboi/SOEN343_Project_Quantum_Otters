@@ -17,10 +17,8 @@ public class IndoorRoom implements Observable {
     private boolean isLightOn;
     private boolean isDoorOpen;
     private boolean isWindowBlocked;
-
     private boolean isPersonInRoom;
     private List<String> peopleInRoom;
-
     private ArrayList<Observer> observers = new ArrayList<>();
 
 
@@ -29,10 +27,8 @@ public class IndoorRoom implements Observable {
         this.hasDoor = hasDoor;
         this.hasLight = hasLight;
         this.hasWindow = hasWindow;
-
-        this.peopleInRoom = new ArrayList<>();
         isPersonInRoom = false;
-
+        this.peopleInRoom = new ArrayList<>();
         isWindowBlocked = false;
         isLightOn = false;
         isDoorOpen = false;
@@ -77,6 +73,7 @@ public class IndoorRoom implements Observable {
 
     public void setWindowOpen(boolean windowOpen) {
         isWindowOpen = windowOpen;
+        notifyObservers(this);
     }
 
     public boolean isLightOn() {
@@ -85,6 +82,7 @@ public class IndoorRoom implements Observable {
 
     public void setLightOn(boolean lightOn) {
         isLightOn = lightOn;
+        notifyObservers(this);
     }
 
     public boolean isDoorOpen() {
@@ -93,6 +91,7 @@ public class IndoorRoom implements Observable {
 
     public void setDoorOpen(boolean doorOpen) {
         isDoorOpen = doorOpen;
+        notifyObservers(this);
     }
 
     public boolean isWindowBlocked() {

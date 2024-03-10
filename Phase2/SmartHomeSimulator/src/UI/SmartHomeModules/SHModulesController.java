@@ -8,7 +8,6 @@ package UI.SmartHomeModules;
 import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
 import javafx.collections.FXCollections;
@@ -40,7 +39,7 @@ public class SHModulesController implements Initializable {
         // TODO
         indoorRoom = House.getIndoorRooms().get(0);
         interactables.setItems(items);
-        
+
         for(String person : indoorRoom.getPeopleInRoom()){
             if(person.equals("Parent")){
                 addParentBTN.setText("Remove Parent from Room");
