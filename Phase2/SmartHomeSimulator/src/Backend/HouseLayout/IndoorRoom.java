@@ -4,18 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import Backend.Observer.*;
 
-public class IndoorRoom implements Observable {
-    private String roomName;
-    private boolean hasWindow;
-    private boolean hasLight;
-    private boolean hasDoor;
-    private boolean isWindowOpen;
-    private boolean isLightOn;
-    private boolean isDoorOpen;
+public class IndoorRoom extends Room{
+
     private boolean isWindowBlocked;
-    private boolean isPersonInRoom;
-    private List<String> peopleInRoom;
-    private ArrayList<Observer> observers = new ArrayList<>();
+    protected boolean isWindowOpen;
+    protected boolean hasWindow;
 
 
     public IndoorRoom(String roomName, boolean hasWindow, boolean hasDoor, boolean hasLight) {
@@ -31,13 +24,7 @@ public class IndoorRoom implements Observable {
         isWindowOpen = false;
     }
 
-    public String getRoomName() {
-        return roomName;
-    }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
-    }
 
     public boolean isHasWindow() {
         return hasWindow;
@@ -47,21 +34,7 @@ public class IndoorRoom implements Observable {
         this.hasWindow = hasWindow;
     }
 
-    public boolean isHasLight() {
-        return hasLight;
-    }
 
-    public void setHasLight(boolean hasLight) {
-        this.hasLight = hasLight;
-    }
-
-    public boolean isHasDoor() {
-        return hasDoor;
-    }
-
-    public void setHasDoor(boolean hasDoor) {
-        this.hasDoor = hasDoor;
-    }
 
     public boolean isWindowOpen() {
         return isWindowOpen;
@@ -72,23 +45,7 @@ public class IndoorRoom implements Observable {
         notifyObservers(this);
     }
 
-    public boolean isLightOn() {
-        return isLightOn;
-    }
 
-    public void setLightOn(boolean lightOn) {
-        isLightOn = lightOn;
-        notifyObservers(this);
-    }
-
-    public boolean isDoorOpen() {
-        return isDoorOpen;
-    }
-
-    public void setDoorOpen(boolean doorOpen) {
-        isDoorOpen = doorOpen;
-        notifyObservers(this);
-    }
 
     public boolean isWindowBlocked() {
         return isWindowBlocked;
@@ -98,43 +55,5 @@ public class IndoorRoom implements Observable {
         isWindowBlocked = windowBlocked;
     }
 
-    public boolean isPersonInRoom() {
-        return isPersonInRoom;
-    }
 
-    public void setPersonInRoom(boolean personInRoom, String person) {
-        isPersonInRoom = personInRoom;
-        this.peopleInRoom.add(person);
-        notifyObservers(this);
-    }
-
-    public void removePersonInRoom(String person){
-        this.peopleInRoom.remove(person);
-
-        if(this.peopleInRoom.isEmpty()){
-            this.isPersonInRoom = false;
-            this.notifyObservers(this);
-        }
-    }
-
-    public List<String> getPeopleInRoom(){
-        return this.peopleInRoom;
-    }
-
-    @Override
-    public void attachObserver(Observer o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void detachObserver(Observer o) {
-        observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers(Observable o) {
-        for (Observer observer : observers) {
-            observer.update(o);
-        }
-    }
 }

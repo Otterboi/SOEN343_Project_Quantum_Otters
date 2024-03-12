@@ -9,6 +9,8 @@ public class House {
     private static ArrayList<IndoorRoom> indoorRooms;
     private static ArrayList<OutdoorRoom> outdoorRooms;
 
+    private static ArrayList<Room> rooms;
+
     private static ArrayList<User> users;
     private static House INSTANCE;
 
@@ -19,6 +21,7 @@ public class House {
         outdoorRooms = new ArrayList<>();
         users = new ArrayList<>();
         loggedInUser = null;
+        rooms = new ArrayList<>();
 
     }
 
@@ -40,10 +43,12 @@ public class House {
 
     public static void addOutdoorRoom(OutdoorRoom outdoorRoom) {
         outdoorRooms.add(outdoorRoom);
+        rooms.add(outdoorRoom);
     }
 
     public static void addIndoorRoom(IndoorRoom indoorRoom) {
         indoorRooms.add(indoorRoom);
+        rooms.add(indoorRoom);
     }
 
     public static void addUser(User user){ users.add(user); }
@@ -62,5 +67,9 @@ public class House {
 
     public static void setLoggedInUser(User u) {
         loggedInUser = u;
+    }
+
+    public static ArrayList<Room> getRooms(){
+        return rooms;
     }
 }
