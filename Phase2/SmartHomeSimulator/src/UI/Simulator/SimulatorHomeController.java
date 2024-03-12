@@ -4,25 +4,28 @@
  * and open the template in the editor.
  */
 package UI.Simulator;
+
+import Backend.HouseLayout.Room;
 import Backend.Model.DateTime;
 
 
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
+import Backend.Observer.Observer;
 import Backend.Users.User;
+import UI.SmartHomeModules.SHModulesController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import Backend.Observer.*;
 import Backend.SimulatorMenu.SimulatorHome;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -39,7 +42,6 @@ import javafx.stage.Stage;
 import javafx.fxml.FXML;
 
 import java.text.SimpleDateFormat;
-import java.util.Timer;
 
 /**
  * FXML Controller class
@@ -53,12 +55,14 @@ public class SimulatorHomeController implements Initializable {
      */
 
     @FXML
-    Pane r1, r2, r3, r4, r5, r6 ,r7 ,r8 ,r9, r10, r11, r12;
+    Pane r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12;
+    Pane[] paneArray;
+
 
     @FXML
     ListView<String> userList;
     @FXML
-    private AnchorPane simulatorHome;
+    private AnchorPane simulatorHome, roomPanes;
 
     ObservableList<String> userLabels = FXCollections.observableArrayList();
     @FXML
@@ -89,8 +93,12 @@ public class SimulatorHomeController implements Initializable {
     private DateTime dateTime; // Instance of DateTime model for managing time
     private Timer timer = new Timer(); // Timer for scheduling time updates
 
+    private boolean isInitialized = false;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Pane[] paneArray2 = {r1, r2, r3, r4, r5, r6 ,r7 ,r8, r9, r10, r11, r12};
+        paneArray = paneArray2;
         SimulatorHome menu = SimulatorHome.getInstance();
         SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
         menu.attachObserver(menuObserver);
@@ -100,12 +108,13 @@ public class SimulatorHomeController implements Initializable {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-        try {
-            Date date = formatter.parse(menu.getDate());
-            //dateTime.setTime(date);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Date date = formatter.parse(menu.getDate());
+//            //dateTime.setTime(date);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+
         // Assuming dateTime object is correctly initialized
         dateTime.dateTimeProperty().addListener((observable, oldValue, newValue) -> {
             // This method will be called every second
@@ -116,31 +125,56 @@ public class SimulatorHomeController implements Initializable {
         dateTime.startTime(); // Start the clock
         setupMultiplierSliderListener();
 
-        // Read rooms from House object
-        // REMINDER: when hiding shape also hide text.
 
         System.out.println(userLabel.getText());
 
-        IndoorRoom r = House.getIndoorRooms().get(0);
-        RoomObserver ui = new RoomObserver(r1, r);
-        r.attachObserver(ui);
+        for(int i = 0; i < House.getRooms().size(); i++){
+            Room r = House.getRooms().get(i);
+            RoomObserver ro = new RoomObserver(paneArray[i], r);
+            r.getObservers().clear();
+            r.attachObserver(ro);
+            paneArray[i].setVisible(true);
+            r.notifyObservers(r);
+
+            for(Observer o : r.getObservers()){
+                System.out.println(o);
+            }
+        }
 
 
-        for(User u : House.getUsers()){
+
+
+        for (User u : House.getUsers()) {
             userLabels.add(u.getName());
         }
 
         userList.setItems(userLabels);
+
+
     }
 
     @FXML
-    public void handleBedroomClick() {
+    public void handleBedroomClick(Event event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/UI/SmartHomeModules/SHModules.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UI/SmartHomeModules/SHModules.fxml"));
 
+            SHModulesController controller;
+
+
+            Pane eventPane = (Pane) event.getSource();
+            for(int i = 0; i < paneArray.length; i++){
+                if(eventPane.getId().equals(paneArray[i].getId())){
+                    controller = new SHModulesController(House.getRooms().get(i));
+                    loader.setController(controller);
+                    break;
+                }
+            }
+            Parent root = loader.load();
+            System.out.println("loaded!");
             stage = new Stage();
             Scene scene = new Scene(root);
             stage.setResizable(false);
+
 
             stage.setScene(scene);
             stage.setTitle("Bedroom");
@@ -148,6 +182,7 @@ public class SimulatorHomeController implements Initializable {
 
         } catch (Exception e) {
             System.out.println("oops");
+            System.out.println(e);
         }
     }
 
@@ -156,7 +191,7 @@ public class SimulatorHomeController implements Initializable {
         try {
             Parent usr = FXMLLoader.load(getClass().getResource("/UI/Simulator/User.fxml"));
             Scene scene = new Scene(usr);
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setResizable(false);
             stage.setScene(scene);
             stage.setTitle("User Profiles");
@@ -167,6 +202,7 @@ public class SimulatorHomeController implements Initializable {
             System.out.println(e);
         }
     }
+
     private void updateDateTimeDisplay() {
         // This method updates the displayed date and time based on the current dateTime
         DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -213,19 +249,7 @@ public class SimulatorHomeController implements Initializable {
         }
     }
 
-//    @FXML
-//    private void startStopSimulation() {
-//        // Toggle the simulation status and update the UI and model accordingly
-//        boolean running = dateTime.isRunning();
-//        if (running) {
-//            dateTime.stopTime();
-//            timer.cancel();
-//        } else {
-//            dateTime.startTime();
-//            startAnimatedTime();
-//        }
-//        startStopToggle.setText(running ? "Start" : "Stop");
-//    }//
+
 
 
 }

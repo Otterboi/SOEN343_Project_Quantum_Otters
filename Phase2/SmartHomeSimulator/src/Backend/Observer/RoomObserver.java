@@ -1,6 +1,7 @@
 package Backend.Observer;
 
 import Backend.HouseLayout.IndoorRoom;
+import Backend.HouseLayout.Room;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +25,7 @@ public class RoomObserver implements Observer {
 
 
 
-    public RoomObserver(Pane pane, IndoorRoom r){
+    public RoomObserver(Pane pane, Room r){
         this.pane = pane;
         ((Label)pane.getChildren().get(1)).setText(r.getRoomName());
         light = ((ImageView)pane.getChildren().get(2));
@@ -38,7 +39,7 @@ public class RoomObserver implements Observer {
     }
     @Override
     public void update(Observable o) {
-        IndoorRoom r = (IndoorRoom) o;
+        Room r = (Room) o;
 
         if(r.isDoorOpen() == true){
             door.setImage(doorOpen);
@@ -52,10 +53,14 @@ public class RoomObserver implements Observer {
             light.setImage(lightOff);
         }
 
-        if(r.isWindowOpen() == true){
-            window.setImage(windowOpen);
-        }else{
-            window.setImage(windowClose);
+
+        if(r instanceof IndoorRoom){
+            if(((IndoorRoom) r).isWindowOpen()){
+                window.setImage(windowOpen);
+            }else{
+                window.setImage(windowClose);
+            }
+
         }
 
         if(r.isPersonInRoom() == true){
