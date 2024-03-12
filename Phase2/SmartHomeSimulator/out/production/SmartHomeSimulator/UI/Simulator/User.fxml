@@ -27,6 +27,6 @@
             <Label layoutX="161.0" layoutY="6.0" text="Mode" />
          </children>
       </AnchorPane>
-      <Button fx:id="backButton" layoutX="19.0" layoutY="360.0" mnemonicParsing="false" text="Back" />
+      <Button fx:id="backButton" layoutX="19.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleBack" text="Back" />
    </children>
 </AnchorPane>

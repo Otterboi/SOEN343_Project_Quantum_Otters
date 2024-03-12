@@ -1,6 +1,4 @@
-package Backend.HouseLayout;
-
-import Backend.Observer;
+package Backend.Observer;
 
 public interface Observable {
     public void attachObserver(Observer o);
