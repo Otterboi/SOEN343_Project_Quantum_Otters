@@ -2,7 +2,9 @@ package UI.EditSimulation;
 
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
+import Backend.Model.DateTime;
 import Backend.SimulatorMenu.SimulatorHome;
+import Backend.Users.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class EditSimulationController implements Initializable {
 
-    private String[] userTypes = {"Parent", "Child", "Guest", "Stranger"};
+    private String[] userTypes = new String[House.getUsers().size()];
     private IndoorRoom[] rooms = new IndoorRoom[12];
 
     @FXML
@@ -30,13 +32,17 @@ public class EditSimulationController implements Initializable {
 
     private SimulatorHome menu;
     private String[] roomTypes = new String[House.getIndoorRooms().size()];
-    private String prevRoom;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.menu = SimulatorHome.getInstance();
 
-        this.prevRoom = menu.getRoom();
+        if(userTypes.length != 0){
+            for (int i = 0; i < House.getUsers().size(); i++){
+                userTypes[i] = House.getUsers().get(i).getName();
+            }
+        }
+
         this.datePicker.setValue(LocalDate.parse(menu.getDate()));
         this.newTime.setText(menu.getTime());
         this.newTemp.setText(menu.getTemp());
@@ -46,15 +52,22 @@ public class EditSimulationController implements Initializable {
         for(int i = 0; i < House.getIndoorRooms().size(); i++){
             roomTypes[i] = House.getIndoorRooms().get(i).getRoomName();
         }
+
         this.changeRoomBox.getItems().addAll(roomTypes);
         this.changeRoomBox.setValue(menu.getRoom());
     }
 
     public void updateSimulation(){
-        SimulatorHome.getInstance().setDate(datePicker.getValue().toString());
-        SimulatorHome.getInstance().setTime(newTime.getText());
-        SimulatorHome.getInstance().setTemp(newTemp.getText());
-        SimulatorHome.getInstance().setRoom(changeRoomBox.getValue());
-        SimulatorHome.getInstance().setUser(changeUserBox.getValue());
+        SimulatorHome menu = SimulatorHome.getInstance();
+        DateTime dateTime = DateTime.getInstance();
+
+        menu.setDate(datePicker.getValue().toString());
+        menu.setTime(newTime.getText());
+        menu.setTemp(newTemp.getText());
+        menu.setRoom(changeRoomBox.getValue());
+        menu.setUser(changeUserBox.getValue());
+
+        dateTime.setTime(newTime.getText());
+        dateTime.setDate(datePicker.getValue().toString());
     }
 }

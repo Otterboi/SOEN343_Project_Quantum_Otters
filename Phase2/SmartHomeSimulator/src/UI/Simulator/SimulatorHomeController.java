@@ -10,9 +10,8 @@ import Backend.Model.DateTime;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.util.*;
 
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
@@ -39,7 +38,6 @@ import javafx.stage.Stage;
 import javafx.fxml.FXML;
 
 import java.text.SimpleDateFormat;
-import java.util.Timer;
 
 /**
  * FXML Controller class
@@ -87,21 +85,22 @@ public class SimulatorHomeController implements Initializable {
     private Label userLabel, tempLabel, roomLabel;
 
     private DateTime dateTime; // Instance of DateTime model for managing time
+    private SimulatorHome menu;
     private Timer timer = new Timer(); // Timer for scheduling time updates
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SimulatorHome menu = SimulatorHome.getInstance();
+        menu = SimulatorHome.getInstance();
+        dateTime = DateTime.getInstance();
+
         SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
         menu.attachObserver(menuObserver);
         menu.notifyObservers(menu);
 
-        dateTime = new DateTime();
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         try {
-            Date date = formatter.parse(menu.getDate());
+            Date date = dateFormatter.parse(menu.getDate());
             //dateTime.setTime(date);
         } catch (ParseException e) {
             throw new RuntimeException(e);
@@ -197,6 +196,11 @@ public class SimulatorHomeController implements Initializable {
     }
 
     public void editSimulation() {
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        menu.setTime(timeFormatter.format(dateTime.getDate().getTime()));
+        menu.setDate(dateFormatter.format(dateTime.getDate().getTime()));
+
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/UI/EditSimulation/EditSimulation.fxml"));
 

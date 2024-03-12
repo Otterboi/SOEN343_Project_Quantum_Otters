@@ -9,8 +9,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.util.Duration;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class DateTime {
 
@@ -19,8 +21,18 @@ public class DateTime {
     private Calendar date;
     // Observable property for date and time updates
     private SimpleDoubleProperty dateTimeProperty = new SimpleDoubleProperty();
+    private static DateTime instance;
 
-    public DateTime() {
+
+    public static DateTime getInstance() {
+        if (instance == null) {
+            instance = new DateTime();
+        }
+
+        return instance;
+    }
+
+    private DateTime() {
         date = Calendar.getInstance();
         initializeClock();
     }
@@ -46,17 +58,17 @@ public class DateTime {
     public void stopTime() {
         clock.pause();
     }
+
     // In DateTime class
     public DoubleProperty dateTimeProperty() {
         return dateTimeProperty;
     }
 
-    public void setTime(Date date) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        this.date.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
-        this.date.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
-        this.date.set(Calendar.SECOND, c.get(Calendar.SECOND));
+    public void setTime(String time) {
+        String[] timeSplit = time.split(":");
+        this.date.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeSplit[0]));
+        this.date.set(Calendar.MINUTE, Integer.parseInt(timeSplit[1]));
+        this.date.set(Calendar.SECOND, Integer.parseInt(timeSplit[2]));
     }
 
     public boolean isRunning() {
@@ -67,10 +79,14 @@ public class DateTime {
         return date;
     }
 
-    public void setDate(LocalDate date) {
-        this.date.set(Calendar.YEAR, date.getYear());
-        this.date.set(Calendar.MONTH, date.getMonthValue() - 1);
-        this.date.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
+    public void setDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formatter = formatter.withLocale(Locale.ENGLISH);
+        LocalDate localDate = LocalDate.parse(date, formatter);
+
+        this.date.set(Calendar.YEAR, localDate.getYear());
+        this.date.set(Calendar.MONTH, localDate.getMonthValue() - 1);
+        this.date.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
     }
 
     public DoubleProperty clockSpeedMultiplierProperty() {
