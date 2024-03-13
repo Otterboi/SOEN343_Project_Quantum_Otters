@@ -15,6 +15,7 @@ public abstract class Room implements Observable {
 
     protected boolean isPersonInRoom;
     protected List<String> peopleInRoom;
+    protected boolean autoModeEnabled = false;
     private ArrayList<Observer> observers = new ArrayList<>();
 
     public String getRoomName() {
@@ -46,8 +47,12 @@ public abstract class Room implements Observable {
     }
 
     public void setLightOn(boolean lightOn) {
-        isLightOn = lightOn;
-        notifyObservers(this);
+        if(this.isLightOn!=lightOn){
+            this.isLightOn = lightOn;
+            notifyObservers(this);
+        }
+        /*isLightOn = lightOn;
+        notifyObservers(this);*/
     }
 
     public boolean isDoorOpen() {
@@ -66,6 +71,12 @@ public abstract class Room implements Observable {
     public void setPersonInRoom(boolean personInRoom, String person) {
         isPersonInRoom = personInRoom;
         this.peopleInRoom.add(person);
+        if (this.autoModeEnabled && !this.peopleInRoom.isEmpty()){
+            setLightOn(true);
+        }
+        else if (this.autoModeEnabled && this.peopleInRoom.isEmpty()){
+            setLightOn(false);
+        }
         notifyObservers(this);
     }
 
@@ -74,6 +85,9 @@ public abstract class Room implements Observable {
 
         if(this.peopleInRoom.isEmpty()){
             this.isPersonInRoom = false;
+            if(this.autoModeEnabled){
+                setLightOn(false);
+            }
             this.notifyObservers(this);
         }
     }
@@ -101,5 +115,14 @@ public abstract class Room implements Observable {
 
     public ArrayList<Observer> getObservers(){
         return observers;
+    }
+
+    public boolean isAutoModeEnabled(){
+        return autoModeEnabled;
+    }
+
+    public void setAutoModeEnabled(boolean autoModeEnabled){
+        this.autoModeEnabled = autoModeEnabled;
+        notifyObservers(this);
     }
 }

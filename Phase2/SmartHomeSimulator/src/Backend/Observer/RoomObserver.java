@@ -69,5 +69,13 @@ public class RoomObserver implements Observer {
             person.setImage(personNotInRoom);
         }
 
+        if(r.isAutoModeEnabled() && r.isPersonInRoom()){
+            light.setImage(lightOn);
+            r.setLightOn(true);
+        } else if (r.isAutoModeEnabled() && !r.isPersonInRoom()){
+            light.setImage(lightOff);
+            r.setLightOn(false);
+        }
+
     }
 }
