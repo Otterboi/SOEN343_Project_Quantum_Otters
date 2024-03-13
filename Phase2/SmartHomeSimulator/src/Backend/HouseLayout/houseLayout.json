@@ -22,12 +22,12 @@
   ],
   "outdoor":[
     {
-        "name": "room1",
+        "name": "room4",
         "hasDoor":true,
         "hasLight":true
     },
     {
-        "name": "room2",
+        "name": "room5",
         "hasDoor":true,
         "hasLight":true
     }

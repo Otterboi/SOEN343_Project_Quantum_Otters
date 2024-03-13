@@ -2,6 +2,7 @@ package UI.EditSimulation;
 
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
+import Backend.HouseLayout.Room;
 import Backend.Model.DateTime;
 import Backend.SimulatorMenu.SimulatorHome;
 import Backend.Users.User;
@@ -19,7 +20,7 @@ import java.util.ResourceBundle;
 public class EditSimulationController implements Initializable {
 
     private String[] userTypes = new String[House.getUsers().size()];
-    private IndoorRoom[] rooms = new IndoorRoom[12];
+    private Room[] rooms = new Room[12];
 
     @FXML
     DatePicker datePicker;
@@ -53,6 +54,8 @@ public class EditSimulationController implements Initializable {
             roomTypes[i] = House.getRooms().get(i).getRoomName();
         }
 
+        roomTypes[roomTypes.length - 1] = "Remote";
+
         this.changeRoomBox.getItems().addAll(roomTypes);
         this.changeRoomBox.setValue(menu.getRoom());
     }
@@ -65,6 +68,17 @@ public class EditSimulationController implements Initializable {
         menu.setTime(newTime.getText());
         menu.setTemp(newTemp.getText());
         menu.setRoom(changeRoomBox.getValue());
+
+        for(int i = 0; i < House.getRooms().size(); i++){
+            Room room = House.getRooms().get(i);
+            room.removePersonInRoom(menu.getUser());
+
+            if(room.getRoomName().equals(menu.getRoom())){
+                room.setPersonInRoom(true, menu.getUser());
+                break;
+            }
+        }
+
         menu.setUser(changeUserBox.getValue());
 
         dateTime.setTime(newTime.getText());
