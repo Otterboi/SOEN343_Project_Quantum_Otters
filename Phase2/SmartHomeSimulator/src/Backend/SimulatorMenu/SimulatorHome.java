@@ -24,7 +24,7 @@ public class SimulatorHome implements Observable {
 
     public static SimulatorHome getInstance(){
         if(instance == null){
-            instance = new SimulatorHome("2024-01-01","00:00:00","20 C", House.getLoggedInUser().getName(), House.getIndoorRooms().get(0).getRoomName());
+            instance = new SimulatorHome("2024-01-01","00:00:00","20 C", House.getLoggedInUser().getName(), House.getRooms().get(0).getRoomName());
         }
 
         return instance;
