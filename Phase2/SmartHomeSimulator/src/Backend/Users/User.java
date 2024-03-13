@@ -1,5 +1,5 @@
 package Backend.Users;
-enum Role {STRANGER, GUEST, CHILD, PARENT, ADMIN}
+
 public class User {
 
 

@@ -31,7 +31,7 @@ public class EditSimulationController implements Initializable {
     ChoiceBox<String> changeUserBox, changeRoomBox;
 
     private SimulatorHome menu;
-    private String[] roomTypes = new String[House.getIndoorRooms().size()];
+    private String[] roomTypes = new String[House.getRooms().size()];
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,8 +49,8 @@ public class EditSimulationController implements Initializable {
         this.changeUserBox.getItems().addAll(userTypes);
         this.changeUserBox.setValue(menu.getUser());
 
-        for(int i = 0; i < House.getIndoorRooms().size(); i++){
-            roomTypes[i] = House.getIndoorRooms().get(i).getRoomName();
+        for(int i = 0; i < House.getRooms().size(); i++){
+            roomTypes[i] = House.getRooms().get(i).getRoomName();
         }
 
         this.changeRoomBox.getItems().addAll(roomTypes);

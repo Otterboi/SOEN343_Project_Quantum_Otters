@@ -7,6 +7,14 @@ package UI.SmartHomeModules;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Backend.Command.Command;
+import Backend.Command.ToggleDoorCommand;
+import Backend.Command.ToggleLightCommand;
+import Backend.Command.ToggleWindowCommand;
+import Backend.SimulatorMenu.SimulatorHome;
+import Backend.Users.User;
+import Backend.Users.Role;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.Room;
@@ -14,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 
@@ -26,12 +35,10 @@ public class SHModulesController implements Initializable {
 
     private Room room;
 
-    @FXML
-    ListView<String> interactables;
-    ObservableList<String> items = FXCollections.observableArrayList("a", "b", "c");
 
     @FXML
-    ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle;
+    ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle,OpenCloseDoors, OpenCloseWindows, OpenCloseLights;
+
 
     public SHModulesController(Room r){
         room = r;
@@ -40,8 +47,9 @@ public class SHModulesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        interactables.setItems(items);
+
+        Role CurrentUserRole = House.getLoggedInUser() != null ? House.getLoggedInUser().getRole() : Role.STRANGER;
+        setPermissionForSHC(CurrentUserRole);
 
         for(String person : room.getPeopleInRoom()){
             if(person.equals("Parent")){
@@ -75,7 +83,57 @@ public class SHModulesController implements Initializable {
                 autoModeToggle.setText("Enable Auto Mode");
             }
         });
+        OpenCloseDoors.setOnAction(e-> {
+            Command toggleDoor = new ToggleDoorCommand(room);
+            toggleDoor.execute();
 
+        });
+        OpenCloseWindows.setOnAction(e-> {
+
+           Command toggleWindow = new ToggleWindowCommand(room);
+           toggleWindow.execute();
+
+        });
+        OpenCloseLights.setOnAction(e-> {
+            Command toggleLight = new ToggleLightCommand(room);
+            toggleLight.execute();
+            OpenCloseLights.setText(room.isLightOn() ? "Light OFF":"Light ON");
+        });
+
+
+    }
+
+    private void setPermissionForSHC(Role currentUserRole) {
+
+
+        boolean doors = false;
+        boolean windows = false;
+        boolean lights = false;
+        boolean autolightmode = false;
+
+        switch (currentUserRole){
+            case PARENT:
+            case ADMIN:
+                doors = windows = lights = autolightmode = true;
+                break;
+            case CHILD:
+            case GUEST:
+
+                if(SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true){
+                    lights = true;
+                    windows = !(room instanceof IndoorRoom && ((IndoorRoom)room).isWindowBlocked());
+                }
+                break;
+
+
+            case STRANGER:
+                break;
+
+        }
+        OpenCloseDoors.setDisable(!doors);
+        OpenCloseLights.setDisable(!lights);
+        OpenCloseWindows.setDisable(!windows);
+        autoModeToggle.setDisable(!autolightmode);
     }
 
     public void addParent() {
@@ -120,4 +178,6 @@ public class SHModulesController implements Initializable {
         }
 
     }
+
+
 }
