@@ -5,6 +5,7 @@
  */
 package UI.Simulator;
 
+import Backend.HouseLayout.OutdoorRoom;
 import Backend.HouseLayout.Room;
 import Backend.Model.DateTime;
 
@@ -127,6 +128,11 @@ public class SimulatorHomeController implements Initializable {
             r.getObservers().clear();
             r.attachObserver(ro);
             paneArray[i].setVisible(true);
+
+            if(r instanceof OutdoorRoom){
+                paneArray[i].getChildren().get(4).setVisible(false);
+            }
+
             r.notifyObservers(r);
 
             for (Observer o : r.getObservers()) {
