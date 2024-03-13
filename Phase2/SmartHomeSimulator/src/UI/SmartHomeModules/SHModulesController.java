@@ -73,33 +73,26 @@ public class SHModulesController implements Initializable {
         });
         OpenCloseDoors.setOnAction(e-> {
             boolean isSelected = OpenCloseDoors.isSelected();
-            room.setAutoModeEnabled(isSelected);
-            if(isSelected){
-                OpenCloseDoors.setText("Door Opened");
-            }
-            else {
-                OpenCloseDoors.setText("Door Closed");
-            }
+            room.setDoorOpen(isSelected);
+            OpenCloseDoors.setText(isSelected ?"Door Closed" : "Door Opened");
+
         });
         OpenCloseWindows.setOnAction(e-> {
             boolean isSelected = OpenCloseWindows.isSelected();
-            room.setAutoModeEnabled(isSelected);
-            if(isSelected){
-                OpenCloseWindows.setText("Window Opened");
+
+            //Here check if room.window is an Instance of IndoorRoom
+            if (room instanceof IndoorRoom){
+                ((IndoorRoom) room).setWindowOpen(isSelected);
+                OpenCloseWindows.setText(isSelected ? "Window Closed" : "Window Opened");
             }
-            else {
-                OpenCloseWindows.setText("Window Closed");
-            }
+
+
         });
         OpenCloseLights.setOnAction(e-> {
             boolean isSelected = OpenCloseLights.isSelected();
-            room.setAutoModeEnabled(isSelected);
-            if(isSelected){
-                OpenCloseLights.setText("Light ON");
-            }
-            else {
-                OpenCloseLights.setText("Light OFF");
-            }
+            room.setLightOn(isSelected);
+            OpenCloseLights.setText(isSelected ? "Light OFF":"Light ON");
+
         });
 
 

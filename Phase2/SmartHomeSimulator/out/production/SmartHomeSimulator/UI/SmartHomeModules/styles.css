@@ -1,0 +1,7 @@
+.button-open-close-doors {
+    -fx-background-color: #b0bec5;
+    -fx-text-fill: blue;
+    -fx-font-weight: bold;
+    -fx-border-color: #78909c;
+    -fx-border-width: 2;
+}
