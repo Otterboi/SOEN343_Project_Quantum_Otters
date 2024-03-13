@@ -12,6 +12,7 @@ import Backend.Command.Command;
 import Backend.Command.ToggleDoorCommand;
 import Backend.Command.ToggleLightCommand;
 import Backend.Command.ToggleWindowCommand;
+import Backend.SimulatorMenu.SimulatorHome;
 import Backend.Users.User;
 import Backend.Users.Role;
 import Backend.HouseLayout.House;
@@ -118,10 +119,13 @@ public class SHModulesController implements Initializable {
             case CHILD:
             case GUEST:
 
+                if(SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true){
                     lights = true;
                     windows = !(room instanceof IndoorRoom && ((IndoorRoom)room).isWindowBlocked());
-
+                }
                 break;
+
+
             case STRANGER:
                 break;
 
