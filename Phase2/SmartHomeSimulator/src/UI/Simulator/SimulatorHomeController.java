@@ -55,18 +55,13 @@ public class SimulatorHomeController implements Initializable {
     Pane r1, r2, r3, r4, r5, r6 ,r7 ,r8 ,r9, r10, r11, r12;
 
     @FXML
-    ListView<String> userList;
-    @FXML
     private AnchorPane simulatorHome;
-
-    ObservableList<String> userLabels = FXCollections.observableArrayList();
-
-
-
 
     //Pane bedroom1, bedroom2, bedroom3, bathroom1, bathroom2, livingroom1, kitchen1, diningroom1, basement1, frontporch1, backporch1, garage1;
 
-    Stage stage;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
     @FXML
     private Label dateTimeLabel;
     @FXML
@@ -106,25 +101,16 @@ public class SimulatorHomeController implements Initializable {
         r.attachObserver(o);
         r.notifyObservers(r);
 
-        for(User u : House.getUsers()){
-            userLabels.add(u.getName());
-        }
-
-        userList.setItems(userLabels);
-
-
 
     }
     
     @FXML
     public void handleBedroomClick() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/UI/SmartHomeModules/SHModules.fxml"));
-
+            root = FXMLLoader.load(getClass().getResource("/UI/SmartHomeModules/SHModules.fxml"));
             stage = new Stage();
-            Scene scene = new Scene(root);
+            scene = new Scene(root);
             stage.setResizable(false);
-
             stage.setScene(scene);
             stage.setTitle("Bedroom");
             stage.show();
@@ -135,10 +121,10 @@ public class SimulatorHomeController implements Initializable {
     }
 
     @FXML
-    public void handleEditClick(ActionEvent event) {
+    public void handleEditUser(ActionEvent event) {
         try {
-            Parent usr = FXMLLoader.load(getClass().getResource("/UI/Simulator/User.fxml"));
-            Scene scene = new Scene(usr);
+            root = FXMLLoader.load(getClass().getResource("/UI/Simulator/User.fxml"));
+            scene = new Scene(root);
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setResizable(false);
             stage.setScene(scene);

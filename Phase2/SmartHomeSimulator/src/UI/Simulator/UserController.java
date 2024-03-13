@@ -3,6 +3,9 @@ package UI.Simulator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Backend.HouseLayout.House;
+import Backend.Users.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,16 +23,18 @@ import javafx.stage.WindowEvent;
 public class UserController implements Initializable {
 
     @FXML
-        ListView<String> interactables;
+    ListView<String> userList;
     private Stage stage;
-    ObservableList<String> items = FXCollections.observableArrayList("a", "b","c","a", "b","c","a", "b","c","a", "b","c","a", "b","c","a", "b","c");
+    private Scene scene;
+    private Parent root;
 
+    ObservableList<String> userLabels = FXCollections.observableArrayList();
 
     @FXML
     public void handleBack(ActionEvent event){
         try{
-            Parent usr = FXMLLoader.load(getClass().getResource("/UI/Simulator/SimulatorHome.fxml"));
-            Scene scene = new Scene(usr);
+            root = FXMLLoader.load(getClass().getResource("/UI/Simulator/SimulatorHome.fxml"));
+            scene = new Scene(root);
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setResizable(false);
             stage.setScene(scene);
@@ -39,12 +44,49 @@ public class UserController implements Initializable {
             System.out.println("Back Click Error Occurred!");
             System.out.println(error);
         }
+    }
+
+    @FXML
+    public void AddUser(ActionEvent event){
+
+    }
+
+    @FXML
+    public void EditUser(ActionEvent event){
+
+    }
+
+    @FXML
+    public void DeleteUser(ActionEvent event){
+
+    }
+
+    @FXML
+    public void Save(ActionEvent event){
+
+    }
+
+    @FXML
+    public void Cancel(ActionEvent event){
+
+    }
+
+    @FXML
+    public void Grant(ActionEvent event){
+
+    }
+
+    @FXML
+    public void Deny(ActionEvent event){
 
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        interactables.setItems(items);
-        // TODO
+        for(User u : House.getUsers()){
+            userLabels.add(u.getName());
+        }
+        userList.setItems(userLabels);
 
     }
+
 }
