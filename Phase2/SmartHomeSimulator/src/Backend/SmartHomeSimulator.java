@@ -69,7 +69,7 @@ public class SmartHomeSimulator extends Application {
         }
 
         for(int i = 0; i < outdoorRooms.size(); i++){
-            JSONObject items = (JSONObject) indoorRooms.get(i);
+            JSONObject items = (JSONObject) outdoorRooms.get(i);
             House.addOutdoorRoom(new OutdoorRoom((String) items.get("name"), (boolean) items.get("hasLight"), (boolean) items.get("hasDoor")));
         }
 

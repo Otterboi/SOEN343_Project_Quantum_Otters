@@ -5,11 +5,11 @@
  */
 package UI.SmartHomeModules;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
+import Backend.HouseLayout.Room;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,7 +24,7 @@ import javafx.scene.control.ToggleButton;
  */
 public class SHModulesController implements Initializable {
 
-    private IndoorRoom indoorRoom;
+    private Room room;
 
     @FXML
     ListView<String> interactables;
@@ -33,18 +33,22 @@ public class SHModulesController implements Initializable {
     @FXML
     ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN;
 
+    public SHModulesController(Room r){
+        room = r;
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        indoorRoom = House.getIndoorRooms().get(0);
         interactables.setItems(items);
 
-        for(String person : indoorRoom.getPeopleInRoom()){
+        for(String person : room.getPeopleInRoom()){
             if(person.equals("Parent")){
                 addParentBTN.setText("Remove Parent from Room");
                 addParentBTN.setSelected(true);
-            }else if (person.equals("Child")){
+            }
+            else if (person.equals("Child")){
                 addChildBTN.setText("Remove Child from Room");
                 addChildBTN.setSelected(true);
             } else if (person.equals("Guest")) {
@@ -52,50 +56,55 @@ public class SHModulesController implements Initializable {
                 addGuestBTN.setSelected(true);
             }
         }
-
-        if(indoorRoom.isWindowBlocked()){
-            blockWindowBTN.setText("Unblock Window");
-            blockWindowBTN.setSelected(true);
+        if(room instanceof IndoorRoom){
+            if(((IndoorRoom) room).isWindowBlocked()){
+                blockWindowBTN.setText("Unblock Window");
+                blockWindowBTN.setSelected(true);
+            }
         }
+
     }
 
     public void addParent() {
         if (addParentBTN.isSelected()) {
             addParentBTN.setText("Remove Parent from Room");
-            indoorRoom.setPersonInRoom(true, "Parent");
+            room.setPersonInRoom(true, "Parent");
         } else {
             addParentBTN.setText("Add Parent to Room");
-            indoorRoom.removePersonInRoom("Parent");
+            room.removePersonInRoom("Parent");
         }
     }
 
     public void addChild() {
         if (addChildBTN.isSelected()) {
             addChildBTN.setText("Remove Child from Room");
-            indoorRoom.setPersonInRoom(true, "Child");
+            room.setPersonInRoom(true, "Child");
         } else {
             addChildBTN.setText("Add Child to Room");
-            indoorRoom.removePersonInRoom("Child");
+            room.removePersonInRoom("Child");
         }
     }
 
     public void addGuest() {
         if (addGuestBTN.isSelected()) {
             addGuestBTN.setText("Remove Guest from Room");
-            indoorRoom.setPersonInRoom(true, "Guest");
+            room.setPersonInRoom(true, "Guest");
         } else {
             addGuestBTN.setText("Add Guest to Room");
-            indoorRoom.removePersonInRoom("Guest");
+            room.removePersonInRoom("Guest");
         }
     }
 
     public void blockWindow() {
-        if (blockWindowBTN.isSelected()) {
-            blockWindowBTN.setText("Unblock Window");
-            indoorRoom.setWindowBlocked(true);
-        } else {
-            blockWindowBTN.setText("Block Window");
-            indoorRoom.setWindowBlocked(false);
+        if(room instanceof IndoorRoom){
+            if (blockWindowBTN.isSelected()) {
+                blockWindowBTN.setText("Unblock Window");
+                ((IndoorRoom)room).setWindowBlocked(true);
+            } else {
+                blockWindowBTN.setText("Block Window");
+                ((IndoorRoom)room).setWindowBlocked(false);
+            }
         }
+
     }
 }
