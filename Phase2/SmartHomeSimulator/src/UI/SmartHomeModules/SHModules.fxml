@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -29,9 +26,11 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
                      <children>
-                         <Text layoutX="290" layoutY="45" strokeType="OUTSIDE" strokeWidth="0.0" text="Motion Activated Lighting" />
-                         <ToggleButton fx:id="autoModeToggle" layoutX="300" layoutY="61" mnemonicParsing="false" text="Auto Light Mode" />
-                        <ListView fx:id="interactables" editable="true" layoutX="57.0" layoutY="61.0" prefHeight="200.0" prefWidth="200.0" />
+                         <Text layoutX="21.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Motion Activated Lighting" />
+                         <ToggleButton fx:id="autoModeToggle" layoutX="27.0" layoutY="122.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="125.0" text="Auto Light Mode" />
+                         <ToggleButton fx:id="OpenCloseDoors" layoutX="428.0" layoutY="122.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" styleClass="button-open-close-doors" text="Open Close Doors" textAlignment="CENTER" />
+                        <ToggleButton fx:id="OpenCloseWindows" layoutX="428.0" layoutY="248.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="Open close Windows" />
+                        <ToggleButton fx:id="OpenCloseLights" layoutX="26.0" layoutY="67.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="127.0" text="Turn ON/OFF Lights" />
                      </children>
                   </AnchorPane>
             </content>

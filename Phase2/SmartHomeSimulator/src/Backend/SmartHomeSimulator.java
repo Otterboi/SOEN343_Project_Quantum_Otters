@@ -44,6 +44,8 @@ public class SmartHomeSimulator extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/UI/LogIn/LogInPage.fxml"));
         
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/UI/SmartHomeModules/styles.css").toExternalForm());
+
         stage.setResizable(false);
         
         stage.setScene(scene);

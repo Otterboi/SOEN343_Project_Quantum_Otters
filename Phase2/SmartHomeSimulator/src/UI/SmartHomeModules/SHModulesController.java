@@ -26,12 +26,9 @@ public class SHModulesController implements Initializable {
 
     private Room room;
 
-    @FXML
-    ListView<String> interactables;
-    ObservableList<String> items = FXCollections.observableArrayList("a", "b", "c");
 
     @FXML
-    ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle;
+    ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle,OpenCloseDoors, OpenCloseWindows, OpenCloseLights;
 
     public SHModulesController(Room r){
         room = r;
@@ -40,8 +37,7 @@ public class SHModulesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        interactables.setItems(items);
+
 
         for(String person : room.getPeopleInRoom()){
             if(person.equals("Parent")){
@@ -75,6 +71,37 @@ public class SHModulesController implements Initializable {
                 autoModeToggle.setText("Enable Auto Mode");
             }
         });
+        OpenCloseDoors.setOnAction(e-> {
+            boolean isSelected = OpenCloseDoors.isSelected();
+            room.setAutoModeEnabled(isSelected);
+            if(isSelected){
+                OpenCloseDoors.setText("Door Opened");
+            }
+            else {
+                OpenCloseDoors.setText("Door Closed");
+            }
+        });
+        OpenCloseWindows.setOnAction(e-> {
+            boolean isSelected = OpenCloseWindows.isSelected();
+            room.setAutoModeEnabled(isSelected);
+            if(isSelected){
+                OpenCloseWindows.setText("Window Opened");
+            }
+            else {
+                OpenCloseWindows.setText("Window Closed");
+            }
+        });
+        OpenCloseLights.setOnAction(e-> {
+            boolean isSelected = OpenCloseLights.isSelected();
+            room.setAutoModeEnabled(isSelected);
+            if(isSelected){
+                OpenCloseLights.setText("Light ON");
+            }
+            else {
+                OpenCloseLights.setText("Light OFF");
+            }
+        });
+
 
     }
 
