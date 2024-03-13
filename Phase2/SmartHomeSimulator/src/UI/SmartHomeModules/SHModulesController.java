@@ -7,6 +7,11 @@ package UI.SmartHomeModules;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Backend.Command.Command;
+import Backend.Command.ToggleDoorCommand;
+import Backend.Command.ToggleLightCommand;
+import Backend.Command.ToggleWindowCommand;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.Room;
@@ -73,41 +78,20 @@ public class SHModulesController implements Initializable {
             }
         });
         OpenCloseDoors.setOnAction(e-> {
-            boolean isSelected = OpenCloseDoors.isSelected();
-            room.setDoorOpen(isSelected);
-            OpenCloseDoors.setText(isSelected ?"Door Closed" : "Door Opened");
+            Command toggleDoor = new ToggleDoorCommand(room);
+            toggleDoor.execute();
 
         });
         OpenCloseWindows.setOnAction(e-> {
 
-            if (room instanceof IndoorRoom){
-                IndoorRoom indoorRoom = (IndoorRoom) room;
-                if (indoorRoom.isWindowBlocked()){
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Window Operation Error");
-                    alert.setContentText("Window is blocked");
-                    alert.showAndWait();
-                    OpenCloseWindows.setSelected(indoorRoom.isWindowOpen());
-                }
-                else {
-                    //Here check if room.window is an Instance of IndoorRoom
-                    boolean isSelected = OpenCloseWindows.isSelected();
-                    ((IndoorRoom) room).setWindowOpen(isSelected);
-                    OpenCloseWindows.setText(isSelected ? "Window Closed" : "Window Opened");
-                }
-            }
-
-
-
-
-
+           Command toggleWindow = new ToggleWindowCommand(room);
+           toggleWindow.execute();
 
         });
         OpenCloseLights.setOnAction(e-> {
-            boolean isSelected = OpenCloseLights.isSelected();
-            room.setLightOn(isSelected);
-            OpenCloseLights.setText(isSelected ? "Light OFF":"Light ON");
-
+            Command toggleLight = new ToggleLightCommand(room);
+            toggleLight.execute();
+            OpenCloseLights.setText(room.isLightOn() ? "Light OFF":"Light ON");
         });
 
 
