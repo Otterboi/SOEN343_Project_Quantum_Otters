@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 
@@ -78,13 +79,27 @@ public class SHModulesController implements Initializable {
 
         });
         OpenCloseWindows.setOnAction(e-> {
-            boolean isSelected = OpenCloseWindows.isSelected();
 
-            //Here check if room.window is an Instance of IndoorRoom
             if (room instanceof IndoorRoom){
-                ((IndoorRoom) room).setWindowOpen(isSelected);
-                OpenCloseWindows.setText(isSelected ? "Window Closed" : "Window Opened");
+                IndoorRoom indoorRoom = (IndoorRoom) room;
+                if (indoorRoom.isWindowBlocked()){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Window Operation Error");
+                    alert.setContentText("Window is blocked");
+                    alert.showAndWait();
+                    OpenCloseWindows.setSelected(indoorRoom.isWindowOpen());
+                }
+                else {
+                    //Here check if room.window is an Instance of IndoorRoom
+                    boolean isSelected = OpenCloseWindows.isSelected();
+                    ((IndoorRoom) room).setWindowOpen(isSelected);
+                    OpenCloseWindows.setText(isSelected ? "Window Closed" : "Window Opened");
+                }
             }
+
+
+
+
 
 
         });
