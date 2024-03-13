@@ -26,8 +26,11 @@
           </Tab>
           <Tab text="SHC">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+
                      <children>
+                         <Text layoutX="290" layoutY="45" strokeType="OUTSIDE" strokeWidth="0.0" text="Motion Activated Lighting" />
+                         <ToggleButton fx:id="autoModeToggle" layoutX="300" layoutY="61" mnemonicParsing="false" text="Auto Light Mode" />
                         <ListView fx:id="interactables" editable="true" layoutX="57.0" layoutY="61.0" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>

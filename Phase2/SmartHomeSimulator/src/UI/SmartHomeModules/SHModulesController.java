@@ -31,7 +31,7 @@ public class SHModulesController implements Initializable {
     ObservableList<String> items = FXCollections.observableArrayList("a", "b", "c");
 
     @FXML
-    ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN;
+    ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle;
 
     public SHModulesController(Room r){
         room = r;
@@ -62,6 +62,17 @@ public class SHModulesController implements Initializable {
                 blockWindowBTN.setSelected(true);
             }
         }
+
+        autoModeToggle.setOnAction(e-> {
+            boolean isSelected = autoModeToggle.isSelected();
+            room.setAutoModeEnabled(isSelected);
+            if(isSelected){
+                autoModeToggle.setText("Disable Auto Light Mode");
+            }
+            else {
+                autoModeToggle.setText("Enable Auto Mode");
+            }
+        });
 
     }
 
