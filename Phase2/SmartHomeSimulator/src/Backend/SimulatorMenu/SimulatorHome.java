@@ -1,7 +1,12 @@
 package Backend.SimulatorMenu;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import Backend.HouseLayout.House;
 import Backend.Observer.*;
+import Backend.Users.User;
 
 public class SimulatorHome implements Observable {
 
@@ -19,7 +24,7 @@ public class SimulatorHome implements Observable {
 
     public static SimulatorHome getInstance(){
         if(instance == null){
-            instance = new SimulatorHome("2024-01-01","13:20","0C","User","Room");
+            instance = new SimulatorHome("2024-01-01","00:00:00","20 C", House.getLoggedInUser().getName(), House.getRooms().get(0).getRoomName());
         }
 
         return instance;
@@ -75,6 +80,13 @@ public class SimulatorHome implements Observable {
 
     public void setUser(String user) {
         this.user = user;
+
+        for(User userList: House.getUsers()){
+            if(userList.getName().equals(user)){
+                House.setLoggedInUser(userList);
+            }
+        }
+
         notifyObservers(this);
     }
 

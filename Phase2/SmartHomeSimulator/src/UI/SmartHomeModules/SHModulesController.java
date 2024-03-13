@@ -61,6 +61,8 @@ public class SHModulesController implements Initializable {
                 blockWindowBTN.setText("Unblock Window");
                 blockWindowBTN.setSelected(true);
             }
+        }else{
+            blockWindowBTN.setDisable(true);
         }
 
         autoModeToggle.setOnAction(e-> {

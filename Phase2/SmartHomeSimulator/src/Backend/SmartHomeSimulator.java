@@ -53,9 +53,8 @@ public class SmartHomeSimulator extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws Exception {
         House.getInstance();
-        SimulatorHome.getInstance();
         
         FileReader fr = new FileReader("src/Backend/HouseLayout/houseLayout.json");
         Object obj = new JSONParser().parse(fr);

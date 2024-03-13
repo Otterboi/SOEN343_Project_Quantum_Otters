@@ -5,6 +5,7 @@
  */
 package UI.Simulator;
 
+import Backend.HouseLayout.OutdoorRoom;
 import Backend.HouseLayout.Room;
 import Backend.Model.DateTime;
 
@@ -13,6 +14,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.*;
+import java.time.LocalDate;
 
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
@@ -53,29 +55,22 @@ public class SimulatorHomeController implements Initializable {
     /**
      * Initializes the controller class.
      */
-
     @FXML
     Pane r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12;
     Pane[] paneArray;
-
 
     @FXML
     ListView<String> userList;
     @FXML
     private AnchorPane simulatorHome, roomPanes;
-
     ObservableList<String> userLabels = FXCollections.observableArrayList();
     @FXML
     Button editSimulationBTN;
-
-    //Pane bedroom1, bedroom2, bedroom3, bathroom1, bathroom2, livingroom1, kitchen1, diningroom1, basement1, frontporch1, backporch1, garage1;
-
     Stage stage;
     @FXML
     private Label dateTimeLabel;
     @FXML
     private Slider speedSlider;
-
     @FXML
     private Slider slider;
     @FXML
@@ -89,24 +84,25 @@ public class SimulatorHomeController implements Initializable {
 
     @FXML
     private Label userLabel, tempLabel, roomLabel;
-
     private DateTime dateTime; // Instance of DateTime model for managing time
+    private SimulatorHome menu;
     private Timer timer = new Timer(); // Timer for scheduling time updates
-
     private boolean isInitialized = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Pane[] paneArray2 = {r1, r2, r3, r4, r5, r6 ,r7 ,r8, r9, r10, r11, r12};
+        menu = SimulatorHome.getInstance();
+        dateTime = DateTime.getInstance();
+
+        Pane[] paneArray2 = {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12};
         paneArray = paneArray2;
+
         SimulatorHome menu = SimulatorHome.getInstance();
         SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
         menu.attachObserver(menuObserver);
         menu.notifyObservers(menu);
 
-        dateTime = new DateTime();
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
 //        try {
 //            Date date = formatter.parse(menu.getDate());
@@ -124,24 +120,25 @@ public class SimulatorHomeController implements Initializable {
         });
         dateTime.startTime(); // Start the clock
         setupMultiplierSliderListener();
-
-
         System.out.println(userLabel.getText());
 
-        for(int i = 0; i < House.getRooms().size(); i++){
+        for (int i = 0; i < House.getRooms().size(); i++) {
             Room r = House.getRooms().get(i);
             RoomObserver ro = new RoomObserver(paneArray[i], r);
             r.getObservers().clear();
             r.attachObserver(ro);
             paneArray[i].setVisible(true);
+
+            if(r instanceof OutdoorRoom){
+                paneArray[i].getChildren().get(4).setVisible(false);
+            }
+
             r.notifyObservers(r);
 
-            for(Observer o : r.getObservers()){
+            for (Observer o : r.getObservers()) {
                 System.out.println(o);
             }
         }
-
-
 
 
         for (User u : House.getUsers()) {
@@ -162,8 +159,8 @@ public class SimulatorHomeController implements Initializable {
 
 
             Pane eventPane = (Pane) event.getSource();
-            for(int i = 0; i < paneArray.length; i++){
-                if(eventPane.getId().equals(paneArray[i].getId())){
+            for (int i = 0; i < paneArray.length; i++) {
+                if (eventPane.getId().equals(paneArray[i].getId())) {
                     controller = new SHModulesController(House.getRooms().get(i));
                     loader.setController(controller);
                     break;
@@ -233,6 +230,11 @@ public class SimulatorHomeController implements Initializable {
     }
 
     public void editSimulation() {
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        menu.setTime(timeFormatter.format(dateTime.getDate().getTime()));
+        menu.setDate(dateFormatter.format(dateTime.getDate().getTime()));
+
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/UI/EditSimulation/EditSimulation.fxml"));
 
@@ -248,8 +250,4 @@ public class SimulatorHomeController implements Initializable {
             System.out.println(e);
         }
     }
-
-
-
-
 }
