@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 
@@ -73,33 +74,40 @@ public class SHModulesController implements Initializable {
         });
         OpenCloseDoors.setOnAction(e-> {
             boolean isSelected = OpenCloseDoors.isSelected();
-            room.setAutoModeEnabled(isSelected);
-            if(isSelected){
-                OpenCloseDoors.setText("Door Opened");
-            }
-            else {
-                OpenCloseDoors.setText("Door Closed");
-            }
+            room.setDoorOpen(isSelected);
+            OpenCloseDoors.setText(isSelected ?"Door Closed" : "Door Opened");
+
         });
         OpenCloseWindows.setOnAction(e-> {
-            boolean isSelected = OpenCloseWindows.isSelected();
-            room.setAutoModeEnabled(isSelected);
-            if(isSelected){
-                OpenCloseWindows.setText("Window Opened");
+
+            if (room instanceof IndoorRoom){
+                IndoorRoom indoorRoom = (IndoorRoom) room;
+                if (indoorRoom.isWindowBlocked()){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Window Operation Error");
+                    alert.setContentText("Window is blocked");
+                    alert.showAndWait();
+                    OpenCloseWindows.setSelected(indoorRoom.isWindowOpen());
+                }
+                else {
+                    //Here check if room.window is an Instance of IndoorRoom
+                    boolean isSelected = OpenCloseWindows.isSelected();
+                    ((IndoorRoom) room).setWindowOpen(isSelected);
+                    OpenCloseWindows.setText(isSelected ? "Window Closed" : "Window Opened");
+                }
             }
-            else {
-                OpenCloseWindows.setText("Window Closed");
-            }
+
+
+
+
+
+
         });
         OpenCloseLights.setOnAction(e-> {
             boolean isSelected = OpenCloseLights.isSelected();
-            room.setAutoModeEnabled(isSelected);
-            if(isSelected){
-                OpenCloseLights.setText("Light ON");
-            }
-            else {
-                OpenCloseLights.setText("Light OFF");
-            }
+            room.setLightOn(isSelected);
+            OpenCloseLights.setText(isSelected ? "Light OFF":"Light ON");
+
         });
 
 

@@ -26,11 +26,11 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 
                      <children>
-                         <Text layoutX="21.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Motion Activated Lighting" />
-                         <ToggleButton fx:id="autoModeToggle" layoutX="27.0" layoutY="122.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="125.0" text="Auto Light Mode" />
+                         <Text layoutX="21.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Motion Activated Lighting" />
+                         <ToggleButton fx:id="autoModeToggle" layoutX="27.0" layoutY="142.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="125.0" text="Auto Light Mode" />
                          <ToggleButton fx:id="OpenCloseDoors" layoutX="428.0" layoutY="122.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" styleClass="button-open-close-doors" text="Open Close Doors" textAlignment="CENTER" />
                         <ToggleButton fx:id="OpenCloseWindows" layoutX="428.0" layoutY="248.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="Open close Windows" />
-                        <ToggleButton fx:id="OpenCloseLights" layoutX="26.0" layoutY="67.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="127.0" text="Turn ON/OFF Lights" />
+                        <ToggleButton fx:id="OpenCloseLights" layoutX="26.0" layoutY="50.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="127.0" text="Turn ON/OFF Lights" />
                      </children>
                   </AnchorPane>
             </content>
