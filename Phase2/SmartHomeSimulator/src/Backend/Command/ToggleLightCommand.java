@@ -12,6 +12,6 @@ public class ToggleLightCommand implements Command {
     public void execute() {
         boolean newLightState = !room.isLightOn();
         room.setLightOn(newLightState);
-        System.out.println("Light is now " + (newLightState ? "ON" : "OFF")); //TODO: Set room name
+        System.out.println("Light in " + room.getRoomName() + " is now " + (newLightState ? "ON" : "OFF")); //TODO: Set room name
     }
 }

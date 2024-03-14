@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package UI.LogIn;
 
 import java.io.FileReader;
@@ -25,11 +20,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-/**
- * FXML Controller class
- *
- * @author fan04
- */
 public class RegisterPageController implements Initializable {
     @FXML
     public TextField usernameField;
@@ -93,8 +83,6 @@ public class RegisterPageController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
         userTypes.getItems().addAll(types);
         errorLabel.setVisible(false);
     }    

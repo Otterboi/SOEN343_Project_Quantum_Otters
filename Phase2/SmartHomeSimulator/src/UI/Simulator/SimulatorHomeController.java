@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package UI.Simulator;
 
 import Backend.HouseLayout.OutdoorRoom;
@@ -12,12 +7,9 @@ import Backend.Model.DateTime;
 
 import java.net.URL;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.*;
-import java.time.LocalDate;
 
 import Backend.HouseLayout.House;
-import Backend.HouseLayout.IndoorRoom;
 import Backend.Observer.Observer;
 import Backend.Users.User;
 import UI.SmartHomeModules.SHModulesController;
@@ -45,16 +37,9 @@ import javafx.fxml.FXML;
 
 import java.text.SimpleDateFormat;
 
-/**
- * FXML Controller class
- *
- * @author fan04
- */
+
 public class SimulatorHomeController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
     @FXML
     Pane r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12;
     Pane[] paneArray;
@@ -94,22 +79,13 @@ public class SimulatorHomeController implements Initializable {
         menu = SimulatorHome.getInstance();
         dateTime = DateTime.getInstance();
 
-        Pane[] paneArray2 = {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12};
-        paneArray = paneArray2;
+        Pane[] initPanes = {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12};
+        paneArray = initPanes;
 
         SimulatorHome menu = SimulatorHome.getInstance();
         SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
         menu.attachObserver(menuObserver);
         menu.notifyObservers(menu);
-
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
-//        try {
-//            Date date = formatter.parse(menu.getDate());
-//            //dateTime.setTime(date);
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
 
         // Assuming dateTime object is correctly initialized
         dateTime.dateTimeProperty().addListener((observable, oldValue, newValue) -> {
@@ -120,7 +96,6 @@ public class SimulatorHomeController implements Initializable {
         });
         dateTime.startTime(); // Start the clock
         setupMultiplierSliderListener();
-        System.out.println(userLabel.getText());
 
         for (int i = 0; i < House.getRooms().size(); i++) {
             Room r = House.getRooms().get(i);
@@ -135,18 +110,13 @@ public class SimulatorHomeController implements Initializable {
 
             r.notifyObservers(r);
 
-            for (Observer o : r.getObservers()) {
-                System.out.println(o);
-            }
         }
-
 
         for (User u : House.getUsers()) {
             userLabels.add(u.getName());
         }
 
         userList.setItems(userLabels);
-
 
     }
 
@@ -157,7 +127,6 @@ public class SimulatorHomeController implements Initializable {
 
             SHModulesController controller;
 
-
             Pane eventPane = (Pane) event.getSource();
             for (int i = 0; i < paneArray.length; i++) {
                 if (eventPane.getId().equals(paneArray[i].getId())) {
@@ -167,14 +136,13 @@ public class SimulatorHomeController implements Initializable {
                 }
             }
             Parent root = loader.load();
-            System.out.println("loaded!");
             stage = new Stage();
             Scene scene = new Scene(root);
             stage.setResizable(false);
 
 
             stage.setScene(scene);
-            stage.setTitle("Bedroom");
+            stage.setTitle("Room");
             stage.show();
 
         } catch (Exception e) {

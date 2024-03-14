@@ -1,15 +1,12 @@
 package Backend.HouseLayout;
 
 import java.util.ArrayList;
-import java.util.List;
-import Backend.Observer.*;
 
 public class IndoorRoom extends Room{
 
     private boolean isWindowBlocked;
     protected boolean isWindowOpen;
     protected boolean hasWindow;
-
 
     public IndoorRoom(String roomName, boolean hasWindow, boolean hasDoor, boolean hasLight) {
         this.roomName = roomName;
@@ -24,8 +21,6 @@ public class IndoorRoom extends Room{
         isWindowOpen = false;
     }
 
-
-
     public boolean isHasWindow() {
         return hasWindow;
     }
@@ -33,8 +28,6 @@ public class IndoorRoom extends Room{
     public void setHasWindow(boolean hasWindow) {
         this.hasWindow = hasWindow;
     }
-
-
 
     public boolean isWindowOpen() {
         return isWindowOpen;
@@ -44,8 +37,6 @@ public class IndoorRoom extends Room{
         isWindowOpen = windowOpen;
         notifyObservers(this);
     }
-
-
 
     public boolean isWindowBlocked() {
         return isWindowBlocked;

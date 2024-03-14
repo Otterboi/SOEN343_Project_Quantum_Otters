@@ -23,8 +23,6 @@ public class RoomObserver implements Observer {
     Image personInRoom = new Image("/resources/person.png");
     Image personNotInRoom = new Image("/resources/blank.png");
 
-
-
     public RoomObserver(Pane pane, Room r){
         this.pane = pane;
         ((Label)pane.getChildren().get(1)).setText(r.getRoomName());
@@ -37,6 +35,7 @@ public class RoomObserver implements Observer {
         window.setImage(windowClose);
         person.setImage(personNotInRoom);
     }
+
     @Override
     public void update(Observable o) {
         Room r = (Room) o;
