@@ -1,6 +1,7 @@
 package Backend.Observer;
 
 import Backend.HouseLayout.IndoorRoom;
+import Backend.HouseLayout.OutdoorRoom;
 import Backend.HouseLayout.Room;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -22,6 +23,10 @@ public class RoomObserver implements Observer {
     Image windowOpen = new Image("/Resources/windowOpen.png");
     Image personInRoom = new Image("/resources/person.png");
     Image personNotInRoom = new Image("/resources/blank.png");
+    Image windowCloseBlocked = new Image("/resources/windowCloseBlocked.png");
+    Image windowOpenBlocked = new Image("/resources/windowOpenBlocked.png");
+    Image doorCloseGarage = new Image("/resources/doorCloseGarage.png");
+    Image doorOpenGarage = new Image("/Resources/doorOpenGarage.png");
 
     public RoomObserver(Pane pane, Room r){
         this.pane = pane;
@@ -32,6 +37,11 @@ public class RoomObserver implements Observer {
         person = ((ImageView)pane.getChildren().get(5));
         light.setImage(lightOff);
         door.setImage(doorClose);
+        if(r instanceof OutdoorRoom outroom){
+            if(outroom.isGarage()){
+                door.setImage(doorCloseGarage);
+            }
+        }
         window.setImage(windowClose);
         person.setImage(personNotInRoom);
     }
@@ -41,9 +51,23 @@ public class RoomObserver implements Observer {
         Room r = (Room) o;
 
         if(r.isDoorOpen() == true){
-            door.setImage(doorOpen);
+            if(r instanceof OutdoorRoom outroom){
+                if(outroom.isGarage()){
+                    door.setImage(doorOpenGarage);
+                }
+            }else{
+                door.setImage(doorOpen);
+            }
+
         }else{
-            door.setImage(doorClose);
+            if(r instanceof OutdoorRoom outroom){
+                if(outroom.isGarage()){
+                    door.setImage(doorCloseGarage);
+                }else{
+                    door.setImage(doorClose);
+                }
+            }
+
         }
 
         if(r.isLightOn() == true){
@@ -53,11 +77,21 @@ public class RoomObserver implements Observer {
         }
 
 
-        if(r instanceof IndoorRoom){
-            if(((IndoorRoom) r).isWindowOpen()){
-                window.setImage(windowOpen);
+        if(r instanceof IndoorRoom indoorRoom){
+            if(indoorRoom.isWindowOpen()){
+                if(indoorRoom.isWindowBlocked()){
+                    window.setImage(windowOpenBlocked);
+                }else{
+                    window.setImage(windowOpen);
+                }
+
             }else{
-                window.setImage(windowClose);
+                if(indoorRoom.isWindowBlocked()){
+                    window.setImage(windowCloseBlocked);
+                }else{
+                    window.setImage(windowClose);
+                }
+
             }
 
         }

@@ -10,7 +10,6 @@ import java.text.DateFormat;
 import java.util.*;
 
 import Backend.HouseLayout.House;
-import Backend.Observer.Observer;
 import Backend.Users.User;
 import UI.SmartHomeModules.SHModulesController;
 import javafx.collections.FXCollections;
@@ -45,10 +44,7 @@ public class SimulatorHomeController implements Initializable {
     Pane[] paneArray;
 
     @FXML
-    ListView<String> userList;
-    @FXML
     private AnchorPane simulatorHome, roomPanes;
-    ObservableList<String> userLabels = FXCollections.observableArrayList();
     @FXML
     Button editSimulationBTN;
     Stage stage;
@@ -111,13 +107,6 @@ public class SimulatorHomeController implements Initializable {
             r.notifyObservers(r);
 
         }
-
-        for (User u : House.getUsers()) {
-            userLabels.add(u.getName());
-        }
-
-        userList.setItems(userLabels);
-
     }
 
     @FXML

@@ -30,7 +30,7 @@ public class EditSimulationController implements Initializable {
     ChoiceBox<String> changeUserBox, changeRoomBox;
 
     private SimulatorHome menu;
-    private String[] roomTypes = new String[House.getRooms().size()];
+    private String[] roomTypes = new String[House.getRooms().size()+1];
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,7 +52,7 @@ public class EditSimulationController implements Initializable {
             roomTypes[i] = House.getRooms().get(i).getRoomName();
         }
 
-        roomTypes[roomTypes.length - 1] = "Remote";
+        roomTypes[roomTypes.length-1] = "Remote";
 
         this.changeRoomBox.getItems().addAll(roomTypes);
         this.changeRoomBox.setValue(menu.getRoom());
@@ -69,11 +69,16 @@ public class EditSimulationController implements Initializable {
 
         for(int i = 0; i < House.getRooms().size(); i++){
             Room room = House.getRooms().get(i);
-            room.removePersonInRoom(menu.getUser());
+            if(room.getPeopleInRoom().contains(menu.getUser())){
+                room.removePersonInRoom(menu.getUser());
+                System.out.println("REMOVING logged in user from " + room.getRoomName());
+            }
 
-            if(room.getRoomName().equals(menu.getRoom())){
+
+
+            if(room.getRoomName().toLowerCase().equals(menu.getRoom().toLowerCase())){
                 room.setPersonInRoom(true, menu.getUser());
-                break;
+                System.out.println("ADDING logged in user to " + room.getRoomName());
             }
         }
 
@@ -81,5 +86,6 @@ public class EditSimulationController implements Initializable {
 
         dateTime.setTime(newTime.getText());
         dateTime.setDate(datePicker.getValue().toString());
+
     }
 }

@@ -42,6 +42,7 @@ public class SHModulesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         Role CurrentUserRole = House.getLoggedInUser() != null ? House.getLoggedInUser().getRole() : Role.STRANGER;
         setPermissionForSHC(CurrentUserRole);
 
@@ -65,6 +66,7 @@ public class SHModulesController implements Initializable {
             }
         }else{
             blockWindowBTN.setDisable(true);
+            OpenCloseWindows.setDisable(true);
         }
 
         autoModeToggle.setOnAction(e-> {

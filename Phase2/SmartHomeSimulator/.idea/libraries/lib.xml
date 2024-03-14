@@ -1,17 +1,11 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../../../openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib" />
-      <root url="jar://$PROJECT_DIR$/../../../../json-simple-1.1.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../../../../Documents/OpenJDK JavaFX/openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib" />
-      <root url="jar://$PROJECT_DIR$/../../../../../../Documents/JSON-Simple/json-simple-1.1.jar!/" />
-      <root url="file://$USER_HOME$/Downloads/openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib" />
-      <root url="jar://$USER_HOME$/OneDrive/Desktop/json-simple-1.1.jar/json-simple-1.1.jar!/" />
+      <root url="file://D:/Documents/OpenJDK JavaFX/openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib" />
+      <root url="jar://D:/Documents/JSON-Simple/json-simple-1.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://$USER_HOME$/Downloads/openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../../../openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../../../../../Documents/OpenJDK JavaFX/openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib" recursive="false" />
+    <jarDirectory url="file://D:/Documents/OpenJDK JavaFX/openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib" recursive="false" />
   </library>
 </component>

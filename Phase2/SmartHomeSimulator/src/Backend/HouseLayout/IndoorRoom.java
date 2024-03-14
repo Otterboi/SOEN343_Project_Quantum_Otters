@@ -44,6 +44,8 @@ public class IndoorRoom extends Room{
 
     public void setWindowBlocked(boolean windowBlocked) {
         isWindowBlocked = windowBlocked;
+        notifyObservers(this);
+        System.out.println("Window in " + roomName + " is now " + ((isWindowBlocked == true) ? "BLOCKED" : "UNBLOCKED"));
     }
 
 
