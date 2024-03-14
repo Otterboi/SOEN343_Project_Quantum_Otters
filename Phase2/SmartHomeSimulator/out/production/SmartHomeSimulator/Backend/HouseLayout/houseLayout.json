@@ -1,35 +1,75 @@
 {
   "indoor":[
     {
-        "name": "room1",
+        "name": "Master Bedroom",
         "hasWindows":true,
         "hasDoor":true,
         "hasLight":true
 
     },
     {
-        "name": "room2",
+      "name": "Bedroom",
+      "hasWindows":true,
+      "hasDoor":true,
+      "hasLight":true
+
+    },
+    {
+      "name": "Guest Room",
+      "hasWindows":true,
+      "hasDoor":true,
+      "hasLight":true
+
+    },
+    {
+      "name": "Living Room",
+      "hasWindows":true,
+      "hasDoor":true,
+      "hasLight":true
+
+    },
+    {
+      "name": "Dining Room",
+      "hasWindows":true,
+      "hasDoor":true,
+      "hasLight":true
+
+    },
+    {
+        "name": "Kitchen",
         "hasWindows":true,
         "hasDoor":true,
         "hasLight":true
     },
     {
-        "name": "room3",
+        "name": "Upstairs Bathroom",
         "hasWindows":true,
         "hasDoor":true,
         "hasLight":true
+    },
+    {
+      "name": "Downstairs Bathroom",
+      "hasWindows":true,
+      "hasDoor":true,
+      "hasLight":true
+
     }
   ],
   "outdoor":[
     {
-        "name": "room4",
+        "name": "Garage",
         "hasDoor":true,
         "hasLight":true
     },
     {
-        "name": "room5",
+        "name": "Front Porch",
         "hasDoor":true,
         "hasLight":true
+    },
+    {
+      "name": "Back Porch",
+      "hasDoor":true,
+      "hasLight":true
     }
   ]
 }
