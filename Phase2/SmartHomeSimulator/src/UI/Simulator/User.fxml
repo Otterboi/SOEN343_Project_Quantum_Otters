@@ -14,7 +14,7 @@
       <ListView fx:id="userList" layoutX="19.0" layoutY="32.0" prefHeight="317.0" prefWidth="206.0" />
       <Label layoutX="89.0" layoutY="14.0" text="Users" />
       <Button layoutX="78.0" layoutY="360.0" mnemonicParsing="false" onAction="#AddUser" text="Add" />
-      <Button layoutX="122.0" layoutY="360.0" mnemonicParsing="false" onAction="#DeleteUser" text="Remove" />
+      <Button fx:id="deleteButton" layoutX="122.0" layoutY="360.0" mnemonicParsing="false" onAction="#DeleteUser" text="Remove" />
       <Button layoutX="188.0" layoutY="360.0" mnemonicParsing="false" onAction="#EditUser" text="Edit" />
       <Button fx:id="backButton" layoutX="19.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleBack" text="Back" />
       <AnchorPane fx:id="userEditorPane" layoutX="225.0" layoutY="32.0" prefHeight="355.0" prefWidth="347.0">

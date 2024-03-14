@@ -39,6 +39,19 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+    public void setRole(String r){
+        if(r.toLowerCase().equals("stranger")){
+            role = Role.STRANGER;
+        }else if(r.toLowerCase().equals("guest")){
+            role = Role.GUEST;
+        }else if(r.toLowerCase().equals("child")){
+            role = Role.CHILD;
+        }else if(r.toLowerCase().equals("parent")){
+            role = Role.PARENT;
+        }else if(r.toLowerCase().equals("admin")){
+            role = Role.ADMIN;
+        }
+    }
 
     public String getName() {
         return name;

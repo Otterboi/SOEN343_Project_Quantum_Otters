@@ -71,12 +71,36 @@ public class SHModulesController implements Initializable {
 
         autoModeToggle.setOnAction(e-> {
             boolean isSelected = autoModeToggle.isSelected();
+
             room.setAutoModeEnabled(isSelected);
             if(isSelected){
                 autoModeToggle.setText("Disable Auto Light Mode");
+                OpenCloseLights.setDisable(true);
+
             }
             else {
-                autoModeToggle.setText("Enable Auto Mode");
+                autoModeToggle.setText("Enable Auto Light Mode");
+                OpenCloseLights.setDisable(false);
+                if(!room.isLightOn()){
+                    OpenCloseLights.setSelected(false);
+                    OpenCloseLights.setText("Turn ON");
+                }
+            }
+
+            if(room.isAutoModeEnabled()){
+                OpenCloseLights.setDisable(true);
+                autoModeToggle.setText("Disable Auto Light Mode");
+                autoModeToggle.setSelected(true);
+                if(room.isLightOn()){
+                    OpenCloseLights.setSelected(true);
+                    OpenCloseLights.setText("Light OFF");
+                }else{
+                    OpenCloseLights.setSelected(false);
+                    OpenCloseLights.setText("Turn ON/OFF Lights");
+                }
+
+            }else{
+                OpenCloseLights.setDisable(false);
             }
         });
         OpenCloseDoors.setOnAction(e-> {
@@ -90,7 +114,30 @@ public class SHModulesController implements Initializable {
            toggleWindow.execute();
 
         });
+        if(room.isAutoModeEnabled()){
+            OpenCloseLights.setDisable(true);
+            autoModeToggle.setText("Disable Auto Light Mode");
+            autoModeToggle.setSelected(true);
+            if(room.isLightOn()){
+                OpenCloseLights.setSelected(true);
+                OpenCloseLights.setText("Light OFF");
+            }else{
+                OpenCloseLights.setSelected(false);
+                OpenCloseLights.setText("Turn ON/OFF Lights");
+            }
+
+        }else{
+            if(House.getLoggedInUser().getRoleString().equals("parent"))
+            OpenCloseLights.setDisable(false);
+        }
+        if(room.isLightOn()){
+            OpenCloseLights.setSelected(true);
+            OpenCloseLights.setText("Light OFF");
+        }
+
+
         OpenCloseLights.setOnAction(e-> {
+
             Command toggleLight = new ToggleLightCommand(room);
             toggleLight.execute();
             OpenCloseLights.setText(room.isLightOn() ? "Light OFF":"Light ON");
@@ -111,6 +158,15 @@ public class SHModulesController implements Initializable {
                 doors = windows = lights = autolightmode = true;
                 break;
             case CHILD:
+                if(SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true){
+                    lights = true;
+                    windows = !(room instanceof IndoorRoom && ((IndoorRoom)room).isWindowBlocked());
+                    doors = true;
+                }else{
+                    OpenCloseLights.setDisable(true);
+                }
+
+                break;
             case GUEST:
                 if(SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true){
                     lights = true;

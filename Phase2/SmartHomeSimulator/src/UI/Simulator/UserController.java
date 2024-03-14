@@ -49,7 +49,7 @@ public class UserController implements Initializable {
     @FXML
     private Button createButton;
     @FXML
-    private Button saveButton;
+    private Button saveButton, deleteButton;
 
 
     @FXML
@@ -132,39 +132,50 @@ public class UserController implements Initializable {
     public void DeleteUser(ActionEvent event) {
         // Get the selected user from the list
         String selectedUser = userList.getSelectionModel().getSelectedItem();
+        if(selectedUser.equals(House.getLoggedInUser().getName())){
+            System.out.println("User tried to delete themselves!");
+        }else{
+            try{
+                // Read the JSON file
+                FileReader fr = new FileReader("src/Backend/Users/userProfiles.json");
+                JSONObject json = (JSONObject) new JSONParser().parse(fr);
+                fr.close();
 
-        try{
-            // Read the JSON file
-            FileReader fr = new FileReader("src/Backend/Users/userProfiles.json");
-            JSONObject json = (JSONObject) new JSONParser().parse(fr);
-            fr.close();
+                // Get the JSON array containing the users
+                JSONArray users = (JSONArray) json.get("users");
 
-            // Get the JSON array containing the users
-            JSONArray users = (JSONArray) json.get("users");
-
-            // Remove the selected user from the JSON array
-            for (int i = 0; i < users.size(); i++) {
-                JSONObject userObj = (JSONObject) users.get(i);
-                String username = (String) userObj.get("name");
-                if (username.equals(selectedUser)) {
-                    users.remove(i);
-                    break;
+                // Remove the selected user from the JSON array
+                for (int i = 0; i < users.size(); i++) {
+                    JSONObject userObj = (JSONObject) users.get(i);
+                    String username = (String) userObj.get("name");
+                    if (username.equals(selectedUser)) {
+                        users.remove(i);
+                        for(User u : House.getUsers()){
+                            if(u.getName().toLowerCase().equals(selectedUser.toLowerCase())){
+                                House.getUsers().remove(u);
+                                break;
+                            }
+                        }
+                        break;
+                    }
                 }
+
+                // Write the updated JSON back to the file
+                FileWriter fw = new FileWriter("src/Backend/Users/userProfiles.json");
+                fw.write(json.toJSONString());
+                fw.flush();
+                fw.close();
+
+                // Remove the user from the list view
+                userList.getItems().remove(selectedUser);
+
             }
-
-            // Write the updated JSON back to the file
-            FileWriter fw = new FileWriter("src/Backend/Users/userProfiles.json");
-            fw.write(json.toJSONString());
-            fw.flush();
-            fw.close();
-
-            // Remove the user from the list view
-            userList.getItems().remove(selectedUser);
-
+            catch(Exception e){
+                e.printStackTrace();
+            }
         }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+
+
     }
 
     @FXML
@@ -188,6 +199,12 @@ public class UserController implements Initializable {
                     userJson.put("password", userPassword);
                     userJson.put("role", userRoleString);
                     userExists = true;
+                    for(User u : House.getUsers()){
+                        if(u.getName().toLowerCase().equals(name.toLowerCase())){
+                            u.setPassword(userPassword);
+                            u.setRole(userRoleString);
+                        }
+                    }
                     break;
                 }
             }
