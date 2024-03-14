@@ -13,20 +13,20 @@
    <children>
       <ListView fx:id="userList" layoutX="19.0" layoutY="32.0" prefHeight="317.0" prefWidth="206.0" />
       <Label layoutX="89.0" layoutY="14.0" text="Users" />
-      <Button layoutX="78.0" layoutY="360.0" mnemonicParsing="false" text="Add" />
-      <Button layoutX="122.0" layoutY="360.0" mnemonicParsing="false" text="Remove" />
-      <Button layoutX="188.0" layoutY="360.0" mnemonicParsing="false" text="Edit" />
+      <Button layoutX="78.0" layoutY="360.0" mnemonicParsing="false" onAction="#AddUser" text="Add" />
+      <Button layoutX="122.0" layoutY="360.0" mnemonicParsing="false" onAction="#DeleteUser" text="Remove" />
+      <Button layoutX="188.0" layoutY="360.0" mnemonicParsing="false" onAction="#EditUser" text="Edit" />
       <Button fx:id="backButton" layoutX="19.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleBack" text="Back" />
-      <AnchorPane layoutX="225.0" layoutY="32.0" prefHeight="355.0" prefWidth="347.0">
+      <AnchorPane fx:id="userEditorPane" layoutX="225.0" layoutY="32.0" prefHeight="355.0" prefWidth="347.0">
          <children>
-            <TextField layoutX="25.0" layoutY="49.0" />
-            <Label layoutX="25.0" layoutY="32.0" text="Name:" />
-            <Label layoutX="28.0" layoutY="87.0" text="Password:" />
-            <TextField layoutX="26.0" layoutY="105.0" />
-            <ChoiceBox layoutX="25.0" layoutY="159.0" prefWidth="150.0" />
+            <TextField fx:id="username" layoutX="25.0" layoutY="49.0" />
+            <Label layoutX="25.0" layoutY="32.0" text="Username:" />
+            <Label layoutX="28.0" layoutY="96.0" text="Password:" />
+            <TextField fx:id="password" layoutX="25.0" layoutY="114.0" />
+            <ChoiceBox fx:id="userRole" layoutX="25.0" layoutY="159.0" prefWidth="150.0" />
             <Label layoutX="28.0" layoutY="142.0" text="Role:" />
-            <Button layoutX="292.0" layoutY="315.0" mnemonicParsing="false" text="Save" />
-            <Button layoutX="226.0" layoutY="315.0" mnemonicParsing="false" text="Cancel" />
+            <Button fx:id="saveButton" layoutX="292.0" layoutY="315.0" mnemonicParsing="false" onAction="#Save" text="Save" />
+            <Button layoutX="226.0" layoutY="315.0" mnemonicParsing="false" onAction="#Cancel" text="Cancel" />
             <Label layoutX="186.0" layoutY="32.0" text="Permissions:" />
             <TabPane layoutX="186.0" layoutY="59.0" prefHeight="200.0" prefWidth="150.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
@@ -51,9 +51,9 @@
                   </Tab>
               </tabs>
             </TabPane>
-            <Label layoutX="164.0" layoutY="-1.0" text="Mode" />
-            <Button layoutX="200.0" layoutY="265.0" mnemonicParsing="false" text="Grant" />
-            <Button layoutX="266.0" layoutY="265.0" mnemonicParsing="false" text="Deny" />
+            <Label fx:id="message" layoutX="31.0" layoutY="319.0" text="message" />
+            <Label fx:id="usernameTaken" layoutX="27.0" layoutY="75.0" text="Username already taken!" textFill="#fc0000" />
+            <Label fx:id="mode" layoutX="25.0" layoutY="4.0" text="Mode" />
          </children>
       </AnchorPane>
    </children>
