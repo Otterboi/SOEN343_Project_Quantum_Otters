@@ -3,7 +3,6 @@ package Backend.Model;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.util.Duration;
@@ -11,7 +10,6 @@ import javafx.util.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class DateTime {
@@ -22,7 +20,6 @@ public class DateTime {
     // Observable property for date and time updates
     private SimpleDoubleProperty dateTimeProperty = new SimpleDoubleProperty();
     private static DateTime instance;
-
 
     public static DateTime getInstance() {
         if (instance == null) {

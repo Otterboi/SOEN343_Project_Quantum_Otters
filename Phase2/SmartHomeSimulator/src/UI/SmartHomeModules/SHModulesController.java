@@ -34,20 +34,14 @@ import javafx.scene.control.ToggleButton;
 public class SHModulesController implements Initializable {
 
     private Room room;
-
-
     @FXML
     ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle,OpenCloseDoors, OpenCloseWindows, OpenCloseLights;
-
-
     public SHModulesController(Room r){
         room = r;
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         Role CurrentUserRole = House.getLoggedInUser() != null ? House.getLoggedInUser().getRole() : Role.STRANGER;
         setPermissionForSHC(CurrentUserRole);
 
@@ -104,8 +98,6 @@ public class SHModulesController implements Initializable {
     }
 
     private void setPermissionForSHC(Role currentUserRole) {
-
-
         boolean doors = false;
         boolean windows = false;
         boolean lights = false;
@@ -118,14 +110,11 @@ public class SHModulesController implements Initializable {
                 break;
             case CHILD:
             case GUEST:
-
                 if(SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true){
                     lights = true;
                     windows = !(room instanceof IndoorRoom && ((IndoorRoom)room).isWindowBlocked());
                 }
                 break;
-
-
             case STRANGER:
                 break;
 
@@ -178,6 +167,4 @@ public class SHModulesController implements Initializable {
         }
 
     }
-
-
 }

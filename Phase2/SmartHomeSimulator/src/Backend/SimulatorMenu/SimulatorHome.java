@@ -1,9 +1,6 @@
 package Backend.SimulatorMenu;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import Backend.HouseLayout.House;
 import Backend.Observer.*;
 import Backend.Users.User;

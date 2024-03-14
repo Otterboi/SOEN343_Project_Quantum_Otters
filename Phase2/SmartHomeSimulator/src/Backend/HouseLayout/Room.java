@@ -12,7 +12,6 @@ public abstract class Room implements Observable {
     protected boolean hasDoor;
     protected boolean isLightOn;
     protected boolean isDoorOpen;
-
     protected boolean isPersonInRoom;
     protected List<String> peopleInRoom;
     protected boolean autoModeEnabled = false;
@@ -51,8 +50,6 @@ public abstract class Room implements Observable {
             this.isLightOn = lightOn;
             notifyObservers(this);
         }
-        /*isLightOn = lightOn;
-        notifyObservers(this);*/
     }
 
     public boolean isDoorOpen() {

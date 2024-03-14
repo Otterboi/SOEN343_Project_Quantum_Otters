@@ -20,10 +20,9 @@ import javafx.stage.WindowEvent;
 public class UserController implements Initializable {
 
     @FXML
-        ListView<String> interactables;
+    ListView<String> interactables;
     private Stage stage;
     ObservableList<String> items = FXCollections.observableArrayList("a", "b","c","a", "b","c","a", "b","c","a", "b","c","a", "b","c","a", "b","c");
-
 
     @FXML
     public void handleBack(ActionEvent event){
@@ -44,7 +43,5 @@ public class UserController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         interactables.setItems(items);
-        // TODO
-
     }
 }

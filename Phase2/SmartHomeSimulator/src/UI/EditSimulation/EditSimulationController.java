@@ -1,11 +1,9 @@
 package UI.EditSimulation;
 
 import Backend.HouseLayout.House;
-import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.Room;
 import Backend.Model.DateTime;
 import Backend.SimulatorMenu.SimulatorHome;
-import Backend.Users.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

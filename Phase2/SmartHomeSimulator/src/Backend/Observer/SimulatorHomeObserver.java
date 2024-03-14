@@ -1,11 +1,7 @@
 package Backend.Observer;
 
-import Backend.Model.DateTime;
 import Backend.SimulatorMenu.SimulatorHome;
 import javafx.scene.control.Label;
-import Backend.Observer.Observer;
-
-import java.time.LocalDate;
 
 public class SimulatorHomeObserver implements Observer{
 

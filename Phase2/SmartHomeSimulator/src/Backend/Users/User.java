@@ -2,15 +2,14 @@ package Backend.Users;
 
 public class User {
 
-
     private Role role;
     private String name;
     private String password;
 
-
     public User(){
         role = Role.STRANGER;
     }
+
     public User(String n, String p, String r){
         if(r.toLowerCase().equals("stranger")){
             role = Role.STRANGER;

@@ -8,12 +8,9 @@ import java.util.ArrayList;
 public class House {
     private static ArrayList<IndoorRoom> indoorRooms;
     private static ArrayList<OutdoorRoom> outdoorRooms;
-
     private static ArrayList<Room> rooms;
-
     private static ArrayList<User> users;
     private static House INSTANCE;
-
     private static User loggedInUser;
 
     private House(){
