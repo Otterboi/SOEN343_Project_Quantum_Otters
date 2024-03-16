@@ -66,6 +66,8 @@ public class RoomObserver implements Observer {
                 }else{
                     door.setImage(doorClose);
                 }
+            }else{
+                door.setImage(doorClose);
             }
 
         }

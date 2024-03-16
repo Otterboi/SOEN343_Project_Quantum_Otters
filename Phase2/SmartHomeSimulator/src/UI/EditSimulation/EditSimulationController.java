@@ -71,8 +71,9 @@ public class EditSimulationController implements Initializable {
         for(int i = 0; i < House.getRooms().size(); i++){
             Room room = House.getRooms().get(i);
             boolean isRemote = menu.getRoom().equals("Remote");
-            if(room.getPeopleInRoom().contains(menu.getUser()) || isRemote){
-                room.removePersonInRoom(menu.getUser());
+
+            if(room.getPeopleInRoom().contains(changeUserBox.getValue()) || isRemote){
+                room.removePersonInRoom(changeUserBox.getValue());
                 if(!isRemote){
                     System.out.println("REMOVING logged in user from " + room.getRoomName());
 
@@ -88,7 +89,7 @@ public class EditSimulationController implements Initializable {
 
 
             if(room.getRoomName().toLowerCase().equals(menu.getRoom().toLowerCase())){
-                room.setPersonInRoom(true, menu.getUser());
+                room.setPersonInRoom(true, changeUserBox.getValue());
                 System.out.println("ADDING logged in user to " + room.getRoomName());
             }
         }

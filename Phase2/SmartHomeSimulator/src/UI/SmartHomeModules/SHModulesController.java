@@ -127,8 +127,9 @@ public class SHModulesController implements Initializable {
             }
 
         }else{
-            if(House.getLoggedInUser().getRoleString().equals("parent"))
-            OpenCloseLights.setDisable(false);
+            if(House.getLoggedInUser().getRoleString().equals("parent")){
+                OpenCloseLights.setDisable(false);
+            }
         }
         if(room.isLightOn()){
             OpenCloseLights.setSelected(true);
