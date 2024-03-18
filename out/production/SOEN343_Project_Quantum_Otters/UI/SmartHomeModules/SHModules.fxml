@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.SmartHomeModules.SHModulesController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="SHS">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ToggleButton fx:id="addParentBTN" layoutX="92.0" layoutY="89.0" mnemonicParsing="false" onAction="#addParent" text="Add Parent to Room" />
+                        <ToggleButton fx:id="addChildBTN" layoutX="92.0" layoutY="124.0" mnemonicParsing="false" onAction="#addChild" text="Add Child to Room" />
+                        <ToggleButton fx:id="addGuestBTN" layoutX="92.0" layoutY="161.0" mnemonicParsing="false" onAction="#addGuest" text="Add Guest to Room" />
+                        <ToggleButton fx:id="blockWindowBTN" layoutX="389.0" layoutY="90.0" mnemonicParsing="false" onAction="#blockWindow" text="Block Window" />
+                        <Text layoutX="97.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Person to Room" wrappingWidth="115.13671875" />
+                        <Text layoutX="361.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Block Window Functionality" wrappingWidth="147.13671875" />
+                     </children></AnchorPane>
             </content>
           </Tab>
           <Tab text="SHC">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+
                      <children>
-                        <ListView fx:id="interactables" editable="true" layoutX="57.0" layoutY="61.0" prefHeight="200.0" prefWidth="200.0" />
+                         <Text layoutX="21.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Motion Activated Lighting" />
+                         <ToggleButton fx:id="autoModeToggle" layoutX="27.0" layoutY="142.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="125.0" text="Auto Light Mode" />
+                         <ToggleButton fx:id="OpenCloseDoors" layoutX="428.0" layoutY="122.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" styleClass="button-open-close-doors" text="Open Close Doors" textAlignment="CENTER" />
+                        <ToggleButton fx:id="OpenCloseWindows" layoutX="428.0" layoutY="248.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="Open close Windows" />
+                        <ToggleButton fx:id="OpenCloseLights" layoutX="26.0" layoutY="50.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="127.0" text="Turn ON/OFF Lights" />
                      </children>
                   </AnchorPane>
             </content>
@@ -30,9 +41,25 @@
               </content>
             </Tab>
             <Tab text="SHH">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="399.0" prefWidth="618.0">
+                        <children>
+                            <Label layoutX="14.0" layoutY="14.0" text="Zone and Room Management" />
+                            <TreeView fx:id="zoneRoomTreeView" layoutX="14.0" layoutY="35.0" prefHeight="123.0" prefWidth="554.0" />
+
+                            <Label layoutX="14.0" layoutY="168.0" text="Create New Zone:" />
+                            <TextField fx:id="zoneNameTextField" layoutX="119.0" layoutY="163.0" prefHeight="26.0" prefWidth="107.0" promptText="Zone Name" />
+
+                            <Label layoutX="14.0" layoutY="189.0" text="Select Rooms:" />
+                            <ListView fx:id="roomsListView" layoutX="11.0" layoutY="217.0" prefHeight="130.0" prefWidth="555.0" />
+
+                            <Button fx:id="addZoneButton" layoutX="233.0" layoutY="163.0" prefHeight="26.0" prefWidth="124.0" text="Add Zone" />
+                            <Button fx:id="deleteZoneButton" layoutX="368.0" layoutY="163.0" prefHeight="26.0" prefWidth="131.0" text="Delete Zone" />
+
+
+                        </children>
+                    </AnchorPane>
+                </content>
             </Tab>
         </tabs>
       </TabPane>

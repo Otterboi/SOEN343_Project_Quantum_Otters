@@ -41,9 +41,25 @@
               </content>
             </Tab>
             <Tab text="SHH">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="399.0" prefWidth="618.0">
+                        <children>
+                            <Label layoutX="14.0" layoutY="14.0" text="Zone and Room Management" />
+                            <TreeView fx:id="zoneRoomTreeView" layoutX="14.0" layoutY="35.0" prefHeight="123.0" prefWidth="554.0" />
+
+                            <Label layoutX="14.0" layoutY="168.0" text="Create New Zone:" />
+                            <TextField fx:id="zoneNameTextField" layoutX="119.0" layoutY="163.0" prefHeight="26.0" prefWidth="107.0" promptText="Zone Name" />
+
+                            <Label layoutX="14.0" layoutY="189.0" text="Select Rooms:" />
+                            <ListView fx:id="roomsListView" layoutX="11.0" layoutY="217.0" prefHeight="130.0" prefWidth="555.0" />
+
+                            <Button fx:id="addZoneButton" layoutX="233.0" layoutY="163.0" prefHeight="26.0" prefWidth="124.0" text="Add Zone" />
+                            <Button fx:id="deleteZoneButton" layoutX="368.0" layoutY="163.0" prefHeight="26.0" prefWidth="131.0" text="Delete Zone" />
+
+
+                        </children>
+                    </AnchorPane>
+                </content>
             </Tab>
         </tabs>
       </TabPane>
