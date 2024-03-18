@@ -13,7 +13,7 @@ public abstract class Room implements Observable {
     protected boolean isLightOn;
     protected boolean isDoorOpen;
     protected boolean isPersonInRoom;
-    protected List<String> peopleInRoom;
+    protected List<String> peopleInRoom = new ArrayList<>();
     protected boolean autoModeEnabled = false;
     private ArrayList<Observer> observers = new ArrayList<>();
 
@@ -122,4 +122,6 @@ public abstract class Room implements Observable {
         this.autoModeEnabled = autoModeEnabled;
         notifyObservers(this);
     }
+
+
 }

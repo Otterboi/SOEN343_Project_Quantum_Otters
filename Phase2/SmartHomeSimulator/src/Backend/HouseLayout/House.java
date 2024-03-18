@@ -9,6 +9,8 @@ public class House {
     private static ArrayList<IndoorRoom> indoorRooms;
     private static ArrayList<OutdoorRoom> outdoorRooms;
     private static ArrayList<Room> rooms;
+    private static ArrayList<Zone> zones;
+
     private static ArrayList<User> users;
     private static House INSTANCE;
     private static User loggedInUser;
@@ -16,6 +18,7 @@ public class House {
     private House(){
         indoorRooms = new ArrayList<>();
         outdoorRooms = new ArrayList<>();
+        zones = new ArrayList<>();
         users = new ArrayList<>();
         loggedInUser = null;
         rooms = new ArrayList<>();
@@ -28,6 +31,24 @@ public class House {
         }
 
         return INSTANCE;
+    }
+    public static boolean addZone(Zone newZone) {
+        //prevent adding duplicate zones
+        for (Zone zone : zones) {
+            if (zone.getName().equalsIgnoreCase(newZone.getName())) {
+                return false;
+            }
+        }
+        zones.add(newZone);
+        return true;
+    }
+    public static boolean removeZone(String zoneName) {
+        return zones.removeIf(zone -> zone.getName().equals(zoneName));
+    }
+
+
+    public static ArrayList<Zone> getZones() {
+        return zones;
     }
 
     public static ArrayList<IndoorRoom> getIndoorRooms() {
@@ -69,4 +90,5 @@ public class House {
     public static ArrayList<Room> getRooms(){
         return rooms;
     }
+
 }
