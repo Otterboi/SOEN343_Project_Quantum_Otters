@@ -6,14 +6,16 @@
 package UI.SmartHomeModules;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import Backend.Command.Command;
 import Backend.Command.ToggleDoorCommand;
 import Backend.Command.ToggleLightCommand;
 import Backend.Command.ToggleWindowCommand;
+import Backend.HouseLayout.Zone;
 import Backend.SimulatorMenu.SimulatorHome;
-import Backend.Users.User;
 import Backend.Users.Role;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
@@ -22,9 +24,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
+
 
 /**
  * FXML Controller class
@@ -33,7 +34,28 @@ import javafx.scene.control.ToggleButton;
  */
 public class SHModulesController implements Initializable {
 
+
+    @FXML
+    private TextField zoneNameTextField;
+    @FXML
+    private Button addZoneButton;
+    @FXML
+    private ListView<Zone> zoneListView;
+    @FXML
+    private Button deleteZoneButton;
+    @FXML
+    private ListView<Room> roomsListView;
+    @FXML
+    private Button addRoomsToZoneButton;
+    @FXML
+    private TreeView<String> zoneRoomTreeView;
+
+    private House house;
+
     private Room room;
+    private Set<Room> selectedRooms = new HashSet<>();
+
+
     @FXML
     ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle,OpenCloseDoors, OpenCloseWindows, OpenCloseLights;
     public SHModulesController(Room r){
@@ -42,6 +64,12 @@ public class SHModulesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        house = House.getInstance();
+        initializeRoomListView();
+        initializeTreeView();
+        addZoneButton.setOnAction(e -> addZoneWithSelectedRooms());
+        deleteZoneButton.setOnAction(event -> deleteSelectedZone());
 
         Role CurrentUserRole = House.getLoggedInUser() != null ? House.getLoggedInUser().getRole() : Role.STRANGER;
         setPermissionForSHC(CurrentUserRole);
@@ -145,6 +173,85 @@ public class SHModulesController implements Initializable {
         });
 
 
+    }
+    private void initializeTreeView() {
+        TreeItem<String> rootItem = new TreeItem<>("Zones and Rooms");
+        zoneRoomTreeView.setRoot(rootItem);
+        zoneRoomTreeView.setShowRoot(false);
+        refreshTreeView();
+    }
+    private void initializeRoomListView() {
+        roomsListView.setItems(FXCollections.observableArrayList(house.getRooms()));
+        roomsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+
+    private void refreshTreeView() {
+        TreeItem<String> rootItem = zoneRoomTreeView.getRoot();
+        rootItem.getChildren().clear(); // Clear existing items
+
+        for (Zone zone : house.getZones()) {
+            TreeItem<String> zoneItem = new TreeItem<>(zone.getName());
+            rootItem.getChildren().add(zoneItem);
+
+            for (Room room : zone.getRooms()) {
+                TreeItem<String> roomItem = new TreeItem<>(room.getRoomName()); // Make sure Room has a getName() method
+                zoneItem.getChildren().add(roomItem);
+            }
+        }
+    }
+
+    private void addZoneWithSelectedRooms() {
+
+        String zoneName = zoneNameTextField.getText().trim();
+        if (zoneName.isEmpty()) {
+            showAlert("Error", "Zone name cannot be empty.");
+            return;
+        }
+
+        Set<Room> selectedRooms = new HashSet<>(roomsListView.getSelectionModel().getSelectedItems());
+        if (selectedRooms.isEmpty()) {
+            showAlert("Error", "At least one room must be selected.");
+            return;
+        }
+
+        Zone newZone = new Zone(zoneName, selectedRooms);
+        house.addZone(newZone);
+        refreshTreeView();
+        zoneNameTextField.clear();
+        roomsListView.getSelectionModel().clearSelection();
+        showAlert("Success", "Zone '" + zoneName + "' with selected rooms added successfully.");
+    }
+
+    @FXML
+    private void deleteSelectedZone() {
+        TreeItem<String> selected = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            // Assume each TreeItem directly under the root represents a Zone
+            TreeItem<String> parent = selected.getParent();
+            if (parent != null && parent == zoneRoomTreeView.getRoot()) {
+                // Remove zone from house
+                boolean removed = house.removeZone(selected.getValue());
+                if (removed) {
+                    // Update UI
+                    zoneRoomTreeView.getRoot().getChildren().remove(selected);
+                    showAlert("Success", "Zone removed successfully.");
+                } else {
+                    showAlert("Error", "Could not remove the selected zone.");
+                }
+            } else {
+                showAlert("Error", "Please select a valid zone to delete.");
+            }
+        } else {
+            showAlert("Error", "No zone selected.");
+        }
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private void setPermissionForSHC(Role currentUserRole) {
