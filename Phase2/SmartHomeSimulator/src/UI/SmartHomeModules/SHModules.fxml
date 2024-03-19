@@ -44,18 +44,29 @@
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="399.0" prefWidth="618.0">
                         <children>
-                            <Label layoutX="14.0" layoutY="14.0" text="Zone and Room Management" />
-                            <TreeView fx:id="zoneRoomTreeView" layoutX="14.0" layoutY="35.0" prefHeight="123.0" prefWidth="554.0" />
+                            <Label layoutX="14.0" layoutY="200.0" prefHeight="21.0" prefWidth="159.0" text="Zone and Room Management" />
+                            <TreeView fx:id="zoneRoomTreeView" layoutX="6.0" layoutY="226.0" prefHeight="123.0" prefWidth="198.0" />
 
-                            <Label layoutX="14.0" layoutY="168.0" text="Create New Zone:" />
-                            <TextField fx:id="zoneNameTextField" layoutX="119.0" layoutY="163.0" prefHeight="26.0" prefWidth="107.0" promptText="Zone Name" />
+                            <Label layoutX="220.0" layoutY="5.0" prefHeight="19.0" prefWidth="108.0" text="Create New Zone:" />
+                            <TextField fx:id="zoneNameTextField" layoutX="214.0" layoutY="32.0" prefHeight="27.0" prefWidth="105.0" promptText="Zone Name" />
 
-                            <Label layoutX="14.0" layoutY="189.0" text="Select Rooms:" />
-                            <ListView fx:id="roomsListView" layoutX="11.0" layoutY="217.0" prefHeight="130.0" prefWidth="555.0" />
+                            <Label layoutX="14.0" layoutY="3.0" prefHeight="20.0" prefWidth="74.0" text="Select Rooms:" />
+                            <ListView fx:id="roomsListView" layoutX="6.0" layoutY="26.0" prefHeight="119.0" prefWidth="199.0" />
+                            
+                            <Button fx:id="addZoneButton" layoutX="334.0" layoutY="32.0" prefHeight="26.0" prefWidth="78.0" text="Add Zone" />
+                            <Button fx:id="deleteZoneButton" layoutX="423.0" layoutY="33.0" prefHeight="22.0" prefWidth="90.0" text="Delete Zone" />
+                            <Label layoutX="217.0" layoutY="77.0" prefHeight="31.0" prefWidth="97.0" text="Set Temperatures:" />
+                            <TextField fx:id="morningTempTextField" layoutX="215.0" layoutY="161.0" prefHeight="26.0" prefWidth="95.0" promptText="Morning Temp" />
+                            <TextField fx:id="afternoonTempTextField" layoutX="380.0" layoutY="163.0" prefHeight="26.0" prefWidth="100.0" promptText="Afternoon Temp" />
+                            <TextField fx:id="nightTempTextField" layoutX="281.0" layoutY="210.0" prefHeight="23.0" prefWidth="81.0" promptText="Night Temp" />
+                            <TextField fx:id="summerTempTextField" layoutX="385.0" layoutY="108.0" prefHeight="26.0" prefWidth="92.0" promptText="Summer Temp" />
+                            <TextField fx:id="winterTempTextField" layoutX="216.0" layoutY="107.0" prefHeight="21.0" prefWidth="86.0" promptText="Winter Temp" />
 
-                            <Button fx:id="addZoneButton" layoutX="233.0" layoutY="163.0" prefHeight="26.0" prefWidth="124.0" text="Add Zone" />
-                            <Button fx:id="deleteZoneButton" layoutX="368.0" layoutY="163.0" prefHeight="26.0" prefWidth="131.0" text="Delete Zone" />
-
+                            <Button fx:id="setMorningTempButton" layoutX="322.0" layoutY="163.0" prefHeight="16.0" prefWidth="43.0" text="Set" />
+                            <Button fx:id="setAfternoonTempButton" layoutX="498.0" layoutY="163.0" prefHeight="26.0" prefWidth="44.0" text="Set" />
+                            <Button fx:id="setNightTempButton" layoutX="378.0" layoutY="210.0" prefHeight="26.0" prefWidth="43.0" text="Set" />
+                            <Button fx:id="setSummerTempButton" layoutX="498.0" layoutY="108.0" prefHeight="26.0" prefWidth="43.0" text="Set" />
+                            <Button fx:id="setWinterTempButton" layoutX="324.0" layoutY="108.0" prefHeight="26.0" prefWidth="43.0" text="Set" />
 
                         </children>
                     </AnchorPane>

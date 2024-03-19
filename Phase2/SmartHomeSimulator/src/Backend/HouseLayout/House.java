@@ -14,6 +14,8 @@ public class House {
     private static ArrayList<User> users;
     private static House INSTANCE;
     private static User loggedInUser;
+    private static double summerTemperature;
+    private static double winterTemperature;
 
     private House(){
         indoorRooms = new ArrayList<>();
@@ -91,4 +93,19 @@ public class House {
         return rooms;
     }
 
+    public static void setSummerTemperature(double temp) {
+        summerTemperature = temp;
+    }
+
+    public static double getSummerTemperature() {
+        return summerTemperature;
+    }
+
+    public static void setWinterTemperature(double temp) {
+        winterTemperature = temp;
+    }
+
+    public static double getWinterTemperature() {
+        return winterTemperature;
+    }
 }
