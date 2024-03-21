@@ -39,7 +39,7 @@ public class SHModulesController implements Initializable {
 
     private Room room;
     @FXML
-    private Label outdoorTemperatureLabel;
+    private Label ot;
     @FXML
     ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle,OpenCloseDoors, OpenCloseWindows, OpenCloseLights;
     public SHModulesController(Room r){
@@ -239,6 +239,6 @@ public class SHModulesController implements Initializable {
 
     public void updateTemperatureDisplay(){
         String temperature = TemperatureUtil.getTemperatureForCurrentTime();
-        outdoorTemperatureLabel.setText("Temperature : "+temperature+" C");
+        ot.setText("Temperature : "+temperature+" C");
     }
 }
