@@ -5,10 +5,12 @@ import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.OutdoorRoom;
 import Backend.Users.User;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,6 +34,13 @@ public class SmartHomeSimulator extends Application {
         
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                System.out.println("This is closed");
+            }
+        });
     }
 
     public static void main(String[] args) throws Exception {

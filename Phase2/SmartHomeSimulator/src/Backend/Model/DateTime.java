@@ -7,6 +7,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.util.Duration;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -98,4 +99,12 @@ public class DateTime {
         this.clockSpeedMultiplier.set(clockSpeedMultiplier);
     }
 
+
+    public String getTimeAsString() {
+        // Create a SimpleDateFormat object with desired format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+        // Format the time from Calendar object
+        return dateFormat.format(date.getTime());
+    }
 }

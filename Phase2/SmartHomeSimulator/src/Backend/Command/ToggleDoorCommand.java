@@ -1,5 +1,7 @@
 package Backend.Command;
 import Backend.HouseLayout.Room;
+import Backend.Model.DateTime;
+import Backend.Model.Log;
 
 public class ToggleDoorCommand implements Command{
     private Room room;
@@ -10,6 +12,8 @@ public class ToggleDoorCommand implements Command{
     public void execute() {
         boolean newDoorState = !room.isDoorOpen();
         room.setDoorOpen(newDoorState);
-        System.out.println("Door in " + room.getRoomName() + " is now " + (newDoorState? "OPEN" : "CLOSED"));
+        String output = "Door in " + room.getRoomName() + " is now " + (newDoorState? "OPEN" : "CLOSED");
+        System.out.println(output);
+        Log.getInstance().getLogEntries().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
     }
 }
