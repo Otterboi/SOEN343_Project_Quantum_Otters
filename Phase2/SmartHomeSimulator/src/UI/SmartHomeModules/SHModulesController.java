@@ -35,9 +35,9 @@ import javafx.scene.control.*;
 public class SHModulesController implements Initializable {
 
     @FXML
-    private TextField zoneNameTextField, morningTempTextField, afternoonTempTextField, nightTempTextField, summerTempTextField, winterTempTextField;
+    private TextField zoneNameTextField, morningTempTextField, afternoonTempTextField, nightTempTextField, summerTempTextField, winterTempTextField, overwriteTempTextField;
     @FXML
-    private Button addZoneButton, deleteZoneButton, addRoomsToZoneButton, setMorningTempButton, setAfternoonTempButton, setNightTempButton, setSummerTempButton, setWinterTempButton;
+    private Button addZoneButton, deleteZoneButton, addRoomsToZoneButton, setMorningTempButton, setAfternoonTempButton, setNightTempButton, setSummerTempButton, setWinterTempButton, overwriteTempButton;
 
     @FXML
     private ListView<Room> roomsListView;
@@ -45,6 +45,8 @@ public class SHModulesController implements Initializable {
     @FXML
     private TreeView<String> zoneRoomTreeView;
 
+    @FXML
+    private Button addRoomToZoneButton, removeRoomFromZoneButton;
     private House house;
 
     private Room room;
@@ -70,7 +72,9 @@ public class SHModulesController implements Initializable {
         setNightTempButton.setOnAction(e -> setNightTemp());
         setSummerTempButton.setOnAction(e -> setSummerTemp());
         setWinterTempButton.setOnAction(e -> setWinterTemp());
-
+        addRoomToZoneButton.setOnAction(e -> addRoomToSelectedZone());
+        removeRoomFromZoneButton.setOnAction(e -> removeRoomFromSelectedZone());
+        overwriteTempButton.setOnAction(e -> overwriteTempAction());
         Role CurrentUserRole = House.getLoggedInUser() != null ? House.getLoggedInUser().getRole() : Role.STRANGER;
         setPermissionForSHC(CurrentUserRole);
 
@@ -242,7 +246,59 @@ public class SHModulesController implements Initializable {
             showAlert("Error", "No zone selected.");
         }
     }
+    private void addRoomToSelectedZone() {
+        TreeItem<String> selectedZoneNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        if (selectedZoneNode != null && selectedZoneNode.getParent() == zoneRoomTreeView.getRoot()) {
+            Zone selectedZone = findZoneByName(selectedZoneNode.getValue());
+            Room selectedRoom = roomsListView.getSelectionModel().getSelectedItem();
+            if (selectedZone != null && selectedRoom != null && !selectedZone.getRooms().contains(selectedRoom)) {
+                selectedZone.addRoom(selectedRoom);
+                refreshTreeView();
+                showAlert("Success", "Room " + selectedRoom.getRoomName() + " added to zone " + selectedZone.getName() + ".");
+            } else {
+                showAlert("Error", "Please select both a zone and a room.");
+            }
+        } else {
+            showAlert("Error", "Please select a zone.");
+        }
+    }
 
+    private void removeRoomFromSelectedZone() {
+        TreeItem<String> selectedZoneNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        if (selectedZoneNode != null && selectedZoneNode.getParent() == zoneRoomTreeView.getRoot()) {
+            Zone selectedZone = findZoneByName(selectedZoneNode.getValue());
+            Room selectedRoom = roomsListView.getSelectionModel().getSelectedItem();
+            if (selectedZone != null && selectedRoom != null && selectedZone.getRooms().contains(selectedRoom)) {
+                selectedZone.removeRoom(selectedRoom);
+                refreshTreeView();
+                showAlert("Success", "Room " + selectedRoom.getRoomName() + " removed from zone " + selectedZone.getName() + ".");
+            } else {
+                showAlert("Error", "Please select both a zone and a room.");
+            }
+        } else {
+            showAlert("Error", "Please select a zone.");
+        }
+    }
+    @FXML
+    private void overwriteTempAction() {
+        TreeItem<String> selectedNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        if (selectedNode != null && selectedNode.getParent() == zoneRoomTreeView.getRoot()) {
+            String zoneName = selectedNode.getValue();
+            Zone selectedZone = findZoneByName(zoneName);
+            if (selectedZone != null) {
+                try {
+                    double temp = Double.parseDouble(overwriteTempTextField.getText());
+                    selectedZone.setOverwrittenTemp(temp);
+                    selectedZone.setOverwritten(true);
+                    showAlert("Success", "Overwritten temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
+                } catch (NumberFormatException e) {
+                    showAlert("Error", "Invalid temperature format.");
+                }
+            }
+        } else {
+            showAlert("Error", "Please select a zone.");
+        }
+    }
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
