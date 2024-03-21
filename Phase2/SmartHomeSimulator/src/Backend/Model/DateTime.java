@@ -7,6 +7,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.util.Duration;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -96,6 +97,11 @@ public class DateTime {
 
     public void setClockSpeedMultiplier(double clockSpeedMultiplier) {
         this.clockSpeedMultiplier.set(clockSpeedMultiplier);
+    }
+
+    public String getTimeAsString(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        return dateFormat.format(date.getTime());
     }
 
 }

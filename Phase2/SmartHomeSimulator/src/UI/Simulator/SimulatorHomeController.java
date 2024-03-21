@@ -12,6 +12,7 @@ import java.util.*;
 import Backend.HouseLayout.House;
 import Backend.Users.User;
 import UI.SmartHomeModules.SHModulesController;
+import Util.TemperatureUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.application.Platform;
@@ -45,6 +46,7 @@ public class SimulatorHomeController implements Initializable {
 
     @FXML
     private AnchorPane simulatorHome, roomPanes;
+
     @FXML
     Button editSimulationBTN;
     Stage stage;
@@ -163,6 +165,9 @@ public class SimulatorHomeController implements Initializable {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         chosenTime.setText(timeFormat.format(dateTime.getDate().getTime()));
         chosenDate.setText(dateFormat.format(dateTime.getDate().getTime()));
+
+        menu.setTime(dateTime.getTimeAsString());
+        updateTemperatureDisplay();
     }
 
     private void setupMultiplierSliderListener() {
@@ -206,5 +211,10 @@ public class SimulatorHomeController implements Initializable {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    public void updateTemperatureDisplay(){
+        String temperature = TemperatureUtil.getTemperatureForCurrentTime();
+        menu.setTemp(temperature);
     }
 }
