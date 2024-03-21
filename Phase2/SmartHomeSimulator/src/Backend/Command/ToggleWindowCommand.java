@@ -2,6 +2,8 @@ package Backend.Command;
 
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.Room;
+import Backend.Model.DateTime;
+import Backend.Model.Log;
 import javafx.scene.control.Alert;
 
 
@@ -25,7 +27,9 @@ public class ToggleWindowCommand implements Command {
             }
             boolean newWindowState = !indoorRoom.isWindowOpen();
             indoorRoom.setWindowOpen(newWindowState);
-            System.out.println("Window in " + room.getRoomName() + " is now " + (newWindowState ? "OPEN" : "CLOSED"));
+            String output = "Window in " + room.getRoomName() + " is now " + (newWindowState ? "OPEN" : "CLOSED");
+            System.out.println(output);
+            Log.getInstance().getLogEntries().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
         }
     }
     }

@@ -1,5 +1,8 @@
 package Backend.Command;
 import Backend.HouseLayout.Room;
+import Backend.Model.DateTime;
+import Backend.Model.Log;
+
 public class ToggleLightCommand implements Command {
 
     private Room room;
@@ -12,6 +15,8 @@ public class ToggleLightCommand implements Command {
     public void execute() {
         boolean newLightState = !room.isLightOn();
         room.setLightOn(newLightState);
-        System.out.println("Light in " + room.getRoomName() + " is now " + (newLightState ? "ON" : "OFF")); //TODO: Set room name
+        String output = "Light in " + room.getRoomName() + " is now " + (newLightState ? "ON" : "OFF");
+        System.out.println(output);
+        Log.getInstance().getLogEntries().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
     }
 }

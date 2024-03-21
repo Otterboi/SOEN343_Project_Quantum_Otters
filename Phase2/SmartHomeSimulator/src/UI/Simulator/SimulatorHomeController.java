@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.util.*;
 
 import Backend.HouseLayout.House;
+import Backend.Model.Log;
 import Backend.Users.User;
 import UI.SmartHomeModules.SHModulesController;
 import javafx.collections.FXCollections;
@@ -24,13 +25,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
 
@@ -64,6 +61,9 @@ public class SimulatorHomeController implements Initializable {
     private Label chosenTime;
 
     @FXML
+    ListView<String> consoleLog;
+
+    @FXML
     private Label userLabel, tempLabel, roomLabel;
     private DateTime dateTime; // Instance of DateTime model for managing time
     private SimulatorHome menu;
@@ -72,6 +72,8 @@ public class SimulatorHomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        consoleLog.setItems(Log.getInstance().getLogEntries());
+        consoleLog.setFocusTraversable(false);
         menu = SimulatorHome.getInstance();
         dateTime = DateTime.getInstance();
 
