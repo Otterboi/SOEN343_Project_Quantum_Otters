@@ -10,6 +10,8 @@ public class Zone {
     private double nightTemp;
     private double morningTemp;
     private double afternoonTemp;
+    private boolean overwritten;
+    private double overwrittenTemp;
 
     public Zone(String name, Set<Room> selectedRooms) {
         this.name = name;
@@ -18,6 +20,8 @@ public class Zone {
         nightTemp = 20;
         morningTemp = 20;
         afternoonTemp = 20;
+        overwritten = false;
+        overwrittenTemp = 0;
     }
 
     public ArrayList<Room> getRooms() {
@@ -56,6 +60,22 @@ public class Zone {
         this.afternoonTemp = afternoonTemp;
     }
 
+    public double getOverwrittenTemp() {
+        return overwrittenTemp;
+    }
+
+    public void setOverwrittenTemp(double overwrittenTemp) {
+        this.overwrittenTemp = overwrittenTemp;
+        overwritten = true;
+    }
+
+    public boolean getOverwritten() {
+        return overwritten;
+    }
+
+    public void setOverwritten(boolean overwritten) {
+        this.overwritten = overwritten;
+    }
     public String getName() {
         return name;
     }
