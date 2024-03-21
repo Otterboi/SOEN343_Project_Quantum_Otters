@@ -15,6 +15,8 @@ import Backend.Command.ToggleDoorCommand;
 import Backend.Command.ToggleLightCommand;
 import Backend.Command.ToggleWindowCommand;
 import Backend.HouseLayout.Zone;
+import Backend.Model.DateTime;
+import Backend.Model.Log;
 import Backend.SimulatorMenu.SimulatorHome;
 import Backend.Users.Role;
 import Backend.HouseLayout.House;
@@ -25,7 +27,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
 
 /**
  * FXML Controller class
@@ -223,6 +224,8 @@ public class SHModulesController implements Initializable {
         refreshTreeView();
         zoneNameTextField.clear();
         roomsListView.getSelectionModel().clearSelection();
+        String logMessage = "["+DateTime.getInstance().getTimeAsString() +"]"+ " Zone '" + zoneName + "' with selected rooms added successfully.";
+        Log.getInstance().getLogEntries().add(logMessage);
         showAlert("Success", "Zone '" + zoneName + "' with selected rooms added successfully.");
     }
 
@@ -235,6 +238,8 @@ public class SHModulesController implements Initializable {
                 boolean removed = house.removeZone(selected.getValue());
                 if (removed) {
                     zoneRoomTreeView.getRoot().getChildren().remove(selected);
+                    String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]" +" Zone '" + selected.getValue() + "' removed successfully.";
+                    Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Zone removed successfully.");
                 } else {
                     showAlert("Error", "Could not remove the selected zone.");
@@ -254,6 +259,8 @@ public class SHModulesController implements Initializable {
             if (selectedZone != null && selectedRoom != null && !selectedZone.getRooms().contains(selectedRoom)) {
                 selectedZone.addRoom(selectedRoom);
                 refreshTreeView();
+                String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]"+ " Room " + selectedRoom.getRoomName() + " added to zone " + selectedZone.getName();
+                Log.getInstance().getLogEntries().add(logMessage);
                 showAlert("Success", "Room " + selectedRoom.getRoomName() + " added to zone " + selectedZone.getName() + ".");
             } else {
                 showAlert("Error", "Please select both a zone and a room.");
@@ -271,6 +278,8 @@ public class SHModulesController implements Initializable {
             if (selectedZone != null && selectedRoom != null && selectedZone.getRooms().contains(selectedRoom)) {
                 selectedZone.removeRoom(selectedRoom);
                 refreshTreeView();
+                String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]"+ " Room " + selectedRoom.getRoomName() + " removed from zone " + selectedZone.getName();
+                Log.getInstance().getLogEntries().add(logMessage);
                 showAlert("Success", "Room " + selectedRoom.getRoomName() + " removed from zone " + selectedZone.getName() + ".");
             } else {
                 showAlert("Error", "Please select both a zone and a room.");
@@ -290,6 +299,8 @@ public class SHModulesController implements Initializable {
                     double temp = Double.parseDouble(overwriteTempTextField.getText());
                     selectedZone.setOverwrittenTemp(temp);
                     selectedZone.setOverwritten(true);
+                    String logMessage = "["+ DateTime.getInstance().getTimeAsString() + "]"+" Overwritten temperature set to " + temp + "°C for zone " + selectedZone.getName();
+                    Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Overwritten temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
                 } catch (NumberFormatException e) {
                     showAlert("Error", "Invalid temperature format.");
@@ -315,7 +326,10 @@ public class SHModulesController implements Initializable {
                 try {
                     double temp = Double.parseDouble(morningTempTextField.getText());
                     selectedZone.setMorningTemp(temp);
+                    String logMessage ="["+ DateTime.getInstance().getTimeAsString()+"]" + " Morning temperature set to " + temp + "°C for zone " + selectedZone.getName();
+                    Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Morning temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
+
                 } catch (NumberFormatException e) {
                     showAlert("Error", "Invalid temperature format.");
                 }
@@ -334,6 +348,8 @@ public class SHModulesController implements Initializable {
                 try {
                     double temp = Double.parseDouble(afternoonTempTextField.getText());
                     selectedZone.setAfternoonTemp(temp);
+                    String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]" + " Afternoon temperature set to " + temp + "°C for zone " + selectedZone.getName();
+                    Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Afternoon temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
                 } catch (NumberFormatException e) {
                     showAlert("Error", "Invalid temperature format.");
@@ -353,6 +369,8 @@ public class SHModulesController implements Initializable {
                 try {
                     double temp = Double.parseDouble(nightTempTextField.getText());
                     selectedZone.setNightTemp(temp);
+                    String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]"+ " Night temperature set to " + temp + "°C for zone " + selectedZone.getName();
+                    Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Night temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
                 } catch (NumberFormatException e) {
                     showAlert("Error", "Invalid temperature format.");
@@ -377,6 +395,8 @@ public class SHModulesController implements Initializable {
         try {
             double temp = Double.parseDouble(summerTempTextField.getText());
             House.setSummerTemperature(temp);
+            String logMessage = "["+DateTime.getInstance().getTimeAsString()+ "]"+" Summer temperature set to " + temp + "°C for the house.";
+            Log.getInstance().getLogEntries().add(logMessage);
             showAlert("Success", "Summer temperature set to " + temp + "°C for the house.");
         } catch (NumberFormatException e) {
             showAlert("Error", "Invalid temperature format.");
@@ -387,6 +407,8 @@ public class SHModulesController implements Initializable {
         try {
             double temp = Double.parseDouble(winterTempTextField.getText());
             House.setWinterTemperature(temp);
+            String logMessage ="["+ DateTime.getInstance().getTimeAsString() +"]"+ " Winter temperature set to " + temp + "°C for the house.";
+            Log.getInstance().getLogEntries().add(logMessage);
             showAlert("Success", "Winter temperature set to " + temp + "°C for the house.");
         } catch (NumberFormatException e) {
             showAlert("Error", "Invalid temperature format.");
