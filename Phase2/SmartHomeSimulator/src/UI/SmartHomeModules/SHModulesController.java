@@ -6,14 +6,16 @@
 package UI.SmartHomeModules;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import Backend.Command.Command;
 import Backend.Command.ToggleDoorCommand;
 import Backend.Command.ToggleLightCommand;
 import Backend.Command.ToggleWindowCommand;
+import Backend.HouseLayout.Zone;
 import Backend.SimulatorMenu.SimulatorHome;
-import Backend.Users.User;
 import Backend.Users.Role;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
@@ -22,9 +24,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
+
 
 /**
  * FXML Controller class
@@ -33,7 +34,23 @@ import javafx.scene.control.ToggleButton;
  */
 public class SHModulesController implements Initializable {
 
+    @FXML
+    private TextField zoneNameTextField, morningTempTextField, afternoonTempTextField, nightTempTextField, summerTempTextField, winterTempTextField;
+    @FXML
+    private Button addZoneButton, deleteZoneButton, addRoomsToZoneButton, setMorningTempButton, setAfternoonTempButton, setNightTempButton, setSummerTempButton, setWinterTempButton;
+
+    @FXML
+    private ListView<Room> roomsListView;
+
+    @FXML
+    private TreeView<String> zoneRoomTreeView;
+
+    private House house;
+
     private Room room;
+    private Set<Room> selectedRooms = new HashSet<>();
+
+
     @FXML
     ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle,OpenCloseDoors, OpenCloseWindows, OpenCloseLights;
     public SHModulesController(Room r){
@@ -42,6 +59,17 @@ public class SHModulesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        house = House.getInstance();
+        initializeRoomListView();
+        initializeTreeView();
+        addZoneButton.setOnAction(e -> addZoneWithSelectedRooms());
+        deleteZoneButton.setOnAction(event -> deleteSelectedZone());
+        setMorningTempButton.setOnAction(e -> setMorningTemp());
+        setAfternoonTempButton.setOnAction(e -> setAfternoonTemp());
+        setNightTempButton.setOnAction(e -> setNightTemp());
+        setSummerTempButton.setOnAction(e -> setSummerTemp());
+        setWinterTempButton.setOnAction(e -> setWinterTemp());
 
         Role CurrentUserRole = House.getLoggedInUser() != null ? House.getLoggedInUser().getRole() : Role.STRANGER;
         setPermissionForSHC(CurrentUserRole);
@@ -146,6 +174,169 @@ public class SHModulesController implements Initializable {
 
 
     }
+    private void initializeTreeView() {
+        TreeItem<String> rootItem = new TreeItem<>("Zones and Rooms");
+        zoneRoomTreeView.setRoot(rootItem);
+        zoneRoomTreeView.setShowRoot(false);
+        refreshTreeView();
+    }
+    private void initializeRoomListView() {
+        roomsListView.setItems(FXCollections.observableArrayList(house.getRooms()));
+        roomsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+
+    private void refreshTreeView() {
+        TreeItem<String> rootItem = zoneRoomTreeView.getRoot();
+        rootItem.getChildren().clear();
+
+        for (Zone zone : house.getZones()) {
+            TreeItem<String> zoneItem = new TreeItem<>(zone.getName());
+            rootItem.getChildren().add(zoneItem);
+
+            for (Room room : zone.getRooms()) {
+                TreeItem<String> roomItem = new TreeItem<>(room.getRoomName());
+                zoneItem.getChildren().add(roomItem);
+            }
+        }
+    }
+
+    private void addZoneWithSelectedRooms() {
+
+        String zoneName = zoneNameTextField.getText().trim();
+        if (zoneName.isEmpty()) {
+            showAlert("Error", "Zone name cannot be empty.");
+            return;
+        }
+
+        Set<Room> selectedRooms = new HashSet<>(roomsListView.getSelectionModel().getSelectedItems());
+        if (selectedRooms.isEmpty()) {
+            showAlert("Error", "At least one room must be selected.");
+            return;
+        }
+
+        Zone newZone = new Zone(zoneName, selectedRooms);
+        house.addZone(newZone);
+        refreshTreeView();
+        zoneNameTextField.clear();
+        roomsListView.getSelectionModel().clearSelection();
+        showAlert("Success", "Zone '" + zoneName + "' with selected rooms added successfully.");
+    }
+
+    @FXML
+    private void deleteSelectedZone() {
+        TreeItem<String> selected = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            TreeItem<String> parent = selected.getParent();
+            if (parent != null && parent == zoneRoomTreeView.getRoot()) {
+                boolean removed = house.removeZone(selected.getValue());
+                if (removed) {
+                    zoneRoomTreeView.getRoot().getChildren().remove(selected);
+                    showAlert("Success", "Zone removed successfully.");
+                } else {
+                    showAlert("Error", "Could not remove the selected zone.");
+                }
+            } else {
+                showAlert("Error", "Please select a valid zone to delete.");
+            }
+        } else {
+            showAlert("Error", "No zone selected.");
+        }
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+    private void setMorningTemp() {
+        TreeItem<String> selectedNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        if (selectedNode != null && selectedNode.getParent() == zoneRoomTreeView.getRoot()) {
+            String zoneName = selectedNode.getValue();
+            Zone selectedZone = findZoneByName(zoneName);
+            if (selectedZone != null) {
+                try {
+                    double temp = Double.parseDouble(morningTempTextField.getText());
+                    selectedZone.setMorningTemp(temp);
+                    showAlert("Success", "Morning temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
+                } catch (NumberFormatException e) {
+                    showAlert("Error", "Invalid temperature format.");
+                }
+            }
+        } else {
+            showAlert("Error", "Please select a zone.");
+        }
+    }
+
+    private void setAfternoonTemp() {
+        TreeItem<String> selectedNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        if (selectedNode != null && selectedNode.getParent() == zoneRoomTreeView.getRoot()) {
+            String zoneName = selectedNode.getValue();
+            Zone selectedZone = findZoneByName(zoneName);
+            if (selectedZone != null) {
+                try {
+                    double temp = Double.parseDouble(afternoonTempTextField.getText());
+                    selectedZone.setAfternoonTemp(temp);
+                    showAlert("Success", "Afternoon temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
+                } catch (NumberFormatException e) {
+                    showAlert("Error", "Invalid temperature format.");
+                }
+            }
+        } else {
+            showAlert("Error", "Please select a zone.");
+        }
+    }
+
+    private void setNightTemp() {
+        TreeItem<String> selectedNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        if (selectedNode != null && selectedNode.getParent() == zoneRoomTreeView.getRoot()) {
+            String zoneName = selectedNode.getValue();
+            Zone selectedZone = findZoneByName(zoneName);
+            if (selectedZone != null) {
+                try {
+                    double temp = Double.parseDouble(nightTempTextField.getText());
+                    selectedZone.setNightTemp(temp);
+                    showAlert("Success", "Night temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
+                } catch (NumberFormatException e) {
+                    showAlert("Error", "Invalid temperature format.");
+                }
+            }
+        } else {
+            showAlert("Error", "Please select a zone.");
+        }
+    }
+
+    private Zone findZoneByName(String zoneName) {
+        for (Zone zone : house.getZones()) {
+            if (zone.getName().equals(zoneName)) {
+                return zone;
+            }
+        }
+        return null;
+    }
+
+
+    private void setSummerTemp() {
+        try {
+            double temp = Double.parseDouble(summerTempTextField.getText());
+            House.setSummerTemperature(temp);
+            showAlert("Success", "Summer temperature set to " + temp + "°C for the house.");
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Invalid temperature format.");
+        }
+    }
+
+    private void setWinterTemp() {
+        try {
+            double temp = Double.parseDouble(winterTempTextField.getText());
+            House.setWinterTemperature(temp);
+            showAlert("Success", "Winter temperature set to " + temp + "°C for the house.");
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Invalid temperature format.");
+        }
+    }
+
 
     private void setPermissionForSHC(Role currentUserRole) {
         boolean doors = false;
