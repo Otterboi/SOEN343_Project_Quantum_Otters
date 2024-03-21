@@ -44,7 +44,7 @@ public class EditSimulationController implements Initializable {
 
         this.datePicker.setValue(LocalDate.parse(menu.getDate()));
         this.newTime.setText(menu.getTime());
-        this.newTemp.setText(menu.getTemp());
+        this.newTemp.setText(Integer.toString(menu.getTemp()));
         this.changeUserBox.getItems().addAll(userTypes);
         this.changeUserBox.setValue(menu.getUser());
 
@@ -64,7 +64,7 @@ public class EditSimulationController implements Initializable {
 
         menu.setDate(datePicker.getValue().toString());
         menu.setTime(newTime.getText());
-        menu.setTemp(newTemp.getText());
+        menu.setTemp(Integer.parseInt(newTemp.getText()));
         menu.setRoom(changeRoomBox.getValue());
         boolean userLeft = false;
 

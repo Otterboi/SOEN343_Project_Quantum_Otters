@@ -8,10 +8,11 @@ import Backend.Users.User;
 public class SimulatorHome implements Observable {
 
     private ArrayList<Observer> observers = new ArrayList<>();
-    private String date, time, temp, user, room;
+    private String date, time, user, room;
+    private int temp;
     private static SimulatorHome instance;
 
-    private SimulatorHome(String date, String time, String temp, String user, String room){
+    private SimulatorHome(String date, String time, int temp, String user, String room){
         this.date = date;
         this.time = time;
         this.temp = temp;
@@ -21,7 +22,7 @@ public class SimulatorHome implements Observable {
 
     public static SimulatorHome getInstance(){
         if(instance == null){
-            instance = new SimulatorHome("2024-01-01","00:00:00","20 C", House.getLoggedInUser().getName(), "Remote");
+            instance = new SimulatorHome("2024-01-01","00:00:00",20, House.getLoggedInUser().getName(), "Remote");
         }
 
         return instance;
@@ -62,11 +63,11 @@ public class SimulatorHome implements Observable {
         notifyObservers(this);
     }
 
-    public String getTemp() {
+    public int getTemp() {
         return temp;
     }
 
-    public void setTemp(String temp) {
+    public void setTemp(int temp) {
         this.temp = temp;
         notifyObservers(this);
     }

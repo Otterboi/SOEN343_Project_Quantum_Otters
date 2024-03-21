@@ -2,6 +2,7 @@ package UI.Simulator;
 
 import Backend.HouseLayout.OutdoorRoom;
 import Backend.HouseLayout.Room;
+import Backend.HouseLayout.Zone;
 import Backend.Model.DateTime;
 
 
@@ -11,6 +12,7 @@ import java.util.*;
 
 import Backend.HouseLayout.House;
 import Backend.Model.Log;
+import Backend.Model.SHHMonitor;
 import Backend.Users.User;
 import UI.SmartHomeModules.SHModulesController;
 import javafx.collections.FXCollections;
@@ -85,6 +87,12 @@ public class SimulatorHomeController implements Initializable {
         menu.attachObserver(menuObserver);
         menu.notifyObservers(menu);
 
+        for(Zone zone: House.getZones()){
+            SHHMonitor shhMonitor = new SHHMonitor(zone);
+            SHHObserver shhObserver = new SHHObserver();
+            shhMonitor.attachObserver(shhObserver);
+        }
+
         // Assuming dateTime object is correctly initialized
         dateTime.dateTimeProperty().addListener((observable, oldValue, newValue) -> {
             // This method will be called every second
@@ -109,6 +117,7 @@ public class SimulatorHomeController implements Initializable {
             r.notifyObservers(r);
 
         }
+
     }
 
     @FXML
@@ -165,6 +174,15 @@ public class SimulatorHomeController implements Initializable {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         chosenTime.setText(timeFormat.format(dateTime.getDate().getTime()));
         chosenDate.setText(dateFormat.format(dateTime.getDate().getTime()));
+
+        menu.setTime(dateTime.getTimeAsString());
+        temperatureControl();
+    }
+
+    private void temperatureControl() {
+       // double sus = shhMonitor.getCurrentZoneTemp();
+        //sus -= 0.5;
+        //shhMonitor.setCurrentZoneTemp(sus);
     }
 
     private void setupMultiplierSliderListener() {
