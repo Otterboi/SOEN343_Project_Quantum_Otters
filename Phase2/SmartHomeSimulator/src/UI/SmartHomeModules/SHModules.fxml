@@ -43,7 +43,7 @@
             <Tab text="SHH">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
-                  <Label fx:id="ot" layoutX="100" layoutY="200" text="Outdoor Temperature: "/>
+
               </content>
             </Tab>
         </tabs>
