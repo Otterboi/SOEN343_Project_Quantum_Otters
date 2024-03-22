@@ -15,17 +15,24 @@ import Backend.Command.ToggleDoorCommand;
 import Backend.Command.ToggleLightCommand;
 import Backend.Command.ToggleWindowCommand;
 import Backend.HouseLayout.Zone;
+import Backend.Model.DateTime;
 import Backend.SimulatorMenu.SimulatorHome;
 import Backend.Users.Role;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.Room;
+import Util.TemperatureUtil;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ToggleButton;
 
 /**
  * FXML Controller class
@@ -52,6 +59,8 @@ public class SHModulesController implements Initializable {
 
 
     @FXML
+    private Label ot;
+    @FXML
     ToggleButton addParentBTN, addChildBTN, addGuestBTN, blockWindowBTN, autoModeToggle,OpenCloseDoors, OpenCloseWindows, OpenCloseLights;
     public SHModulesController(Room r){
         room = r;
@@ -73,6 +82,10 @@ public class SHModulesController implements Initializable {
 
         Role CurrentUserRole = House.getLoggedInUser() != null ? House.getLoggedInUser().getRole() : Role.STRANGER;
         setPermissionForSHC(CurrentUserRole);
+
+     //   DateTime.getInstance().dateTimeProperty().addListener((obs,oldTime,newTime)->{
+       //     Platform.runLater(this::updateTemperatureDisplay);
+        //});
 
         for(String person : room.getPeopleInRoom()){
             if(person.equals("Parent")){
@@ -417,4 +430,5 @@ public class SHModulesController implements Initializable {
         }
 
     }
+
 }

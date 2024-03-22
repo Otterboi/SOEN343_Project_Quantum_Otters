@@ -15,6 +15,7 @@ import Backend.Model.Log;
 import Backend.Model.SHHMonitor;
 import Backend.Users.User;
 import UI.SmartHomeModules.SHModulesController;
+import Util.TemperatureUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.application.Platform;
@@ -44,6 +45,7 @@ public class SimulatorHomeController implements Initializable {
 
     @FXML
     private AnchorPane simulatorHome, roomPanes;
+
     @FXML
     Button editSimulationBTN;
     Stage stage;
@@ -176,6 +178,7 @@ public class SimulatorHomeController implements Initializable {
         chosenDate.setText(dateFormat.format(dateTime.getDate().getTime()));
 
         menu.setTime(dateTime.getTimeAsString());
+        updateTemperatureDisplay();
         temperatureControl();
     }
 
@@ -226,5 +229,10 @@ public class SimulatorHomeController implements Initializable {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    public void updateTemperatureDisplay(){
+        String temperature = TemperatureUtil.getTemperatureForCurrentTime();
+        menu.setTemp(temperature);
     }
 }
