@@ -27,6 +27,8 @@ public class RoomObserver implements Observer {
     Image windowOpenBlocked = new Image("/resources/windowOpenBlocked.png");
     Image doorCloseGarage = new Image("/resources/doorCloseGarage.png");
     Image doorOpenGarage = new Image("/Resources/doorOpenGarage.png");
+    Image cooling = new Image("/Resources/cooling.png");
+    Image heating = new Image("/Resources/heating.png");
 
     public RoomObserver(Pane pane, Room r){
         this.pane = pane;

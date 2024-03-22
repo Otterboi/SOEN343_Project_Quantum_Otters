@@ -43,7 +43,7 @@
             </Label>
             <AnchorPane fx:id="roomPanes" layoutX="34.0" layoutY="54.0" prefHeight="520.0" prefWidth="747.0">
                <children>
-                  <Pane fx:id="r1" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r1" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text" alignment="CENTER" layoutY="64.0" prefHeight="18.0" prefWidth="158.0" text="Bedroom" />
@@ -51,9 +51,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="shhTypeImage" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r2" layoutX="158.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r2" layoutX="158.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text1" alignment="CENTER" layoutY="64.0" prefHeight="18.0" prefWidth="158.0" text="Bedroom" />
@@ -61,9 +63,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature1" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage1" fitHeight="49.0" fitWidth="49.0" layoutX="56.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r3" layoutX="316.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r3" layoutX="316.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text11" alignment="CENTER" layoutY="64.0" prefHeight="18.0" prefWidth="158.0" text="Bedroom" />
@@ -71,9 +75,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature2" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage2" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r4" layoutX="474.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r4" layoutX="474.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text111" alignment="CENTER" layoutY="64.0" prefHeight="18.0" prefWidth="158.0" text="Bedroom" />
@@ -81,9 +87,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature3" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage3" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r5" layoutY="146.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r5" layoutY="146.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text1111" alignment="CENTER" layoutY="64.0" prefHeight="18.0" prefWidth="158.0" text="Bedroom" />
@@ -91,9 +99,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature4" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="122.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage4" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r6" layoutX="158.0" layoutY="146.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r6" layoutX="158.0" layoutY="146.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text11111" alignment="CENTER" layoutX="-3.0" layoutY="64.0" prefHeight="18.0" prefWidth="161.0" text="Bedroom" />
@@ -101,9 +111,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature5" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage5" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r7" layoutX="316.0" layoutY="146.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r7" layoutX="316.0" layoutY="146.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text111111" alignment="CENTER" layoutX="-3.0" layoutY="64.0" prefHeight="18.0" prefWidth="161.0" text="Bedroom" />
@@ -111,9 +123,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature6" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage6" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r8" layoutX="474.0" layoutY="146.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r8" layoutX="474.0" layoutY="146.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text1111111" alignment="CENTER" layoutY="64.0" prefHeight="18.0" prefWidth="158.0" text="Bedroom" />
@@ -121,9 +135,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature7" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage7" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r9" layoutY="292.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r9" layoutY="292.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text11111111" alignment="CENTER" layoutY="64.0" prefHeight="18.0" prefWidth="158.0" text="Bedroom" />
@@ -131,9 +147,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature8" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage8" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r10" layoutX="158.0" layoutY="292.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r10" layoutX="158.0" layoutY="292.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text111111111" alignment="CENTER" layoutX="-2.0" layoutY="64.0" prefHeight="18.0" prefWidth="160.0" text="Bedroom" />
@@ -141,9 +159,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature9" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage9" fitHeight="49.0" fitWidth="49.0" layoutX="56.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r11" layoutX="316.0" layoutY="292.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r11" layoutX="316.0" layoutY="292.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text1111111111" alignment="CENTER" layoutY="64.0" prefHeight="18.0" prefWidth="158.0" text="Bedroom" />
@@ -151,9 +171,11 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature10" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage10" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
-                  <Pane fx:id="r12" layoutX="474.0" layoutY="292.0" onMouseClicked="#handleBedroomClick" visible="false">
+                  <Pane fx:id="r12" layoutX="474.0" layoutY="292.0" onMouseClicked="#handleBedroomClick">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="146.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
                         <Label fx:id="bed1Text11111111111" alignment="CENTER" layoutX="-3.0" layoutY="64.0" prefHeight="18.0" prefWidth="161.0" text="Bedroom" />
@@ -161,6 +183,8 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="zoneTemperature11" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage11" fitHeight="49.0" fitWidth="49.0" layoutX="56.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                </children></AnchorPane>
