@@ -8,6 +8,7 @@ import Backend.Model.DateTime;
 
 import java.net.URL;
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import Backend.HouseLayout.House;
@@ -84,7 +85,6 @@ public class SimulatorHomeController implements Initializable {
         Pane[] initPanes = {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12};
         paneArray = initPanes;
 
-        SimulatorHome menu = SimulatorHome.getInstance();
         SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
         menu.attachObserver(menuObserver);
         menu.notifyObservers(menu);
@@ -177,6 +177,7 @@ public class SimulatorHomeController implements Initializable {
         chosenTime.setText(timeFormat.format(dateTime.getDate().getTime()));
         chosenDate.setText(dateFormat.format(dateTime.getDate().getTime()));
 
+        menu.setDate(dateFormat.format(dateTime.getDate().getTime()));
         menu.setTime(dateTime.getTimeAsString());
         updateTemperatureDisplay();
         temperatureControl();
@@ -232,7 +233,7 @@ public class SimulatorHomeController implements Initializable {
     }
 
     public void updateTemperatureDisplay(){
-        String temperature = TemperatureUtil.getTemperatureForCurrentTime();
+        double temperature = Double.parseDouble(TemperatureUtil.getTemperatureForCurrentTime());
         menu.setTemp(temperature);
     }
 }

@@ -44,7 +44,7 @@ public class EditSimulationController implements Initializable {
 
         this.datePicker.setValue(LocalDate.parse(menu.getDate()));
         this.newTime.setText(menu.getTime());
-        this.newTemp.setText(Integer.toString(menu.getTemp()));
+        this.newTemp.setText(Double.toString(menu.getTemp()));
         this.changeUserBox.getItems().addAll(userTypes);
         this.changeUserBox.setValue(menu.getUser());
 

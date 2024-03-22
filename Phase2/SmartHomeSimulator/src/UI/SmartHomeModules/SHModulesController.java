@@ -83,10 +83,6 @@ public class SHModulesController implements Initializable {
         Role CurrentUserRole = House.getLoggedInUser() != null ? House.getLoggedInUser().getRole() : Role.STRANGER;
         setPermissionForSHC(CurrentUserRole);
 
-     //   DateTime.getInstance().dateTimeProperty().addListener((obs,oldTime,newTime)->{
-       //     Platform.runLater(this::updateTemperatureDisplay);
-        //});
-
         for(String person : room.getPeopleInRoom()){
             if(person.equals("Parent")){
                 addParentBTN.setText("Remove Parent from Room");

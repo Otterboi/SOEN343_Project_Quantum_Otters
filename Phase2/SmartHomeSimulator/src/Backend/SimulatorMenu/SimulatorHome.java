@@ -9,10 +9,10 @@ public class SimulatorHome implements Observable {
 
     private ArrayList<Observer> observers = new ArrayList<>();
     private String date, time, user, room;
-    private int temp;
+    private double temp;
     private static SimulatorHome instance;
 
-    private SimulatorHome(String date, String time, int temp, String user, String room){
+    private SimulatorHome(String date, String time, double temp, String user, String room){
         this.date = date;
         this.time = time;
         this.temp = temp;
@@ -63,11 +63,11 @@ public class SimulatorHome implements Observable {
         notifyObservers(this);
     }
 
-    public int getTemp() {
+    public double getTemp() {
         return temp;
     }
 
-    public void setTemp(int temp) {
+    public void setTemp(double temp) {
         this.temp = temp;
         notifyObservers(this);
     }
