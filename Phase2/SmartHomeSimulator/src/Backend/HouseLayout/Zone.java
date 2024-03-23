@@ -28,7 +28,7 @@ public class Zone {
         // Default temperatures
         nightTemp = 20;
         morningTemp = 20;
-        afternoonTemp = 18;
+        afternoonTemp = 20;
         overwritten = false;
         overwrittenTemp = 0;
         currentTemp = SimulatorHome.getInstance().getTemp();

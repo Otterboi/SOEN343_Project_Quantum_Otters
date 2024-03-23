@@ -70,17 +70,14 @@ public class SHModulesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         house = House.getInstance();
         initializeRoomListView();
         initializeTreeView();
         addZoneButton.setOnAction(e -> addZoneWithSelectedRooms());
-        deleteZoneButton.setOnAction(event -> deleteSelectedZone());
+        addZoneButton.setOnAction(event -> deleteSelectedZone());
         setMorningTempButton.setOnAction(e -> setMorningTemp());
         setAfternoonTempButton.setOnAction(e -> setAfternoonTemp());
         setNightTempButton.setOnAction(e -> setNightTemp());
-        setSummerTempButton.setOnAction(e -> setSummerTemp());
-        setWinterTempButton.setOnAction(e -> setWinterTemp());
         addRoomToZoneButton.setOnAction(e -> addRoomToSelectedZone());
         removeRoomFromZoneButton.setOnAction(e -> removeRoomFromSelectedZone());
         overwriteTempButton.setOnAction(e -> overwriteTempAction());
@@ -302,7 +299,9 @@ public class SHModulesController implements Initializable {
     }
     @FXML
     private void overwriteTempAction() {
-        TreeItem<String> selectedNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        room.setTemp(Float.parseFloat(overwriteTempTextField.getText()));
+        room.setOverwritingTemp(true);
+        /*TreeItem<String> selectedNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
         if (selectedNode != null && selectedNode.getParent() == zoneRoomTreeView.getRoot()) {
             String zoneName = selectedNode.getValue();
             Zone selectedZone = findZoneByName(zoneName);
@@ -320,7 +319,7 @@ public class SHModulesController implements Initializable {
             }
         } else {
             showAlert("Error", "Please select a zone.");
-        }
+        }*/
     }
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -454,17 +453,20 @@ public class SHModulesController implements Initializable {
         boolean windows = false;
         boolean lights = false;
         boolean autolightmode = false;
+        boolean shh = false;
+        boolean shhOvr = false;
 
         switch (currentUserRole){
             case PARENT:
             case ADMIN:
-                doors = windows = lights = autolightmode = true;
+                doors = windows = lights = autolightmode = shh = shhOvr = true;
                 break;
             case CHILD:
                 if(SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true){
                     lights = true;
                     windows = !(room instanceof IndoorRoom && ((IndoorRoom)room).isWindowBlocked());
                     doors = true;
+                    shhOvr = true;
                 }else{
                     OpenCloseLights.setDisable(true);
                 }
@@ -473,6 +475,7 @@ public class SHModulesController implements Initializable {
             case GUEST:
                 if(SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true){
                     lights = true;
+                    shhOvr = true;
                     windows = !(room instanceof IndoorRoom && ((IndoorRoom)room).isWindowBlocked());
                 }
                 break;
@@ -484,6 +487,14 @@ public class SHModulesController implements Initializable {
         OpenCloseLights.setDisable(!lights);
         OpenCloseWindows.setDisable(!windows);
         autoModeToggle.setDisable(!autolightmode);
+        addZoneButton.setDisable(!shh);
+        deleteZoneButton.setDisable(!shh);
+        setMorningTempButton.setDisable(!shh);
+        setAfternoonTempButton.setDisable(!shh);
+        setNightTempButton.setDisable(!shh);
+        addRoomToZoneButton.setDisable(!shh);
+        removeRoomFromZoneButton.setDisable(!shh);
+        overwriteTempButton.setDisable(!shhOvr);
     }
 
     public void addParent() {

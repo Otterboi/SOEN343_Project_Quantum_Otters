@@ -19,11 +19,20 @@ public abstract class Room implements Observable {
     private ArrayList<Observer> observers = new ArrayList<>();
     protected float temp;
     protected Zone zone;
-    protected boolean isCooling, isHeating, isOff;
+    protected boolean isCooling, isHeating, isOff, isOverwritingTemp = false;
     protected boolean isTempDecaying = false;
 
     public boolean isTempDecaying(){
         return this.isTempDecaying;
+    }
+
+    public boolean isOverwritingTemp(){
+        return this.isOverwritingTemp;
+    }
+
+    public void setOverwritingTemp(boolean isOverwritingTemp){
+        this.isOverwritingTemp = isOverwritingTemp;
+        notifyObservers(this);
     }
 
     public void setTempDecaying(boolean isTempDecaying){

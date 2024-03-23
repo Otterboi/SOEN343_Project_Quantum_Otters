@@ -214,7 +214,7 @@ public class SimulatorHomeController implements Initializable {
                 }
 
                 if (room.getZone().isSummer() && room instanceof IndoorRoom && House.isSHHOn()) {
-                    if (SimulatorHome.getInstance().getTemp() >= 20 && room.getTemp() > room.getZone().getDesiredTemp()) {
+                    if (SimulatorHome.getInstance().getTemp() >= 20 && room.getTemp() > SimulatorHome.getInstance().getTemp()) {
                         if (!((IndoorRoom) room).isWindowBlocked()) {
                             ((IndoorRoom) room).setWindowOpen(true);
                         }
@@ -320,7 +320,7 @@ public class SimulatorHomeController implements Initializable {
     }
 
     public void updateTemperatureDisplay() {
-        //double temperature = Double.parseDouble(TemperatureUtil.getTemperatureForCurrentTime());
-        //menu.setTemp(temperature);
+        float temperature = Float.parseFloat(TemperatureUtil.getTemperatureForCurrentTime());
+        menu.setTemp(temperature);
     }
 }

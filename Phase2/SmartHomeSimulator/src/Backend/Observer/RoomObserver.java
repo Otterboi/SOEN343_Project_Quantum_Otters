@@ -58,7 +58,12 @@ public class RoomObserver implements Observer {
 
         if (r.getZone() != null) {
             if ((r instanceof IndoorRoom) || ((OutdoorRoom) r).isGarage()) {
-                tempLabel.setText(r.getTemp() + "°C");
+                if(!r.isOverwritingTemp()){
+                    tempLabel.setText(r.getTemp() + "°C");
+                }else{
+                    tempLabel.setText("OVR: " + r.getTemp() + "°C");
+                }
+
                 if (r.isCooling()) {
                     shhView.setImage(cooling);
                 } else if (r.isHeating()) {
@@ -66,6 +71,8 @@ public class RoomObserver implements Observer {
                 } else if (r.isOff()) {
                     shhView.setImage(null);
                 }
+
+
             }
         }
 
