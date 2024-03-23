@@ -9,20 +9,22 @@ public class SimulatorHome implements Observable {
 
     private ArrayList<Observer> observers = new ArrayList<>();
     private String date, time, user, room;
-    private double temp;
+    private float temp;
+    private String season;
     private static SimulatorHome instance;
 
-    private SimulatorHome(String date, String time, double temp, String user, String room){
+    private SimulatorHome(String date, String time, float temp, String user, String room){
         this.date = date;
         this.time = time;
         this.temp = temp;
         this.user = user;
         this.room = room;
+        season = "";
     }
 
     public static SimulatorHome getInstance(){
         if(instance == null){
-            instance = new SimulatorHome("2024-01-01","00:00:00",20, House.getLoggedInUser().getName(), "Remote");
+            instance = new SimulatorHome("2024-01-01","00:00:00",16, House.getLoggedInUser().getName(), "Remote");
         }
 
         return instance;
@@ -63,11 +65,11 @@ public class SimulatorHome implements Observable {
         notifyObservers(this);
     }
 
-    public double getTemp() {
+    public float getTemp() {
         return temp;
     }
 
-    public void setTemp(double temp) {
+    public void setTemp(float temp) {
         this.temp = temp;
         notifyObservers(this);
     }
@@ -95,5 +97,13 @@ public class SimulatorHome implements Observable {
     public void setRoom(String room) {
         this.room = room;
         notifyObservers(this);
+    }
+
+    public String getSeason() {
+        return season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
     }
 }

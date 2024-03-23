@@ -2,6 +2,7 @@ package Backend.HouseLayout;
 
 import Backend.Observer.Observable;
 import Backend.Observer.Observer;
+import Backend.SimulatorMenu.SimulatorHome;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,69 @@ public abstract class Room implements Observable {
     protected List<String> peopleInRoom = new ArrayList<>();
     protected boolean autoModeEnabled = false;
     private ArrayList<Observer> observers = new ArrayList<>();
+    protected float temp;
+    protected Zone zone;
+    protected boolean isCooling, isHeating, isOff;
+    protected boolean isTempDecaying = false;
+
+    public boolean isTempDecaying(){
+        return this.isTempDecaying;
+    }
+
+    public void setTempDecaying(boolean isTempDecaying){
+        this.isTempDecaying = isTempDecaying;
+    }
+
+    public void setCooling(boolean isCooling) {
+        this.isHeating = false;
+        this.isOff = false;
+        this.isCooling = isCooling;
+        notifyObservers(this);
+    }
+
+    public boolean isCooling() {
+        return this.isCooling;
+    }
+
+    public boolean isHeating() {
+        return this.isHeating;
+    }
+
+    public boolean isOff() {
+        return this.isOff;
+    }
+
+    public void setHeating(boolean isHeating) {
+        this.isCooling = false;
+        this.isOff = false;
+        this.isHeating = isHeating;
+        notifyObservers(this);
+    }
+
+    public void setOff(boolean isOff) {
+        this.isHeating = false;
+        this.isCooling = false;
+        this.isOff = isOff;
+        notifyObservers(this);
+    }
+
+    public Zone getZone() {
+        return this.zone;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
+        notifyObservers(this);
+    }
+
+    public float getTemp() {
+        return this.temp;
+    }
+
+    public void setTemp(float temp) {
+        this.temp = temp;
+        notifyObservers(this);
+    }
 
     public String getRoomName() {
         return roomName;
@@ -46,7 +110,7 @@ public abstract class Room implements Observable {
     }
 
     public void setLightOn(boolean lightOn) {
-        if(this.isLightOn!=lightOn){
+        if (this.isLightOn != lightOn) {
             this.isLightOn = lightOn;
             notifyObservers(this);
         }
@@ -68,28 +132,32 @@ public abstract class Room implements Observable {
     public void setPersonInRoom(boolean personInRoom, String person) {
         isPersonInRoom = personInRoom;
         this.peopleInRoom.add(person);
-        if (this.autoModeEnabled && !this.peopleInRoom.isEmpty()){
+        if (this.autoModeEnabled && !this.peopleInRoom.isEmpty()) {
             setLightOn(true);
-        }
-        else if (this.autoModeEnabled && this.peopleInRoom.isEmpty()){
+        } else if (this.autoModeEnabled && this.peopleInRoom.isEmpty()) {
             setLightOn(false);
         }
         notifyObservers(this);
     }
 
-    public void removePersonInRoom(String person){
+    public boolean isRoomEmpty(){
+        return this.peopleInRoom.isEmpty();
+    }
+
+    public void removePersonInRoom(String person) {
         this.peopleInRoom.remove(person);
 
-        if(this.peopleInRoom.isEmpty()){
+        if (this.peopleInRoom.isEmpty()) {
             this.isPersonInRoom = false;
-            if(this.autoModeEnabled){
+            if (this.autoModeEnabled) {
                 setLightOn(false);
             }
             this.notifyObservers(this);
         }
+        this.notifyObservers(this);
     }
 
-    public List<String> getPeopleInRoom(){
+    public List<String> getPeopleInRoom() {
         return this.peopleInRoom;
     }
 
@@ -110,15 +178,15 @@ public abstract class Room implements Observable {
         }
     }
 
-    public ArrayList<Observer> getObservers(){
+    public ArrayList<Observer> getObservers() {
         return observers;
     }
 
-    public boolean isAutoModeEnabled(){
+    public boolean isAutoModeEnabled() {
         return autoModeEnabled;
     }
 
-    public void setAutoModeEnabled(boolean autoModeEnabled){
+    public void setAutoModeEnabled(boolean autoModeEnabled) {
         this.autoModeEnabled = autoModeEnabled;
         notifyObservers(this);
     }

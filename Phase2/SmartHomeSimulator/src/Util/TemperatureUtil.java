@@ -19,8 +19,6 @@ public class TemperatureUtil {
         String temperature = "N/A";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String curentDateTimeString = dateFormat.format(currentTime.getTime());
-        System.out.println(curentDateTimeString);
-        System.out.println(hour);
 
         try (InputStream is = TemperatureUtil.class.getResourceAsStream("/Resources/temp.csv");
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))){

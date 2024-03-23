@@ -17,6 +17,7 @@ import Backend.Command.ToggleWindowCommand;
 import Backend.HouseLayout.Zone;
 import Backend.Model.DateTime;
 import Backend.Model.Log;
+import Backend.Observer.SHHObserver;
 import Backend.SimulatorMenu.SimulatorHome;
 import Backend.Users.Role;
 import Backend.HouseLayout.House;
@@ -213,7 +214,6 @@ public class SHModulesController implements Initializable {
     }
 
     private void addZoneWithSelectedRooms() {
-
         String zoneName = zoneNameTextField.getText().trim();
         if (zoneName.isEmpty()) {
             showAlert("Error", "Zone name cannot be empty.");
@@ -228,6 +228,11 @@ public class SHModulesController implements Initializable {
 
         Zone newZone = new Zone(zoneName, selectedRooms);
         house.addZone(newZone);
+
+        for(Room room: selectedRooms){
+           room.setZone(newZone);
+        }
+
         refreshTreeView();
         zoneNameTextField.clear();
         roomsListView.getSelectionModel().clearSelection();
@@ -303,7 +308,7 @@ public class SHModulesController implements Initializable {
             Zone selectedZone = findZoneByName(zoneName);
             if (selectedZone != null) {
                 try {
-                    double temp = Double.parseDouble(overwriteTempTextField.getText());
+                    float temp = Float.parseFloat(overwriteTempTextField.getText());
                     selectedZone.setOverwrittenTemp(temp);
                     selectedZone.setOverwritten(true);
                     String logMessage = "["+ DateTime.getInstance().getTimeAsString() + "]"+" Overwritten temperature set to " + temp + "°C for zone " + selectedZone.getName();
@@ -331,8 +336,15 @@ public class SHModulesController implements Initializable {
             Zone selectedZone = findZoneByName(zoneName);
             if (selectedZone != null) {
                 try {
-                    double temp = Double.parseDouble(morningTempTextField.getText());
+                    float temp = Float.parseFloat(morningTempTextField.getText());
                     selectedZone.setMorningTemp(temp);
+
+                    for(Zone zone: House.getZones()){
+                        if(zone.getName().equals(zoneName)){
+                            zone.setMorningTemp(temp);
+                        }
+                    }
+
                     String logMessage ="["+ DateTime.getInstance().getTimeAsString()+"]" + " Morning temperature set to " + temp + "°C for zone " + selectedZone.getName();
                     Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Morning temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
@@ -353,8 +365,15 @@ public class SHModulesController implements Initializable {
             Zone selectedZone = findZoneByName(zoneName);
             if (selectedZone != null) {
                 try {
-                    double temp = Double.parseDouble(afternoonTempTextField.getText());
+                    float temp = Float.parseFloat(afternoonTempTextField.getText());
                     selectedZone.setAfternoonTemp(temp);
+
+                    for(Zone zone: House.getZones()){
+                        if(zone.getName().equals(zoneName)){
+                            zone.setAfternoonTemp(temp);
+                        }
+                    }
+
                     String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]" + " Afternoon temperature set to " + temp + "°C for zone " + selectedZone.getName();
                     Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Afternoon temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
@@ -374,8 +393,15 @@ public class SHModulesController implements Initializable {
             Zone selectedZone = findZoneByName(zoneName);
             if (selectedZone != null) {
                 try {
-                    double temp = Double.parseDouble(nightTempTextField.getText());
+                    float temp = Float.parseFloat(nightTempTextField.getText());
                     selectedZone.setNightTemp(temp);
+
+                    for(Zone zone: House.getZones()){
+                        if(zone.getName().equals(zoneName)){
+                            zone.setNightTemp(temp);
+                        }
+                    }
+
                     String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]"+ " Night temperature set to " + temp + "°C for zone " + selectedZone.getName();
                     Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Night temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");

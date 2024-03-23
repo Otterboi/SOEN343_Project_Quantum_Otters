@@ -15,7 +15,7 @@
    <children>
       <AnchorPane prefHeight="787.0" prefWidth="286.0">
          <children>
-            <ToggleButton fx:id="startStopToggle" layoutX="93.0" layoutY="14.0" mnemonicParsing="false" onAction="#toggleSimulation" selected="true" style="-fx-font-size: 12;" text="Stop Simulation" />
+            <ToggleButton fx:id="startStopToggle" layoutX="88.0" layoutY="14.0" mnemonicParsing="false" onAction="#toggleSimulation" selected="true" style="-fx-font-size: 12;" text="Stop Simulation" />
             <Label layoutX="99.0" layoutY="422.0" style="-fx-font-size: 12;" text="Location:" />
             <Label fx:id="roomLabel" layoutX="152.0" layoutY="422.0" style="-fx-font-size: 12;" text="Kitchen" textFill="#2554ff" underline="true" />
             <Label layoutX="93.0" layoutY="456.0" style="-fx-font-size: 12;" text="Outside Temp:" />
@@ -24,7 +24,7 @@
             <Label fx:id="currentMultiplier" layoutX="89.0" layoutY="553.0" style="-fx-font-size: 12;" text="Speed Multiplier: x1.0" />
             <Label fx:id="chosenDate" layoutX="101.0" layoutY="575.0" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #333;" text="YYYY-MM-DD" />
             <Label fx:id="chosenTime" layoutX="109.0" layoutY="601.0" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #333;" text="HH:MM:SS" />
-            <Button fx:id="editButton" layoutX="111.0" layoutY="68.0" mnemonicParsing="false" onAction="#handleEditClick" text="Edit Users" />
+            <Button fx:id="editButton" layoutX="59.0" layoutY="55.0" mnemonicParsing="false" onAction="#handleEditClick" text="Edit Users" />
              <Button fx:id="editSimulationBTN" layoutX="82.0" layoutY="639.0" mnemonicParsing="false" onAction="#editSimulation" text="EDIT SIMULATION" />
             <ImageView fx:id="userImage" fitHeight="150.0" fitWidth="200.0" layoutX="46.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="userLabel" alignment="CENTER" layoutY="335.0" prefHeight="24.0" prefWidth="279.0" text="Label" textFill="#4479f4" underline="true">
@@ -32,6 +32,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
+            <ToggleButton fx:id="stopSHHBTN" layoutX="147.0" layoutY="55.0" mnemonicParsing="false" onAction="#enableSHHSwitch" selected="true" text="Stop SHH" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="286.0" prefHeight="693.0" prefWidth="826.0">
@@ -51,8 +52,8 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutX="109.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="shhTypeImage" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
+                        <ImageView fx:id="shhTypeImage" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r2" layoutX="158.0" onMouseClicked="#handleBedroomClick" visible="false">

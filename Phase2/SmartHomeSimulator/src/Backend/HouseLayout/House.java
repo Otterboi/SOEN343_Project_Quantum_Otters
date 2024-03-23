@@ -2,6 +2,7 @@ package Backend.HouseLayout;
 
 
 import Backend.Users.User;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,11 @@ public class House {
     private static User loggedInUser;
     private static double summerTemperature;
     private static double winterTemperature;
+    private static double avgTemp;
+    private static boolean isSHHOn;
+    private static boolean tooCold = false;
+
+    private static boolean isHouseEmpty;
 
     private House(){
         indoorRooms = new ArrayList<>();
@@ -24,7 +30,8 @@ public class House {
         users = new ArrayList<>();
         loggedInUser = null;
         rooms = new ArrayList<>();
-
+        isSHHOn = true;
+        isHouseEmpty = true;
     }
 
     public static House getInstance(){
@@ -33,6 +40,19 @@ public class House {
         }
 
         return INSTANCE;
+    }
+
+    public static boolean isHouseEmpty(){
+        for(Room room: rooms){
+            if(!room.isRoomEmpty()){
+                isHouseEmpty = false;
+                break;
+            }else{
+                isHouseEmpty = true;
+            }
+        }
+
+        return isHouseEmpty;
     }
     public static boolean addZone(Zone newZone) {
         //prevent adding duplicate zones
@@ -107,5 +127,30 @@ public class House {
 
     public static double getWinterTemperature() {
         return winterTemperature;
+    }
+
+    public static double getAvgTemp(){
+        double avgTemp = 0;
+        for (Zone zone: zones){
+            avgTemp += zone.getCurrentTemp();
+        }
+
+        return avgTemp/zones.size();
+    }
+
+    public static boolean isSHHOn() {
+        return isSHHOn;
+    }
+
+    public static void setSHHOn(boolean isSHHOn) {
+        House.isSHHOn = isSHHOn;
+    }
+
+    public static boolean isTooCold() {
+        return tooCold;
+    }
+
+    public static void setTooCold(boolean tooCold) {
+        House.tooCold = tooCold;
     }
 }
