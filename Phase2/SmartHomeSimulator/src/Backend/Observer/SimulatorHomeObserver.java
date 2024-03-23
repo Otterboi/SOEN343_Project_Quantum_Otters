@@ -24,7 +24,7 @@ public class SimulatorHomeObserver implements Observer{
         this.timeLabel.setText(menu.getTime());
         this.dateLabel.setText(menu.getDate());
         this.userLabel.setText(menu.getUser());
-        this.tempLabel.setText(menu.getTemp());
+        this.tempLabel.setText(menu.getTemp() + "°C");
         this.roomLabel.setText(menu.getRoom());
     }
 }

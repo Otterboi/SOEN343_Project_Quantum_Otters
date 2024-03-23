@@ -1,17 +1,26 @@
 package Backend.HouseLayout;
 
+import Backend.Model.DateTime;
+import Backend.Observer.Observable;
+import Backend.Observer.Observer;
+import Backend.SimulatorMenu.SimulatorHome;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Set;
 
 public class Zone {
 
     private final String name;
     private ArrayList<Room> rooms = new ArrayList<>();
-    private double nightTemp;
-    private double morningTemp;
-    private double afternoonTemp;
+    private float currentTemp;
+    private float desiredTemp;
+    private float nightTemp;
+    private float morningTemp;
+    private float afternoonTemp;
     private boolean overwritten;
-    private double overwrittenTemp;
+    private float overwrittenTemp;
+    private boolean isSummer;
 
     public Zone(String name, Set<Room> selectedRooms) {
         this.name = name;
@@ -22,10 +31,35 @@ public class Zone {
         afternoonTemp = 20;
         overwritten = false;
         overwrittenTemp = 0;
+        currentTemp = SimulatorHome.getInstance().getTemp();
+        isSummer = false;
+        updateDesiredTemp();
     }
 
     public ArrayList<Room> getRooms() {
         return rooms;
+    }
+
+    public boolean isSummer(){
+        int month = DateTime.getInstance().getDate().get(Calendar.MONTH);
+
+        if(month <= 8 && month >= 5){
+            isSummer = true;
+        }
+
+        return isSummer;
+    }
+
+    public void updateDesiredTemp(){
+        int hour = Integer.parseInt(DateTime.getInstance().getTimeAsString().split(":")[0]);
+        if(hour >= 5 && hour < 12){
+            setDesiredTemp(morningTemp);
+        }else if (hour >= 12 && hour < 22){
+            setDesiredTemp(afternoonTemp);
+        }else{
+            setDesiredTemp(nightTemp);
+        }
+
     }
 
     public void addRoom(Room room) {
@@ -36,35 +70,38 @@ public class Zone {
         this.rooms.remove(room);
     }
 
-    public double getNightTemp() {
+    public float getNightTemp() {
         return nightTemp;
     }
 
-    public void setNightTemp(double nightTemp) {
+    public void setNightTemp(float nightTemp) {
         this.nightTemp = nightTemp;
+        updateDesiredTemp();
     }
 
-    public double getMorningTemp() {
+    public float getMorningTemp() {
         return morningTemp;
     }
 
-    public void setMorningTemp(double morningTemp) {
+    public void setMorningTemp(float morningTemp) {
         this.morningTemp = morningTemp;
+        updateDesiredTemp();
     }
 
-    public double getAfternoonTemp() {
+    public float getAfternoonTemp() {
         return afternoonTemp;
     }
 
-    public void setAfternoonTemp(double afternoonTemp) {
+    public void setAfternoonTemp(float afternoonTemp) {
         this.afternoonTemp = afternoonTemp;
+        updateDesiredTemp();
     }
 
-    public double getOverwrittenTemp() {
+    public float getOverwrittenTemp() {
         return overwrittenTemp;
     }
 
-    public void setOverwrittenTemp(double overwrittenTemp) {
+    public void setOverwrittenTemp(float overwrittenTemp) {
         this.overwrittenTemp = overwrittenTemp;
         overwritten = true;
     }
@@ -83,5 +120,21 @@ public class Zone {
     @Override
     public String toString() {
         return getName();
+    }
+
+    public float getCurrentTemp() {
+        return currentTemp;
+    }
+
+    public void setCurrentTemp(float currentTemp) {
+        this.currentTemp = currentTemp;
+    }
+
+    public float getDesiredTemp() {
+        return desiredTemp;
+    }
+
+    public void setDesiredTemp(float desiredTemp) {
+        this.desiredTemp = desiredTemp;
     }
 }

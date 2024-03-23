@@ -1,7 +1,6 @@
 package UI.Simulator;
 
-import Backend.HouseLayout.OutdoorRoom;
-import Backend.HouseLayout.Room;
+import Backend.HouseLayout.*;
 import Backend.Model.DateTime;
 
 
@@ -9,12 +8,9 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.util.*;
 
-import Backend.HouseLayout.House;
 import Backend.Model.Log;
-import Backend.Users.User;
 import UI.SmartHomeModules.SHModulesController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import Util.TemperatureUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import Backend.Observer.*;
@@ -38,10 +34,11 @@ public class SimulatorHomeController implements Initializable {
 
     @FXML
     Pane r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12;
-    Pane[] paneArray;
+    private static Pane[] paneArray;
 
     @FXML
     private AnchorPane simulatorHome, roomPanes;
+
     @FXML
     Button editSimulationBTN;
     Stage stage;
@@ -54,7 +51,7 @@ public class SimulatorHomeController implements Initializable {
     @FXML
     private Label currentMultiplier;
     @FXML
-    private ToggleButton startStopToggle;
+    private ToggleButton startStopToggle, stopSHHBTN;
     @FXML
     private Label chosenDate;
     @FXML
@@ -80,7 +77,6 @@ public class SimulatorHomeController implements Initializable {
         Pane[] initPanes = {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12};
         paneArray = initPanes;
 
-        SimulatorHome menu = SimulatorHome.getInstance();
         SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
         menu.attachObserver(menuObserver);
         menu.notifyObservers(menu);
@@ -100,15 +96,28 @@ public class SimulatorHomeController implements Initializable {
             RoomObserver ro = new RoomObserver(paneArray[i], r);
             r.getObservers().clear();
             r.attachObserver(ro);
+            r.setTemp(SimulatorHome.getInstance().getTemp());
             paneArray[i].setVisible(true);
 
-            if(r instanceof OutdoorRoom){
+            if (r instanceof OutdoorRoom) {
                 paneArray[i].getChildren().get(4).setVisible(false);
+                if (!((OutdoorRoom) r).isGarage()) {
+                    paneArray[i].getChildren().get(6).setVisible(false);
+                }
             }
 
             r.notifyObservers(r);
 
         }
+
+        if (House.isSHHOn()) {
+            stopSHHBTN.setSelected(true);
+            stopSHHBTN.setText("Stop SHH");
+        } else {
+            stopSHHBTN.setSelected(false);
+            stopSHHBTN.setText("Stop SHH");
+        }
+
     }
 
     @FXML
@@ -159,12 +168,112 @@ public class SimulatorHomeController implements Initializable {
         }
     }
 
+    public void enableSHHSwitch() {
+        if (stopSHHBTN.isSelected()) {
+            stopSHHBTN.setText("Stop SHH");
+            House.setSHHOn(true);
+        } else {
+            stopSHHBTN.setText("Start SHH");
+            House.setSHHOn(false);
+        }
+    }
+
     private void updateDateTimeDisplay() {
         // This method updates the displayed date and time based on the current dateTime
         DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         chosenTime.setText(timeFormat.format(dateTime.getDate().getTime()));
         chosenDate.setText(dateFormat.format(dateTime.getDate().getTime()));
+
+        menu.setDate(dateFormat.format(dateTime.getDate().getTime()));
+        menu.setTime(dateTime.getTimeAsString());
+        updateTemperatureDisplay();
+        temperatureControl();
+    }
+
+    private void temperatureControl() {
+        float roomTempChange = 0f;
+        float zoneTempChange = 0f;
+
+        if (House.getAvgTemp() <= 0) {
+            if (!House.isTooCold()) {
+                System.out.println("WARNING: Home is too cold! Pipes in danger of bursting!");
+                House.setTooCold(true);
+            }
+        }
+
+        for (Room room : House.getRooms()) {
+            if (room.getZone() != null) {
+                roomTempChange = room.getTemp();
+                zoneTempChange = room.getZone().getCurrentTemp();
+
+                if(House.isHouseEmpty() && !room.getZone().isSummer()){
+                    room.getZone().setDesiredTemp(17);
+                }else if (!House.isHouseEmpty() && !room.getZone().isSummer()){
+                    room.getZone().updateDesiredTemp();
+                }
+
+                if (room.getZone().isSummer() && room instanceof IndoorRoom && House.isSHHOn()) {
+                    if (SimulatorHome.getInstance().getTemp() >= 20 && room.getTemp() > SimulatorHome.getInstance().getTemp()) {
+                        if (!((IndoorRoom) room).isWindowBlocked()) {
+                            ((IndoorRoom) room).setWindowOpen(true);
+                        }
+                    }
+                }
+
+                if (!room.isTempDecaying()) {
+                    if (room.getTemp() < room.getZone().getDesiredTemp() && House.isSHHOn()) {
+                        // Heat the house
+                        roomTempChange = roomTempChange + 0.1f;
+                        zoneTempChange = zoneTempChange + 0.1f;
+                        room.setHeating(true);
+                        room.setTemp((float) (Math.round(roomTempChange * 100.0) / 100.0));
+                        room.getZone().setCurrentTemp((float) (Math.round(zoneTempChange * 100.0) / 100.0));
+                    } else if (room.getTemp() > room.getZone().getDesiredTemp() || !House.isSHHOn()) {
+                        // Cool the house
+                        room.setCooling(true);
+                        roomTempChange = roomTempChange - 0.1f;
+                        zoneTempChange = zoneTempChange - 0.1f;
+                        room.setTemp((float) (Math.round(roomTempChange * 100.0) / 100.0));
+                        room.getZone().setCurrentTemp((float) (Math.round(zoneTempChange * 100.0) / 100.0));
+                    } else if (room.getZone().getDesiredTemp() == room.getTemp() && House.isSHHOn()) {
+                        // Make the house start to = the outside temp
+                        room.setTempDecaying(true);
+                        room.setOff(true);
+                        House.setTooCold(false);
+                    }
+                } else {
+                    decay(room);
+                }
+            }
+        }
+    }
+
+    // Increase or Decrease by 0.05 per second until it reaches temp outside
+    private void decay(Room room) {
+        float roomTempChange = room.getTemp();
+        float zoneTempChange = room.getZone().getCurrentTemp();
+
+        if ((room.getTemp() == (float) Math.floor((room.getZone().getDesiredTemp() + 0.25f) * 100) / 100) || (room.getZone().getCurrentTemp() == (float) Math.floor((room.getZone().getDesiredTemp() + 0.25f) * 100) / 100) ||
+                (room.getTemp() == (float) Math.floor((room.getZone().getDesiredTemp() - 0.25f) * 100) / 100) || (room.getZone().getCurrentTemp() == (float) Math.floor((room.getZone().getDesiredTemp() - 0.25f) * 100) / 100)) {
+
+            room.setTemp((float) (Math.floor((room.getTemp() - 0.05) * 100) / 100));
+            room.getZone().setCurrentTemp((float) (Math.floor((room.getZone().getCurrentTemp() - 0.05) * 100) / 100));
+            room.setTempDecaying(false);
+        } else {
+            if (SimulatorHome.getInstance().getTemp() > room.getZone().getDesiredTemp()) {
+                roomTempChange = roomTempChange + 0.05f;
+                zoneTempChange = zoneTempChange + 0.05f;
+                room.setTemp((float) (Math.round(roomTempChange * 100.0) / 100.0));
+                room.getZone().setCurrentTemp((float) (Math.round(zoneTempChange * 100.0) / 100.0));
+            } else if (SimulatorHome.getInstance().getTemp() < room.getZone().getDesiredTemp()) {
+                roomTempChange = roomTempChange - 0.05f;
+                zoneTempChange = zoneTempChange - 0.05f;
+                room.setTemp((float) (Math.round(roomTempChange * 100.0) / 100.0));
+                room.getZone().setCurrentTemp((float) (Math.floor(zoneTempChange * 100) / 100));
+            }
+        }
+
     }
 
     private void setupMultiplierSliderListener() {
@@ -208,5 +317,10 @@ public class SimulatorHomeController implements Initializable {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    public void updateTemperatureDisplay() {
+        float temperature = Float.parseFloat(TemperatureUtil.getTemperatureForCurrentTime());
+        menu.setTemp(temperature);
     }
 }

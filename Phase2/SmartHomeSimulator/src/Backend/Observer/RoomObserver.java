@@ -13,6 +13,8 @@ public class RoomObserver implements Observer {
     private ImageView door;
     private ImageView window;
     private ImageView person;
+    private ImageView shhView;
+    private Label tempLabel;
     private Pane pane;
 
     Image lightOff = new Image("/Resources/lightOff.png");
@@ -27,18 +29,22 @@ public class RoomObserver implements Observer {
     Image windowOpenBlocked = new Image("/resources/windowOpenBlocked.png");
     Image doorCloseGarage = new Image("/resources/doorCloseGarage.png");
     Image doorOpenGarage = new Image("/Resources/doorOpenGarage.png");
+    Image cooling = new Image("/Resources/cooling.png");
+    Image heating = new Image("/Resources/heating.png");
 
-    public RoomObserver(Pane pane, Room r){
+    public RoomObserver(Pane pane, Room r) {
         this.pane = pane;
-        ((Label)pane.getChildren().get(1)).setText(r.getRoomName());
-        light = ((ImageView)pane.getChildren().get(2));
-        door = ((ImageView)pane.getChildren().get(3));
-        window = ((ImageView)pane.getChildren().get(4));
-        person = ((ImageView)pane.getChildren().get(5));
+        ((Label) pane.getChildren().get(1)).setText(r.getRoomName());
+        light = ((ImageView) pane.getChildren().get(2));
+        door = ((ImageView) pane.getChildren().get(3));
+        window = ((ImageView) pane.getChildren().get(4));
+        person = ((ImageView) pane.getChildren().get(5));
+        tempLabel = ((Label) pane.getChildren().get(6));
+        shhView = ((ImageView) pane.getChildren().get(7));
         light.setImage(lightOff);
         door.setImage(doorClose);
-        if(r instanceof OutdoorRoom outroom){
-            if(outroom.isGarage()){
+        if (r instanceof OutdoorRoom outroom) {
+            if (outroom.isGarage()) {
                 door.setImage(doorCloseGarage);
             }
         }
@@ -50,67 +56,87 @@ public class RoomObserver implements Observer {
     public void update(Observable o) {
         Room r = (Room) o;
 
-        if(r.isDoorOpen() == true){
-            if(r instanceof OutdoorRoom outroom){
-                if(outroom.isGarage()){
+        if (r.getZone() != null) {
+            if ((r instanceof IndoorRoom) || ((OutdoorRoom) r).isGarage()) {
+                if(!r.isOverwritingTemp()){
+                    tempLabel.setText(r.getTemp() + "°C");
+                }else{
+                    tempLabel.setText("OVR: " + r.getTemp() + "°C");
+                }
+
+                if (r.isCooling()) {
+                    shhView.setImage(cooling);
+                } else if (r.isHeating()) {
+                    shhView.setImage(heating);
+                } else if (r.isOff()) {
+                    shhView.setImage(null);
+                }
+
+
+            }
+        }
+
+        if (r.isDoorOpen() == true) {
+            if (r instanceof OutdoorRoom outroom) {
+                if (outroom.isGarage()) {
                     door.setImage(doorOpenGarage);
                 }
-            }else{
+            } else {
                 door.setImage(doorOpen);
             }
 
-        }else{
-            if(r instanceof OutdoorRoom outroom){
-                if(outroom.isGarage()){
+        } else {
+            if (r instanceof OutdoorRoom outroom) {
+                if (outroom.isGarage()) {
                     door.setImage(doorCloseGarage);
-                }else{
+                } else {
                     door.setImage(doorClose);
                 }
-            }else{
+            } else {
                 door.setImage(doorClose);
             }
 
         }
 
-        if(r.isLightOn() == true){
+        if (r.isLightOn() == true) {
             light.setImage(lightOn);
-        }else{
+        } else {
             light.setImage(lightOff);
         }
 
 
-        if(r instanceof IndoorRoom indoorRoom){
-            if(indoorRoom.isWindowOpen()){
-                if(indoorRoom.isWindowBlocked()){
+        if (r instanceof IndoorRoom indoorRoom) {
+            if (indoorRoom.isWindowOpen()) {
+                if (indoorRoom.isWindowBlocked()) {
                     window.setImage(windowOpenBlocked);
-                }else{
+                } else {
                     window.setImage(windowOpen);
                 }
 
-            }else{
-                if(indoorRoom.isWindowBlocked()){
+            } else {
+                if (indoorRoom.isWindowBlocked()) {
                     window.setImage(windowCloseBlocked);
-                }else{
+                } else {
                     window.setImage(windowClose);
                 }
 
             }
 
         }
-
-        if(r.isPersonInRoom() == true){
+        if (r.isPersonInRoom() == true) {
             person.setImage(personInRoom);
-        }else{
+        } else {
             person.setImage(personNotInRoom);
         }
 
-        if(r.isAutoModeEnabled() && r.isPersonInRoom()){
+        if (r.isAutoModeEnabled() && r.isPersonInRoom()) {
             light.setImage(lightOn);
             r.setLightOn(true);
-        } else if (r.isAutoModeEnabled() && !r.isPersonInRoom()){
+        } else if (r.isAutoModeEnabled() && !r.isPersonInRoom()) {
             light.setImage(lightOff);
             r.setLightOn(false);
         }
 
     }
 }
+

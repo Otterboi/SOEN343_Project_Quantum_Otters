@@ -17,16 +17,24 @@ import Backend.Command.ToggleWindowCommand;
 import Backend.HouseLayout.Zone;
 import Backend.Model.DateTime;
 import Backend.Model.Log;
+import Backend.Observer.SHHObserver;
 import Backend.SimulatorMenu.SimulatorHome;
 import Backend.Users.Role;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.Room;
+import Util.TemperatureUtil;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ToggleButton;
 
 /**
  * FXML Controller class
@@ -62,17 +70,14 @@ public class SHModulesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         house = House.getInstance();
         initializeRoomListView();
         initializeTreeView();
         addZoneButton.setOnAction(e -> addZoneWithSelectedRooms());
-        deleteZoneButton.setOnAction(event -> deleteSelectedZone());
+        addZoneButton.setOnAction(event -> deleteSelectedZone());
         setMorningTempButton.setOnAction(e -> setMorningTemp());
         setAfternoonTempButton.setOnAction(e -> setAfternoonTemp());
         setNightTempButton.setOnAction(e -> setNightTemp());
-        setSummerTempButton.setOnAction(e -> setSummerTemp());
-        setWinterTempButton.setOnAction(e -> setWinterTemp());
         addRoomToZoneButton.setOnAction(e -> addRoomToSelectedZone());
         removeRoomFromZoneButton.setOnAction(e -> removeRoomFromSelectedZone());
         overwriteTempButton.setOnAction(e -> overwriteTempAction());
@@ -206,7 +211,6 @@ public class SHModulesController implements Initializable {
     }
 
     private void addZoneWithSelectedRooms() {
-
         String zoneName = zoneNameTextField.getText().trim();
         if (zoneName.isEmpty()) {
             showAlert("Error", "Zone name cannot be empty.");
@@ -221,6 +225,11 @@ public class SHModulesController implements Initializable {
 
         Zone newZone = new Zone(zoneName, selectedRooms);
         house.addZone(newZone);
+
+        for(Room room: selectedRooms){
+           room.setZone(newZone);
+        }
+
         refreshTreeView();
         zoneNameTextField.clear();
         roomsListView.getSelectionModel().clearSelection();
@@ -290,13 +299,15 @@ public class SHModulesController implements Initializable {
     }
     @FXML
     private void overwriteTempAction() {
-        TreeItem<String> selectedNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
+        room.setTemp(Float.parseFloat(overwriteTempTextField.getText()));
+        room.setOverwritingTemp(true);
+        /*TreeItem<String> selectedNode = zoneRoomTreeView.getSelectionModel().getSelectedItem();
         if (selectedNode != null && selectedNode.getParent() == zoneRoomTreeView.getRoot()) {
             String zoneName = selectedNode.getValue();
             Zone selectedZone = findZoneByName(zoneName);
             if (selectedZone != null) {
                 try {
-                    double temp = Double.parseDouble(overwriteTempTextField.getText());
+                    float temp = Float.parseFloat(overwriteTempTextField.getText());
                     selectedZone.setOverwrittenTemp(temp);
                     selectedZone.setOverwritten(true);
                     String logMessage = "["+ DateTime.getInstance().getTimeAsString() + "]"+" Overwritten temperature set to " + temp + "°C for zone " + selectedZone.getName();
@@ -308,7 +319,7 @@ public class SHModulesController implements Initializable {
             }
         } else {
             showAlert("Error", "Please select a zone.");
-        }
+        }*/
     }
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -324,8 +335,15 @@ public class SHModulesController implements Initializable {
             Zone selectedZone = findZoneByName(zoneName);
             if (selectedZone != null) {
                 try {
-                    double temp = Double.parseDouble(morningTempTextField.getText());
+                    float temp = Float.parseFloat(morningTempTextField.getText());
                     selectedZone.setMorningTemp(temp);
+
+                    for(Zone zone: House.getZones()){
+                        if(zone.getName().equals(zoneName)){
+                            zone.setMorningTemp(temp);
+                        }
+                    }
+
                     String logMessage ="["+ DateTime.getInstance().getTimeAsString()+"]" + " Morning temperature set to " + temp + "°C for zone " + selectedZone.getName();
                     Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Morning temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
@@ -346,8 +364,15 @@ public class SHModulesController implements Initializable {
             Zone selectedZone = findZoneByName(zoneName);
             if (selectedZone != null) {
                 try {
-                    double temp = Double.parseDouble(afternoonTempTextField.getText());
+                    float temp = Float.parseFloat(afternoonTempTextField.getText());
                     selectedZone.setAfternoonTemp(temp);
+
+                    for(Zone zone: House.getZones()){
+                        if(zone.getName().equals(zoneName)){
+                            zone.setAfternoonTemp(temp);
+                        }
+                    }
+
                     String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]" + " Afternoon temperature set to " + temp + "°C for zone " + selectedZone.getName();
                     Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Afternoon temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
@@ -367,8 +392,15 @@ public class SHModulesController implements Initializable {
             Zone selectedZone = findZoneByName(zoneName);
             if (selectedZone != null) {
                 try {
-                    double temp = Double.parseDouble(nightTempTextField.getText());
+                    float temp = Float.parseFloat(nightTempTextField.getText());
                     selectedZone.setNightTemp(temp);
+
+                    for(Zone zone: House.getZones()){
+                        if(zone.getName().equals(zoneName)){
+                            zone.setNightTemp(temp);
+                        }
+                    }
+
                     String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]"+ " Night temperature set to " + temp + "°C for zone " + selectedZone.getName();
                     Log.getInstance().getLogEntries().add(logMessage);
                     showAlert("Success", "Night temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
@@ -421,17 +453,20 @@ public class SHModulesController implements Initializable {
         boolean windows = false;
         boolean lights = false;
         boolean autolightmode = false;
+        boolean shh = false;
+        boolean shhOvr = false;
 
         switch (currentUserRole){
             case PARENT:
             case ADMIN:
-                doors = windows = lights = autolightmode = true;
+                doors = windows = lights = autolightmode = shh = shhOvr = true;
                 break;
             case CHILD:
                 if(SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true){
                     lights = true;
                     windows = !(room instanceof IndoorRoom && ((IndoorRoom)room).isWindowBlocked());
                     doors = true;
+                    shhOvr = true;
                 }else{
                     OpenCloseLights.setDisable(true);
                 }
@@ -440,6 +475,7 @@ public class SHModulesController implements Initializable {
             case GUEST:
                 if(SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true){
                     lights = true;
+                    shhOvr = true;
                     windows = !(room instanceof IndoorRoom && ((IndoorRoom)room).isWindowBlocked());
                 }
                 break;
@@ -451,6 +487,14 @@ public class SHModulesController implements Initializable {
         OpenCloseLights.setDisable(!lights);
         OpenCloseWindows.setDisable(!windows);
         autoModeToggle.setDisable(!autolightmode);
+        addZoneButton.setDisable(!shh);
+        deleteZoneButton.setDisable(!shh);
+        setMorningTempButton.setDisable(!shh);
+        setAfternoonTempButton.setDisable(!shh);
+        setNightTempButton.setDisable(!shh);
+        addRoomToZoneButton.setDisable(!shh);
+        removeRoomFromZoneButton.setDisable(!shh);
+        overwriteTempButton.setDisable(!shhOvr);
     }
 
     public void addParent() {
@@ -495,4 +539,5 @@ public class SHModulesController implements Initializable {
         }
 
     }
+
 }
