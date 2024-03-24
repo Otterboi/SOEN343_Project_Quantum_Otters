@@ -64,6 +64,12 @@ public class EditSimulationController implements Initializable {
 
         menu.setDate(datePicker.getValue().toString());
         menu.setTime(newTime.getText());
+
+        if(newTemp.getText().isEmpty()){
+            menu.setTempOverwritten(false);
+        }else{
+            menu.setTempOverwritten(true);
+        }
         menu.setTemp(Float.parseFloat(newTemp.getText()));
         menu.setRoom(changeRoomBox.getValue());
         boolean userLeft = false;
