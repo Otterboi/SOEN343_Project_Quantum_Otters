@@ -199,6 +199,9 @@ public abstract class Room implements Observable {
         this.autoModeEnabled = autoModeEnabled;
         notifyObservers(this);
     }
-
+    @Override
+    public String toString() {
+        return this.roomName;
+    }
 
 }
