@@ -74,7 +74,7 @@ public class SHModulesController implements Initializable {
         initializeRoomListView();
         initializeTreeView();
         addZoneButton.setOnAction(e -> addZoneWithSelectedRooms());
-        addZoneButton.setOnAction(event -> deleteSelectedZone());
+        deleteZoneButton.setOnAction(event -> deleteSelectedZone());
         setMorningTempButton.setOnAction(e -> setMorningTemp());
         setAfternoonTempButton.setOnAction(e -> setAfternoonTemp());
         setNightTempButton.setOnAction(e -> setNightTemp());
