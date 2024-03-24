@@ -12,6 +12,7 @@ public class SimulatorHome implements Observable {
     private float temp;
     private String season;
     private static SimulatorHome instance;
+    private boolean isTempOverwritten;
 
     private SimulatorHome(String date, String time, float temp, String user, String room){
         this.date = date;
@@ -19,12 +20,13 @@ public class SimulatorHome implements Observable {
         this.temp = temp;
         this.user = user;
         this.room = room;
-        season = "";
+        this.season = "";
+        this.isTempOverwritten = false;
     }
 
     public static SimulatorHome getInstance(){
         if(instance == null){
-            instance = new SimulatorHome("2024-01-01","00:00:00",16, House.getLoggedInUser().getName(), "Remote");
+            instance = new SimulatorHome("2024-01-01","00:00:00",21, House.getLoggedInUser().getName(), "Remote");
         }
 
         return instance;
@@ -105,5 +107,14 @@ public class SimulatorHome implements Observable {
 
     public void setSeason(String season) {
         this.season = season;
+    }
+
+    public boolean isTempOverwritten() {
+        return isTempOverwritten;
+    }
+
+    public void setTempOverwritten(boolean tempOverwritten) {
+        isTempOverwritten = tempOverwritten;
+        notifyObservers(this);
     }
 }

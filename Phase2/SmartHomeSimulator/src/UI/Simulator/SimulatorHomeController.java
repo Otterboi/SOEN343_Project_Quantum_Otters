@@ -96,7 +96,7 @@ public class SimulatorHomeController implements Initializable {
             RoomObserver ro = new RoomObserver(paneArray[i], r);
             r.getObservers().clear();
             r.attachObserver(ro);
-            r.setTemp(SimulatorHome.getInstance().getTemp());
+            updateTemperatureDisplay();
             paneArray[i].setVisible(true);
 
             if (r instanceof OutdoorRoom) {
@@ -193,7 +193,7 @@ public class SimulatorHomeController implements Initializable {
 
     private void temperatureControl() {
         float roomTempChange = 0f;
-        float zoneTempChange = 0f;
+        float zoneTempChange = 0f, zoneTemp = 0f;
 
         if (House.getAvgTemp() <= 0) {
             if (!House.isTooCold()) {
@@ -204,6 +204,11 @@ public class SimulatorHomeController implements Initializable {
 
         for (Room room : House.getRooms()) {
             if (room.getZone() != null) {
+                if(!room.isOverwritingTemp()){
+                    zoneTemp =  room.getZone().getDesiredTemp();
+                }else{
+                    zoneTemp = room.getOverwritigTemp();
+                }
                 roomTempChange = room.getTemp();
                 zoneTempChange = room.getZone().getCurrentTemp();
 
@@ -222,21 +227,21 @@ public class SimulatorHomeController implements Initializable {
                 }
 
                 if (!room.isTempDecaying()) {
-                    if (room.getTemp() < room.getZone().getDesiredTemp() && House.isSHHOn()) {
+                    if (room.getTemp() < zoneTemp && House.isSHHOn()) {
                         // Heat the house
                         roomTempChange = roomTempChange + 0.1f;
                         zoneTempChange = zoneTempChange + 0.1f;
                         room.setHeating(true);
                         room.setTemp((float) (Math.round(roomTempChange * 100.0) / 100.0));
                         room.getZone().setCurrentTemp((float) (Math.round(zoneTempChange * 100.0) / 100.0));
-                    } else if (room.getTemp() > room.getZone().getDesiredTemp() || !House.isSHHOn()) {
+                    } else if (room.getTemp() > zoneTemp || !House.isSHHOn()) {
                         // Cool the house
                         room.setCooling(true);
                         roomTempChange = roomTempChange - 0.1f;
                         zoneTempChange = zoneTempChange - 0.1f;
                         room.setTemp((float) (Math.round(roomTempChange * 100.0) / 100.0));
                         room.getZone().setCurrentTemp((float) (Math.round(zoneTempChange * 100.0) / 100.0));
-                    } else if (room.getZone().getDesiredTemp() == room.getTemp() && House.isSHHOn()) {
+                    } else if (zoneTemp == room.getTemp() && House.isSHHOn()) {
                         // Make the house start to = the outside temp
                         room.setTempDecaying(true);
                         room.setOff(true);
@@ -320,7 +325,9 @@ public class SimulatorHomeController implements Initializable {
     }
 
     public void updateTemperatureDisplay() {
-        float temperature = Float.parseFloat(TemperatureUtil.getTemperatureForCurrentTime());
-        menu.setTemp(temperature);
+        if(!menu.isTempOverwritten()){
+            float temperature = Float.parseFloat(TemperatureUtil.getTemperatureForCurrentTime());
+            menu.setTemp(temperature);
+        }
     }
 }

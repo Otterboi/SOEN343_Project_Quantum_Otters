@@ -31,7 +31,7 @@ public class Zone {
         afternoonTemp = 20;
         overwritten = false;
         overwrittenTemp = 0;
-        currentTemp = SimulatorHome.getInstance().getTemp();
+        currentTemp = 0;
         isSummer = false;
         updateDesiredTemp();
     }

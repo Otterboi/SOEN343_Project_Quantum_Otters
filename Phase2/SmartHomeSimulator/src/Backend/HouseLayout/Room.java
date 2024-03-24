@@ -17,7 +17,7 @@ public abstract class Room implements Observable {
     protected List<String> peopleInRoom = new ArrayList<>();
     protected boolean autoModeEnabled = false;
     private ArrayList<Observer> observers = new ArrayList<>();
-    protected float temp;
+    protected float temp, overwritingTemp;
     protected Zone zone;
     protected boolean isCooling, isHeating, isOff, isOverwritingTemp = false;
     protected boolean isTempDecaying = false;
@@ -32,6 +32,15 @@ public abstract class Room implements Observable {
 
     public void setOverwritingTemp(boolean isOverwritingTemp){
         this.isOverwritingTemp = isOverwritingTemp;
+        notifyObservers(this);
+    }
+
+    public float getOverwritigTemp(){
+        return this.overwritingTemp;
+    }
+
+    public void setOverwritingTemp(float overwritingTemp){
+        this.overwritingTemp = overwritingTemp;
         notifyObservers(this);
     }
 
@@ -78,6 +87,14 @@ public abstract class Room implements Observable {
 
     public void setZone(Zone zone) {
         this.zone = zone;
+        this.zone.setCurrentTemp(SimulatorHome.getInstance().getTemp());
+        this.temp = zone.getCurrentTemp();
+        notifyObservers(this);
+    }
+
+    public void deleteZone(Zone zone){
+        this.zone = null;
+        this.temp = 0f;
         notifyObservers(this);
     }
 
