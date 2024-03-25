@@ -1,1 +1,0 @@
-{"users":[{"password":"admin","role":"Parent","name":"admin"},{"password":"john","role":"Parent","name":"John"},{"password":"jane","role":"Parent","name":"Jane"},{"password":"timmy","role":"Child","name":"Timmy"},{"password":"emma","role":"Child","name":"Emma"},{"password":"bob","role":"Guest","name":"Bob"},{"password":"billy","role":"Stranger","name":"Billy"}]}

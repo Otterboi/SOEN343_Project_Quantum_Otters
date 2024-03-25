@@ -217,7 +217,7 @@ public abstract class Room implements Observable {
     public void setAutoModeEnabled(boolean autoModeEnabled) {
         this.autoModeEnabled = autoModeEnabled;
         notifyObservers(this);
-        String output = "Automode is " + (autoModeEnabled? "enabled." : "disabled.") + "in " + roomName;
+        String output = "Automode is " + (autoModeEnabled? "enabled" : "disabled") + " in " + roomName;
         Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
         Log.getInstance().getLogEntries().add(
                 "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
