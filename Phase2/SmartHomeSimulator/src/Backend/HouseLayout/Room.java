@@ -1,5 +1,7 @@
 package Backend.HouseLayout;
 
+import Backend.Model.DateTime;
+import Backend.Model.Log;
 import Backend.Observer.Observable;
 import Backend.Observer.Observer;
 import Backend.SimulatorMenu.SimulatorHome;
@@ -215,6 +217,15 @@ public abstract class Room implements Observable {
     public void setAutoModeEnabled(boolean autoModeEnabled) {
         this.autoModeEnabled = autoModeEnabled;
         notifyObservers(this);
+        String output = "Automode is " + (autoModeEnabled? "enabled" : "disabled") + " in " + roomName;
+        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+        Log.getInstance().getLogEntries().add(
+                "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                        "\nEvent: Door State Change" +
+                        "\nLocation: " + roomName +
+                        "\nTriggered By: " +House.getLoggedInUser().getName()+
+                        "\nEvent Details: " + output
+        );
     }
     @Override
     public String toString() {

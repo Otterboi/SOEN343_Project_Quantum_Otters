@@ -1,8 +1,11 @@
 package Backend.Observer;
 
+import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.OutdoorRoom;
 import Backend.HouseLayout.Room;
+import Backend.Model.DateTime;
+import Backend.Model.Log;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -132,9 +135,27 @@ public class RoomObserver implements Observer {
         if (r.isAutoModeEnabled() && r.isPersonInRoom()) {
             light.setImage(lightOn);
             r.setLightOn(true);
+            String output = "Light in " + r.getRoomName() + " is now ON";
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+            Log.getInstance().getLogEntries().add(
+                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\nEvent: Light State Change" +
+                            "\nLocation: " + r.getRoomName() +
+                            "\nTriggered By: " + House.getLoggedInUser().getName()+
+                            "\nEvent Details: " + output
+            );
         } else if (r.isAutoModeEnabled() && !r.isPersonInRoom()) {
             light.setImage(lightOff);
             r.setLightOn(false);
+            String output = "Light in " + r.getRoomName() + " is now OFF";
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+            Log.getInstance().getLogEntries().add(
+                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\nEvent: Light State Change" +
+                            "\nLocation: " + r.getRoomName() +
+                            "\nTriggered By: " + House.getLoggedInUser().getName()+
+                            "\nEvent Details: " + output
+            );
         }
 
     }

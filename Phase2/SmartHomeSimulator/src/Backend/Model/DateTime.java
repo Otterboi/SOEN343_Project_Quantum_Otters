@@ -107,4 +107,12 @@ public class DateTime {
         // Format the time from Calendar object
         return dateFormat.format(date.getTime());
     }
+
+    public String getTimeAndDateAsString() {
+        // Create a SimpleDateFormat object with desired format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // Format the time from Calendar object
+        return dateFormat.format(date.getTime());
+    }
 }

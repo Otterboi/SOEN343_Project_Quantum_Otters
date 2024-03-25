@@ -3,6 +3,7 @@ package Backend;
 
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.OutdoorRoom;
+import Backend.Model.Log;
 import Backend.Users.User;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -17,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import Backend.HouseLayout.House;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 
 public class SmartHomeSimulator extends Application {
 
@@ -38,7 +40,17 @@ public class SmartHomeSimulator extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
-                System.out.println("This is closed");
+                try{
+                    FileWriter fw = new FileWriter("log.txt");
+
+                    for(String s : Log.getInstance().getLogEntries()){
+                        fw.write(s);
+                    }
+                    fw.close();
+                }catch(Exception e){
+                    System.out.println("Error occurred when trying to write to file!");
+                }
+
             }
         });
     }

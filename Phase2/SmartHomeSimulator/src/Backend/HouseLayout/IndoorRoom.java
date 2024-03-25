@@ -1,5 +1,8 @@
 package Backend.HouseLayout;
 
+import Backend.Model.DateTime;
+import Backend.Model.Log;
+
 import java.util.ArrayList;
 
 public class IndoorRoom extends Room{
@@ -45,7 +48,16 @@ public class IndoorRoom extends Room{
     public void setWindowBlocked(boolean windowBlocked) {
         isWindowBlocked = windowBlocked;
         notifyObservers(this);
-        System.out.println("Window in " + roomName + " is now " + ((isWindowBlocked == true) ? "BLOCKED" : "UNBLOCKED"));
+        String output = "Window in " + roomName + " is now " + ((isWindowBlocked == true) ? "BLOCKED" : "UNBLOCKED");
+        System.out.println(output);
+        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+        Log.getInstance().getLogEntries().add(
+                "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                        "\nEvent: Window Block State Change" +
+                        "\nLocation: " + roomName +
+                        "\nTriggered By: " + House.getLoggedInUser().getName() +
+                        "\nEvent Details: Window is now " + ((isWindowBlocked == true) ? "BLOCKED" : "UNBLOCKED")
+        );
     }
 
 
