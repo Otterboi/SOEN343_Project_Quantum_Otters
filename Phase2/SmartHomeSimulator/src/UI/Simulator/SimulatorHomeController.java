@@ -218,7 +218,7 @@ public class SimulatorHomeController implements Initializable {
                     room.getZone().updateDesiredTemp();
                 }
 
-                if (room.getZone().isSummer() && room instanceof IndoorRoom && House.isSHHOn()) {
+                if (!House.isHouseEmpty() && room.getZone().isSummer() && room instanceof IndoorRoom && House.isSHHOn()) {
                     if (SimulatorHome.getInstance().getTemp() >= 20 && room.getTemp() > SimulatorHome.getInstance().getTemp()) {
                         if (!((IndoorRoom) room).isWindowBlocked()) {
                             ((IndoorRoom) room).setWindowOpen(true);
