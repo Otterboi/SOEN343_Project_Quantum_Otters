@@ -69,7 +69,7 @@ public class SimulatorHomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        consoleLog.setItems(Log.getInstance().getLogEntries());
+        consoleLog.setItems(Log.getInstance().getLogEntriesConsole());
         consoleLog.setFocusTraversable(false);
         menu = SimulatorHome.getInstance();
         dateTime = DateTime.getInstance();
@@ -199,6 +199,16 @@ public class SimulatorHomeController implements Initializable {
             if (!House.isTooCold()) {
                 System.out.println("WARNING: Home is too cold! Pipes in danger of bursting!");
                 House.setTooCold(true);
+                String output = "Home is too cold, pipes are in danger of bursting.";
+                Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                Log.getInstance().getLogEntries().add(
+                        "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                "\nEvent: Temperature Warning" +
+                                "\nLocation: " + "Entire Household" +
+                                "\nTriggered By: SHH" +
+                                "\nDestined to: " + House.getLoggedInUser().getName() +
+                                "\nEvent Details: " + output
+                );
             }
         }
 
@@ -210,13 +220,25 @@ public class SimulatorHomeController implements Initializable {
                 if(House.isHouseEmpty() && !room.getZone().isSummer()){
                     room.getZone().setDesiredTemp(17);
                 }else if (!House.isHouseEmpty() && !room.getZone().isSummer()){
+                    room.getZone().setUser(false);
                     room.getZone().updateDesiredTemp();
+                    room.getZone().setUser(true);
                 }
 
                 if (room.getZone().isSummer() && room instanceof IndoorRoom && House.isSHHOn()) {
                     if (SimulatorHome.getInstance().getTemp() >= 20 && room.getTemp() > SimulatorHome.getInstance().getTemp()) {
                         if (!((IndoorRoom) room).isWindowBlocked()) {
                             ((IndoorRoom) room).setWindowOpen(true);
+                            String output = "Window in " + room.getRoomName() + " is now OPEN";
+                            System.out.println(output);
+                            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                            Log.getInstance().getLogEntries().add(
+                                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                            "\nEvent: Window State Change" +
+                                            "\nLocation: " + room.getRoomName() +
+                                            "\nTriggered By: SHH" +
+                                            "\nEvent Details: Window is now OPEN"
+                            );
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package Backend.HouseLayout;
 
 import Backend.Model.DateTime;
+import Backend.Model.Log;
 import Backend.Observer.Observable;
 import Backend.Observer.Observer;
 import Backend.SimulatorMenu.SimulatorHome;
@@ -21,6 +22,8 @@ public class Zone {
     private boolean overwritten;
     private float overwrittenTemp;
     private boolean isSummer;
+    private boolean isUser = false;
+    private boolean isMorning = false, isAfternoon = false, isNight = false;
 
     public Zone(String name, Set<Room> selectedRooms) {
         this.name = name;
@@ -53,11 +56,55 @@ public class Zone {
     public void updateDesiredTemp(){
         int hour = Integer.parseInt(DateTime.getInstance().getTimeAsString().split(":")[0]);
         if(hour >= 5 && hour < 12){
+            isAfternoon = false;
+            isNight = false;
             setDesiredTemp(morningTemp);
+            if(!isUser && isMorning == false){
+                String output = "Temperature was set to morning conditions.";
+                Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                Log.getInstance().getLogEntries().add(
+                        "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                "\nEvent: Zone Temperature & Time State Change" +
+                                "\nZone: " + name +
+                                "\nTriggered By: SHH" +
+                                "\nEvent Details: " + output
+                );
+            }isMorning = true;
         }else if (hour >= 12 && hour < 22){
+            isMorning = false;
+            isNight = false;
             setDesiredTemp(afternoonTemp);
+            if(!isUser && isAfternoon == false){
+                String output = "Temperature was set to afternoon conditions.";
+                Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                Log.getInstance().getLogEntries().add(
+                        "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                "\nEvent: Zone Temperature & Time State Change" +
+                                "\nZone: " + name +
+                                "\nTriggered By: SHH" +
+                                "\nEvent Details: " + output
+                );
+            }
+
+            isAfternoon = true;
         }else{
+            isMorning = false;
+            isAfternoon = false;
             setDesiredTemp(nightTemp);
+            if(isUser == false && isNight == false){
+
+                String output = "Temperature was set to night conditions.";
+                Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                Log.getInstance().getLogEntries().add(
+                        "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                "\nEvent: Zone Temperature & Time State Change" +
+                                "\nZone: " + name +
+                                "\nTriggered By: SHH" +
+                                "\nEvent Details: " + output
+                );
+            }
+
+        isNight = true;
         }
 
     }
@@ -127,6 +174,7 @@ public class Zone {
     }
 
     public void setCurrentTemp(float currentTemp) {
+        //Not logging since I'm assuming this is a SIMULATION setting, rather than something that any of the modules can actually do.
         this.currentTemp = currentTemp;
     }
 
@@ -136,5 +184,10 @@ public class Zone {
 
     public void setDesiredTemp(float desiredTemp) {
         this.desiredTemp = desiredTemp;
+
+    }
+
+    public void setUser(boolean b){
+        isUser = b;
     }
 }

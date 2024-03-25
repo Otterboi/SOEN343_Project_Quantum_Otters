@@ -17,22 +17,17 @@ import Backend.Command.ToggleWindowCommand;
 import Backend.HouseLayout.Zone;
 import Backend.Model.DateTime;
 import Backend.Model.Log;
-import Backend.Observer.SHHObserver;
 import Backend.SimulatorMenu.SimulatorHome;
 import Backend.Users.Role;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.IndoorRoom;
 import Backend.HouseLayout.Room;
-import Util.TemperatureUtil;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 
@@ -234,7 +229,7 @@ public class SHModulesController implements Initializable {
         zoneNameTextField.clear();
         roomsListView.getSelectionModel().clearSelection();
         String logMessage = "["+DateTime.getInstance().getTimeAsString() +"]"+ " Zone '" + zoneName + "' with selected rooms added successfully.";
-        Log.getInstance().getLogEntries().add(logMessage);
+        Log.getInstance().getLogEntriesConsole().add(logMessage);
         showAlert("Success", "Zone '" + zoneName + "' with selected rooms added successfully.");
     }
 
@@ -248,7 +243,7 @@ public class SHModulesController implements Initializable {
                 if (removed) {
                     zoneRoomTreeView.getRoot().getChildren().remove(selected);
                     String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]" +" Zone '" + selected.getValue() + "' removed successfully.";
-                    Log.getInstance().getLogEntries().add(logMessage);
+                    Log.getInstance().getLogEntriesConsole().add(logMessage);
                     showAlert("Success", "Zone removed successfully.");
                 } else {
                     showAlert("Error", "Could not remove the selected zone.");
@@ -269,7 +264,7 @@ public class SHModulesController implements Initializable {
                 selectedZone.addRoom(selectedRoom);
                 refreshTreeView();
                 String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]"+ " Room " + selectedRoom.getRoomName() + " added to zone " + selectedZone.getName();
-                Log.getInstance().getLogEntries().add(logMessage);
+                Log.getInstance().getLogEntriesConsole().add(logMessage);
                 showAlert("Success", "Room " + selectedRoom.getRoomName() + " added to zone " + selectedZone.getName() + ".");
             } else {
                 showAlert("Error", "Please select both a zone and a room.");
@@ -288,7 +283,7 @@ public class SHModulesController implements Initializable {
                 selectedZone.removeRoom(selectedRoom);
                 refreshTreeView();
                 String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]"+ " Room " + selectedRoom.getRoomName() + " removed from zone " + selectedZone.getName();
-                Log.getInstance().getLogEntries().add(logMessage);
+                Log.getInstance().getLogEntriesConsole().add(logMessage);
                 showAlert("Success", "Room " + selectedRoom.getRoomName() + " removed from zone " + selectedZone.getName() + ".");
             } else {
                 showAlert("Error", "Please select both a zone and a room.");
@@ -333,6 +328,7 @@ public class SHModulesController implements Initializable {
         if (selectedNode != null && selectedNode.getParent() == zoneRoomTreeView.getRoot()) {
             String zoneName = selectedNode.getValue();
             Zone selectedZone = findZoneByName(zoneName);
+            selectedZone.setUser(true);
             if (selectedZone != null) {
                 try {
                     float temp = Float.parseFloat(morningTempTextField.getText());
@@ -345,13 +341,24 @@ public class SHModulesController implements Initializable {
                     }
 
                     String logMessage ="["+ DateTime.getInstance().getTimeAsString()+"]" + " Morning temperature set to " + temp + "°C for zone " + selectedZone.getName();
-                    Log.getInstance().getLogEntries().add(logMessage);
+                    Log.getInstance().getLogEntriesConsole().add(logMessage);
+
+                    String output = "Morning temperature was set to " + temp + "°C.";
+                    Log.getInstance().getLogEntries().add(
+                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                    "\nEvent: Zone Temperature & Time State Change" +
+                                    "\nZone: " + selectedZone.getName() +
+                                    "\nTriggered By: " + House.getLoggedInUser().getName() +
+                                    "\nEvent Details: " + output
+                    );
+
                     showAlert("Success", "Morning temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
 
                 } catch (NumberFormatException e) {
                     showAlert("Error", "Invalid temperature format.");
                 }
             }
+            selectedZone.setUser(false);
         } else {
             showAlert("Error", "Please select a zone.");
         }
@@ -362,6 +369,7 @@ public class SHModulesController implements Initializable {
         if (selectedNode != null && selectedNode.getParent() == zoneRoomTreeView.getRoot()) {
             String zoneName = selectedNode.getValue();
             Zone selectedZone = findZoneByName(zoneName);
+            selectedZone.setUser(true);
             if (selectedZone != null) {
                 try {
                     float temp = Float.parseFloat(afternoonTempTextField.getText());
@@ -374,15 +382,27 @@ public class SHModulesController implements Initializable {
                     }
 
                     String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]" + " Afternoon temperature set to " + temp + "°C for zone " + selectedZone.getName();
-                    Log.getInstance().getLogEntries().add(logMessage);
+                    Log.getInstance().getLogEntriesConsole().add(logMessage);
+
+                    String output = "Afternoon temperature was set to " + temp + "°C.";
+                    Log.getInstance().getLogEntries().add(
+                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                    "\nEvent: Zone Temperature & Time State Change" +
+                                    "\nZone: " + selectedZone.getName() +
+                                    "\nTriggered By: " + House.getLoggedInUser().getName() +
+                                    "\nEvent Details: " + output
+                    );
+
                     showAlert("Success", "Afternoon temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
                 } catch (NumberFormatException e) {
                     showAlert("Error", "Invalid temperature format.");
                 }
             }
+            selectedZone.setUser(false);
         } else {
             showAlert("Error", "Please select a zone.");
         }
+
     }
 
     private void setNightTemp() {
@@ -390,6 +410,7 @@ public class SHModulesController implements Initializable {
         if (selectedNode != null && selectedNode.getParent() == zoneRoomTreeView.getRoot()) {
             String zoneName = selectedNode.getValue();
             Zone selectedZone = findZoneByName(zoneName);
+            selectedZone.setUser(true);
             if (selectedZone != null) {
                 try {
                     float temp = Float.parseFloat(nightTempTextField.getText());
@@ -402,12 +423,22 @@ public class SHModulesController implements Initializable {
                     }
 
                     String logMessage = "["+DateTime.getInstance().getTimeAsString()+"]"+ " Night temperature set to " + temp + "°C for zone " + selectedZone.getName();
-                    Log.getInstance().getLogEntries().add(logMessage);
+                    Log.getInstance().getLogEntriesConsole().add(logMessage);
+
+                    String output = "Night temperature was set to " + temp + "°C.";
+                    Log.getInstance().getLogEntries().add(
+                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                    "\nEvent: Zone Temperature & Time State Change" +
+                                    "\nZone: " + selectedZone.getName() +
+                                    "\nTriggered By: " + House.getLoggedInUser().getName() +
+                                    "\nEvent Details: " + output
+                    );
                     showAlert("Success", "Night temperature set to " + temp + "°C for zone " + selectedZone.getName() + ".");
                 } catch (NumberFormatException e) {
                     showAlert("Error", "Invalid temperature format.");
                 }
             }
+            selectedZone.setUser(false);
         } else {
             showAlert("Error", "Please select a zone.");
         }
@@ -428,7 +459,7 @@ public class SHModulesController implements Initializable {
             double temp = Double.parseDouble(summerTempTextField.getText());
             House.setSummerTemperature(temp);
             String logMessage = "["+DateTime.getInstance().getTimeAsString()+ "]"+" Summer temperature set to " + temp + "°C for the house.";
-            Log.getInstance().getLogEntries().add(logMessage);
+            Log.getInstance().getLogEntriesConsole().add(logMessage);
             showAlert("Success", "Summer temperature set to " + temp + "°C for the house.");
         } catch (NumberFormatException e) {
             showAlert("Error", "Invalid temperature format.");
@@ -440,7 +471,7 @@ public class SHModulesController implements Initializable {
             double temp = Double.parseDouble(winterTempTextField.getText());
             House.setWinterTemperature(temp);
             String logMessage ="["+ DateTime.getInstance().getTimeAsString() +"]"+ " Winter temperature set to " + temp + "°C for the house.";
-            Log.getInstance().getLogEntries().add(logMessage);
+            Log.getInstance().getLogEntriesConsole().add(logMessage);
             showAlert("Success", "Winter temperature set to " + temp + "°C for the house.");
         } catch (NumberFormatException e) {
             showAlert("Error", "Invalid temperature format.");
