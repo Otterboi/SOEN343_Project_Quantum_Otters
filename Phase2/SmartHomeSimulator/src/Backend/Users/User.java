@@ -28,6 +28,7 @@ public class User {
 
         name = n;
         password = p;
+
     }
 
     public Role getRole() {
@@ -50,6 +51,9 @@ public class User {
             role = Role.PARENT;
         }else if(r.toLowerCase().equals("admin")){
             role = Role.ADMIN;
+        }
+        else{
+            role = Role.STRANGER;
         }
     }
 
