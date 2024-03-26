@@ -3,6 +3,7 @@ package UI.EditSimulation;
 import Backend.HouseLayout.House;
 import Backend.HouseLayout.Room;
 import Backend.Model.DateTime;
+import Backend.Model.Log;
 import Backend.SimulatorMenu.SimulatorHome;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,7 +48,16 @@ public class EditSimulationController implements Initializable {
         this.newTemp.setText(Double.toString(menu.getTemp()));
         this.changeUserBox.getItems().addAll(userTypes);
         this.changeUserBox.setValue(menu.getUser());
-
+        String output = "New user " + menu.getUser() + " has logged in.";
+        System.out.println(output);
+        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+        Log.getInstance().getLogEntries().add(
+                "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                        "\nEvent: Logged In User Change" +
+                        "\nLocation: Simulation" +
+                        "\nTriggered By: User" +
+                        "\nEvent Details: " + output
+        );
         for(int i = 0; i < House.getRooms().size(); i++){
             roomTypes[i] = House.getRooms().get(i).getRoomName();
         }
@@ -81,12 +91,30 @@ public class EditSimulationController implements Initializable {
             if(room.getPeopleInRoom().contains(changeUserBox.getValue()) || isRemote){
                 room.removePersonInRoom(changeUserBox.getValue());
                 if(!isRemote){
-                    System.out.println("REMOVING logged in user from " + room.getRoomName());
+                    String output = "REMOVING logged in user from " + room.getRoomName();
+                    System.out.println(output);
+                    Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                    Log.getInstance().getLogEntries().add(
+                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                    "\nEvent: User Location Change" +
+                                    "\nLocation: " + room.getRoomName() +
+                                    "\nTriggered By: User" +
+                                    "\nEvent Details: " + output
+                    );
 
                 }else{
                     if(!userLeft) {
-                        System.out.println("Logged in user left the house.");
                         userLeft = true;
+                        String output = "Logged in user left the house.";
+                        System.out.println(output);
+                        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                        Log.getInstance().getLogEntries().add(
+                                "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                        "\nEvent: User Leaving Simulator" +
+                                        "\nLocation: Household" +
+                                        "\nTriggered By: User" +
+                                        "\nEvent Details: " + output
+                        );
                     }
                 }
 
@@ -96,7 +124,17 @@ public class EditSimulationController implements Initializable {
 
             if(room.getRoomName().toLowerCase().equals(menu.getRoom().toLowerCase())){
                 room.setPersonInRoom(true, changeUserBox.getValue());
-                System.out.println("ADDING logged in user to " + room.getRoomName());
+                String output = "ADDING logged in user to " + room.getRoomName();
+                System.out.println(output);
+                Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                Log.getInstance().getLogEntries().add(
+                        "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                "\nEvent: User Location Change" +
+                                "\nLocation: " + room.getRoomName() +
+                                "\nTriggered By: User" +
+                                "\nEvent Details: " + output
+                );
+
             }
         }
 
