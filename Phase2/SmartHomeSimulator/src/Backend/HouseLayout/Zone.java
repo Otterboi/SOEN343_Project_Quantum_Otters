@@ -19,7 +19,7 @@ public class Zone {
     private float nightTemp;
     private float morningTemp;
     private float afternoonTemp;
-    private boolean overwritten;
+    private boolean overwritten, desiredTempChanged;
     private float overwrittenTemp;
     private boolean isSummer;
     private boolean isUser = false;
@@ -36,7 +36,16 @@ public class Zone {
         overwrittenTemp = 0;
         currentTemp = 0;
         isSummer = false;
+        this.desiredTempChanged = false;
         updateDesiredTemp();
+    }
+
+    public boolean isDesiredTempChanged(){
+        return this.desiredTempChanged;
+    }
+
+    public void setDesiredTempChanged(boolean desiredTempChanged){
+        this.desiredTempChanged = desiredTempChanged;
     }
 
     public ArrayList<Room> getRooms() {
@@ -123,6 +132,7 @@ public class Zone {
 
     public void setNightTemp(float nightTemp) {
         this.nightTemp = nightTemp;
+        this.desiredTempChanged = true;
         updateDesiredTemp();
     }
 
@@ -132,6 +142,7 @@ public class Zone {
 
     public void setMorningTemp(float morningTemp) {
         this.morningTemp = morningTemp;
+        this.desiredTempChanged = true;
         updateDesiredTemp();
     }
 
@@ -141,6 +152,7 @@ public class Zone {
 
     public void setAfternoonTemp(float afternoonTemp) {
         this.afternoonTemp = afternoonTemp;
+        this.desiredTempChanged = true;
         updateDesiredTemp();
     }
 

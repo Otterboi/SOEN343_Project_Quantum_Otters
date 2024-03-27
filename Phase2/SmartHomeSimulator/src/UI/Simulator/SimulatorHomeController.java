@@ -281,12 +281,25 @@ public class SimulatorHomeController implements Initializable {
         float roomTempChange = room.getTemp();
         float zoneTempChange = room.getZone().getCurrentTemp();
 
-        if ((room.getTemp() == (float) Math.floor((room.getZone().getDesiredTemp() + 0.25f) * 100) / 100) || (room.getZone().getCurrentTemp() == (float) Math.floor((room.getZone().getDesiredTemp() + 0.25f) * 100) / 100) ||
+        if (room.getZone().isDesiredTempChanged() || (room.getTemp() == (float) Math.floor((room.getZone().getDesiredTemp() + 0.25f) * 100) / 100) || (room.getZone().getCurrentTemp() == (float) Math.floor((room.getZone().getDesiredTemp() + 0.25f) * 100) / 100) ||
                 (room.getTemp() == (float) Math.floor((room.getZone().getDesiredTemp() - 0.25f) * 100) / 100) || (room.getZone().getCurrentTemp() == (float) Math.floor((room.getZone().getDesiredTemp() - 0.25f) * 100) / 100)) {
 
-            room.setTemp((float) (Math.floor((room.getTemp() - 0.05) * 100) / 100));
-            room.getZone().setCurrentTemp((float) (Math.floor((room.getZone().getCurrentTemp() - 0.05) * 100) / 100));
+            double temp = room.getTemp() * 100;
+            char remain = Double.toString(temp).charAt(3);
+            if(remain == '5'){
+                StringBuilder strBuild = new StringBuilder(Double.toString(temp));
+                strBuild.setCharAt(3, '0');
+                room.setTemp((float) Double.parseDouble(strBuild.toString())/100);
+                room.getZone().setCurrentTemp((float) Double.parseDouble(strBuild.toString())/100);
+            }else{
+                room.setTemp((float) temp/100);
+                room.getZone().setCurrentTemp((float) temp/100);
+            }
+
+            //room.setTemp((float) (Math.floor((room.getTemp() - 0.05) * 100.0) / 100.0));
+            //room.getZone().setCurrentTemp((float) (Math.floor((room.getZone().getCurrentTemp() - 0.05) * 100.0) / 100.0));
             room.setTempDecaying(false);
+            room.getZone().setDesiredTempChanged(false);
         } else {
             if (SimulatorHome.getInstance().getTemp() > room.getZone().getDesiredTemp()) {
                 roomTempChange = roomTempChange + 0.05f;
@@ -297,7 +310,7 @@ public class SimulatorHomeController implements Initializable {
                 roomTempChange = roomTempChange - 0.05f;
                 zoneTempChange = zoneTempChange - 0.05f;
                 room.setTemp((float) (Math.round(roomTempChange * 100.0) / 100.0));
-                room.getZone().setCurrentTemp((float) (Math.floor(zoneTempChange * 100) / 100));
+                room.getZone().setCurrentTemp((float) (Math.round(zoneTempChange * 100.0) / 100.0));
             }
         }
 

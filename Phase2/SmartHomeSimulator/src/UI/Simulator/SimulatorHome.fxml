@@ -189,7 +189,8 @@
                      </children>
                   </Pane>
                </children></AnchorPane>
-            <ListView fx:id="consoleLog" layoutX="33.0" layoutY="587.0" prefHeight="200.0" prefWidth="747.0" />
+            <ListView fx:id="consoleLog" layoutX="34.0" layoutY="612.0" prefHeight="146.0" prefWidth="747.0" />
+            <Label layoutX="34.0" layoutY="592.0" prefHeight="20.0" prefWidth="101.0" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #333;" text="Console:" />
          </children>
       </AnchorPane>
    </children>
