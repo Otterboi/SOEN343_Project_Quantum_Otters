@@ -23,6 +23,7 @@ public abstract class Room implements Observable {
     protected Zone zone;
     protected boolean isCooling, isHeating, isOff, isOverwritingTemp = false;
     protected boolean isTempDecaying = false;
+    protected boolean isAway = false;
 
     public boolean isTempDecaying(){
         return this.isTempDecaying;
@@ -227,6 +228,16 @@ public abstract class Room implements Observable {
                         "\nEvent Details: " + output
         );
     }
+
+    public void setAway(boolean isAway) {
+        this.isAway = isAway;
+        notifyObservers(this);
+    }
+
+    public boolean getAway() {
+        return isAway;
+    }
+
     @Override
     public String toString() {
         return this.roomName;

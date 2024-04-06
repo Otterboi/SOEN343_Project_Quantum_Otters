@@ -7,6 +7,7 @@ import Backend.HouseLayout.Room;
 import Backend.Model.DateTime;
 import Backend.Model.Log;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -84,7 +85,11 @@ public class RoomObserver implements Observer {
                 if (outroom.isGarage()) {
                     door.setImage(doorOpenGarage);
                 }
-            } else {
+                else {
+                    door.setImage(doorOpen);
+                }
+            }
+            else {
                 door.setImage(doorOpen);
             }
 
@@ -158,6 +163,30 @@ public class RoomObserver implements Observer {
             );
         }
 
+        //TANZIR CONSOLE LOG TO DO IN THIS FUNCTION
+        if(r.getAway()) {
+            if(r instanceof OutdoorRoom){
+                if(((OutdoorRoom) r).isGarage()){
+                    door.setImage(doorCloseGarage);
+                }
+            }else{
+                door.setImage(doorClose);
+            }
+
+            if(r instanceof IndoorRoom) {
+                window.setImage(windowClose);
+            }
+            String output = "House is in away mode. All the doors and windows are closed!";
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+            Log.getInstance().getLogEntries().add(
+                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\nEvent: Temperature Warning" +
+                            "\nLocation: " + "Entire Household" +
+                            "\nTriggered By: SHH" +
+                            "\nDestined to: " + House.getLoggedInUser().getName() +
+                            "\nEvent Details: " + output
+            );
+        }
     }
 }
 

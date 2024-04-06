@@ -1,0 +1,168 @@
+
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:35
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:38
+Event: Zone Temperature & Time State Change
+Zone: 1
+Triggered By: SHH
+Event Details: Temperature was set to afternoon conditions.
+
+
+Timestamp: 2024-04-06 17:42:38
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:39
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:39
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:40
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:40
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:40
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:41
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:41
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: House is in away mode. All the doors and windows are closed!
+
+
+Timestamp: 2024-04-06 17:42:42
+Event: Temperature Warning
+Location: Entire Household
+Triggered By: SHH
+Destined to: admin
+Event Details: Temperature exceeded 135 degrees celsius. Away mode is turned OFF!

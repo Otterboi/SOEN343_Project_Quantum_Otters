@@ -22,6 +22,7 @@ public class House {
     private static boolean tooCold = false;
 
     private static boolean isHouseEmpty;
+    private static boolean isAway;
 
     private House(){
         indoorRooms = new ArrayList<>();
@@ -152,5 +153,13 @@ public class House {
 
     public static void setTooCold(boolean tooCold) {
         House.tooCold = tooCold;
+    }
+
+    public static boolean isAway() {
+        return isAway;
+    }
+
+    public static void setIsAway(boolean isAway) {
+        House.isAway = isAway;
     }
 }

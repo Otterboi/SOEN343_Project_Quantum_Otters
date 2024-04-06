@@ -60,5 +60,4 @@ public class IndoorRoom extends Room{
         );
     }
 
-
 }
