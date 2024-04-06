@@ -168,6 +168,16 @@ public class RoomObserver implements Observer {
             if(r instanceof IndoorRoom) {
                 window.setImage(windowClose);
             }
+            String output = "House is in away mode. All the doors and windows are closed!";
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+            Log.getInstance().getLogEntries().add(
+                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\nEvent: Temperature Warning" +
+                            "\nLocation: " + "Entire Household" +
+                            "\nTriggered By: SHH" +
+                            "\nDestined to: " + House.getLoggedInUser().getName() +
+                            "\nEvent Details: " + output
+            );
         }
     }
 }

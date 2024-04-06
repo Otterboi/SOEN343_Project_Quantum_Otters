@@ -287,14 +287,35 @@ public class SimulatorHomeController implements Initializable {
                     room.setAway(false);
                     House.setIsAway(false);
                     showAlert("WARNING", "Temperature in " + room.getRoomName() + " has exceeded 135 degrees celsius!");
+                    String output = "Temperature exceeded 135 degrees celsius. Away mode is turned OFF!";
+                    Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                    Log.getInstance().getLogEntries().add(
+                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                    "\nEvent: Temperature Warning" +
+                                    "\nLocation: " + "Entire Household" +
+                                    "\nTriggered By: SHH" +
+                                    "\nDestined to: " + House.getLoggedInUser().getName() +
+                                    "\nEvent Details: " + output
+                    );
                 }
 
+                //TANZIR CONSOLE LOG TO DO IN THIS FUNCTION
                 if(timeCount == 60) {
                     timeCount = 0;
                     if(room.getTemp()-previousTemp >= 15) {
                         room.setAway(false);
                         House.setIsAway(false);
                         showAlert("WARNING", "Temperature in " + room.getRoomName() + " increased too quickly!");
+                        String output = "Temperature increased too quickly. Away mode is turned OFF!";
+                        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+                        Log.getInstance().getLogEntries().add(
+                                "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                        "\nEvent: Temperature Warning" +
+                                        "\nLocation: " + "Entire Household" +
+                                        "\nTriggered By: SHH" +
+                                        "\nDestined to: " + House.getLoggedInUser().getName() +
+                                        "\nEvent Details: " + output
+                        );
                     }
                     else {
                         previousTemp = room.getTemp();
