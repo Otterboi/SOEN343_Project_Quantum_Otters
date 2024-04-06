@@ -80,7 +80,7 @@ public class SimulatorHomeController implements Initializable {
         Pane[] initPanes = {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12};
         paneArray = initPanes;
 
-        SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel);
+        SimulatorHomeObserver menuObserver = new SimulatorHomeObserver(menu, chosenTime, chosenDate, userLabel, tempLabel, roomLabel, awayModeButton);
         menu.attachObserver(menuObserver);
         menu.notifyObservers(menu);
 
@@ -285,7 +285,7 @@ public class SimulatorHomeController implements Initializable {
                 //TANZIR CONSOLE LOG TO DO IN THIS FUNCTION
                 if(room.getTemp() >= 135) {
                     room.setAway(false);
-                    House.setIsAway(false);
+                    SimulatorHome.getInstance().setAwayMode(false);
                     showAlert("WARNING", "Temperature in " + room.getRoomName() + " has exceeded 135 degrees celsius!");
                     String output = "Temperature exceeded 135 degrees celsius. Away mode is turned OFF!";
                     Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
@@ -304,7 +304,7 @@ public class SimulatorHomeController implements Initializable {
                     timeCount = 0;
                     if(room.getTemp()-previousTemp >= 15) {
                         room.setAway(false);
-                        House.setIsAway(false);
+                        SimulatorHome.getInstance().setAwayMode(false);
                         showAlert("WARNING", "Temperature in " + room.getRoomName() + " increased too quickly!");
                         String output = "Temperature increased too quickly. Away mode is turned OFF!";
                         Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
@@ -422,13 +422,13 @@ public class SimulatorHomeController implements Initializable {
                 room.setAway(true);
             }
             awayModeButton.setText("Away Mode OFF");
-            House.setIsAway(true);
+            SimulatorHome.getInstance().setAwayMode(true);
         } else {
             for(Room room : House.getRooms()) {
                 room.setAway(false);
             }
             awayModeButton.setText("Away Mode ON");
-            House.setIsAway(false);
+            SimulatorHome.getInstance().setAwayMode(false);
         }
     }
 

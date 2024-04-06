@@ -25,6 +25,8 @@
                                 <ToggleButton fx:id="blockWindowBTN" layoutX="389.0" layoutY="90.0" mnemonicParsing="false" onAction="#blockWindow" text="Block Window" />
                                 <Text layoutX="97.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Person to Room" wrappingWidth="115.13671875" />
                                 <Text layoutX="361.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Block Window Functionality" wrappingWidth="147.13671875" />
+                        <ToggleButton fx:id="test1BTN" layoutX="92.0" layoutY="259.0" mnemonicParsing="false" onAction="#test1" text="Test Temp" />
+                        <Text layoutX="92.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Test Temp Functionality" wrappingWidth="134.13671875" />
                             </children></AnchorPane>
                     </content>
                 </Tab>

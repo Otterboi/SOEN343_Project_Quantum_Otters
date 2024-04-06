@@ -42,6 +42,8 @@ public class SHModulesController implements Initializable {
     private TextField zoneNameTextField, morningTempTextField, afternoonTempTextField, nightTempTextField, summerTempTextField, winterTempTextField, overwriteTempTextField;
     @FXML
     private Button addZoneButton, deleteZoneButton, addRoomsToZoneButton, setMorningTempButton, setAfternoonTempButton, setNightTempButton, setSummerTempButton, setWinterTempButton, overwriteTempButton;
+    @FXML
+    private ToggleButton test1BTN, test2BTN;
 
     @FXML
     private ListView<Room> roomsListView;
@@ -553,6 +555,11 @@ public class SHModulesController implements Initializable {
             }
         }
 
+    }
+
+    public void test1(){
+        room.setTemp(135.1f);
+        room.getZone().setCurrentTemp(135.1f);
     }
 
 }

@@ -7,6 +7,7 @@ import Backend.HouseLayout.Room;
 import Backend.Model.DateTime;
 import Backend.Model.Log;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -164,7 +165,14 @@ public class RoomObserver implements Observer {
 
         //TANZIR CONSOLE LOG TO DO IN THIS FUNCTION
         if(r.getAway()) {
-            door.setImage(doorClose);
+            if(r instanceof OutdoorRoom){
+                if(((OutdoorRoom) r).isGarage()){
+                    door.setImage(doorCloseGarage);
+                }
+            }else{
+                door.setImage(doorClose);
+            }
+
             if(r instanceof IndoorRoom) {
                 window.setImage(windowClose);
             }
