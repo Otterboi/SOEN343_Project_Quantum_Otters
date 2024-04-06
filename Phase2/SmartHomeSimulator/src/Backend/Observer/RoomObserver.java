@@ -84,7 +84,11 @@ public class RoomObserver implements Observer {
                 if (outroom.isGarage()) {
                     door.setImage(doorOpenGarage);
                 }
-            } else {
+                else {
+                    door.setImage(doorOpen);
+                }
+            }
+            else {
                 door.setImage(doorOpen);
             }
 
@@ -158,6 +162,13 @@ public class RoomObserver implements Observer {
             );
         }
 
+        //TANZIR CONSOLE LOG TO DO IN THIS FUNCTION
+        if(r.getAway()) {
+            door.setImage(doorClose);
+            if(r instanceof IndoorRoom) {
+                window.setImage(windowClose);
+            }
+        }
     }
 }
 

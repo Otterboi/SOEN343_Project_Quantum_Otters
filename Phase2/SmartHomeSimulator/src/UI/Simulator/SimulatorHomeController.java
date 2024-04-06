@@ -51,7 +51,7 @@ public class SimulatorHomeController implements Initializable {
     @FXML
     private Label currentMultiplier;
     @FXML
-    private ToggleButton startStopToggle, stopSHHBTN;
+    private ToggleButton startStopToggle, stopSHHBTN, awayModeButton;
     @FXML
     private Label chosenDate;
     @FXML
@@ -66,6 +66,9 @@ public class SimulatorHomeController implements Initializable {
     private SimulatorHome menu;
     private Timer timer = new Timer(); // Timer for scheduling time updates
     private boolean isInitialized = false;
+    private int timeCount = 0;
+    private boolean flag = false;
+    private float previousTemp = 0f;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -214,6 +217,12 @@ public class SimulatorHomeController implements Initializable {
 
         for (Room room : House.getRooms()) {
             if (room.getZone() != null) {
+
+                if(!flag) {
+                    previousTemp = room.getTemp();
+                    flag = true;
+                }
+
                 if(!room.isOverwritingTemp()){
                     zoneTemp =  room.getZone().getDesiredTemp();
                 }else{
@@ -272,8 +281,28 @@ public class SimulatorHomeController implements Initializable {
                 } else {
                     decay(room);
                 }
+
+                //TANZIR CONSOLE LOG TO DO IN THIS FUNCTION
+                if(room.getTemp() >= 135) {
+                    room.setAway(false);
+                    House.setIsAway(false);
+                    showAlert("WARNING", "Temperature in " + room.getRoomName() + " has exceeded 135 degrees celsius!");
+                }
+
+                if(timeCount == 60) {
+                    timeCount = 0;
+                    if(room.getTemp()-previousTemp >= 15) {
+                        room.setAway(false);
+                        House.setIsAway(false);
+                        showAlert("WARNING", "Temperature in " + room.getRoomName() + " increased too quickly!");
+                    }
+                    else {
+                        previousTemp = room.getTemp();
+                    }
+                }
             }
         }
+        timeCount++;
     }
 
     // Increase or Decrease by 0.05 per second until it reaches temp outside
@@ -364,5 +393,29 @@ public class SimulatorHomeController implements Initializable {
             float temperature = Float.parseFloat(TemperatureUtil.getTemperatureForCurrentTime());
             menu.setTemp(temperature);
         }
+    }
+
+    public void handleAwayClick() {
+        if (awayModeButton.isSelected()) {
+            for(Room room : House.getRooms()) {
+                room.setAway(true);
+            }
+            awayModeButton.setText("Away Mode OFF");
+            House.setIsAway(true);
+        } else {
+            for(Room room : House.getRooms()) {
+                room.setAway(false);
+            }
+            awayModeButton.setText("Away Mode ON");
+            House.setIsAway(false);
+        }
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
