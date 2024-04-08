@@ -151,6 +151,8 @@ public class SimulatorHomeController implements Initializable {
         } catch (Exception e) {
             System.out.println("oops");
             System.out.println(e);
+            e.printStackTrace();
+
         }
     }
 

@@ -14,6 +14,8 @@ public class House {
 
     private static ArrayList<User> users;
     private static House INSTANCE;
+    private static boolean isAwayModeOn = false;
+
     private static User loggedInUser;
     private static double summerTemperature;
     private static double winterTemperature;
@@ -161,5 +163,34 @@ public class House {
 
     public static void setIsAway(boolean isAway) {
         House.isAway = isAway;
+    }
+    public static boolean isAwayModeOn() {
+        return isAwayModeOn;
+    }
+    public static void setAwayMode(boolean isAwayModeOn) {
+        House.isAwayModeOn = isAwayModeOn;
+
+        if (isAwayModeOn) {
+            activateSecurityMeasures();
+        } else {
+            deactivateSecurityMeasures();
+        }
+    }
+    private static void activateSecurityMeasures() {
+        // loop through all rooms and ensure all doors are locked, and all windows are closed
+        for (Room room : rooms) {
+            if (room instanceof IndoorRoom) {
+                ((IndoorRoom) room).setAllDoorsLocked(true);
+                ((IndoorRoom) room).setAllWindowsClosed(true);
+            }
+        }
+
+
+        System.out.println("Away mode activated. All security measures are now active.");
+    }
+
+    private static void deactivateSecurityMeasures() {
+
+        System.out.println("Away mode deactivated. Security measures are now back to normal operation.");
     }
 }
