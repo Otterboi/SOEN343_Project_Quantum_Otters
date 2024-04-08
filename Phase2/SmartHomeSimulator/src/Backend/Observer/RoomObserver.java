@@ -18,6 +18,7 @@ public class RoomObserver implements Observer {
     private ImageView window;
     private ImageView person;
     private ImageView shhView;
+    private ImageView motionSensor;
     private Label tempLabel;
     private Pane pane;
 
@@ -35,6 +36,7 @@ public class RoomObserver implements Observer {
     Image doorOpenGarage = new Image("/Resources/doorOpenGarage.png");
     Image cooling = new Image("/Resources/cooling.png");
     Image heating = new Image("/Resources/heating.png");
+    Image motionDetector = new Image("/Resources/motion.png");
 
     public RoomObserver(Pane pane, Room r) {
         this.pane = pane;
@@ -45,6 +47,7 @@ public class RoomObserver implements Observer {
         person = ((ImageView) pane.getChildren().get(5));
         tempLabel = ((Label) pane.getChildren().get(6));
         shhView = ((ImageView) pane.getChildren().get(7));
+        motionSensor = ((ImageView) pane.getChildren().get(8));
         light.setImage(lightOff);
         door.setImage(doorClose);
         if (r instanceof OutdoorRoom outroom) {
@@ -163,7 +166,6 @@ public class RoomObserver implements Observer {
             );
         }
 
-        //TANZIR CONSOLE LOG TO DO IN THIS FUNCTION
         if(r.getAway()) {
             if(r instanceof OutdoorRoom){
                 if(((OutdoorRoom) r).isGarage()){
@@ -176,16 +178,12 @@ public class RoomObserver implements Observer {
             if(r instanceof IndoorRoom) {
                 window.setImage(windowClose);
             }
-            String output = "House is in away mode. All the doors and windows are closed!";
-            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
-            Log.getInstance().getLogEntries().add(
-                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
-                            "\nEvent: Temperature Warning" +
-                            "\nLocation: " + "Entire Household" +
-                            "\nTriggered By: SHH" +
-                            "\nDestined to: " + House.getLoggedInUser().getName() +
-                            "\nEvent Details: " + output
-            );
+        }
+
+        if(r.isMotionDetectorTriggered()){
+            motionSensor.setImage(motionDetector);
+        }else{
+            motionSensor.setImage(null);
         }
     }
 }
