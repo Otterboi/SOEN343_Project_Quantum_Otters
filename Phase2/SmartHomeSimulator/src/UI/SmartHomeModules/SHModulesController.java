@@ -30,6 +30,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -57,6 +67,24 @@ public class SHModulesController implements Initializable {
 
     private Room room;
     private Set<Room> selectedRooms = new HashSet<>();
+    @FXML
+    private ListView<Room> roomsListViews;
+
+    private Timer policeCallTimer;
+    @FXML
+    private ToggleButton toggleAwayMode;
+    @FXML
+    private TextField motionDetectorLocation;
+    @FXML
+    private Spinner<Integer> timerToCallPolice;
+    @FXML
+    private Button setLocationButton;
+    @FXML
+    private Button setTimerButton;
+    @FXML
+    private Label countdownLabel;
+
+    private Button startPoliceCallTimer;
 
 
     @FXML
@@ -71,6 +99,7 @@ public class SHModulesController implements Initializable {
         house = House.getInstance();
         initializeRoomListView();
         initializeTreeView();
+        initializeSHPComponents();
         addZoneButton.setOnAction(e -> addZoneWithSelectedRooms());
         deleteZoneButton.setOnAction(event -> deleteSelectedZone());
         setMorningTempButton.setOnAction(e -> setMorningTemp());
@@ -191,6 +220,8 @@ public class SHModulesController implements Initializable {
     private void initializeRoomListView() {
         roomsListView.setItems(FXCollections.observableArrayList(house.getRooms()));
         roomsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        roomsListViews.setItems(FXCollections.observableArrayList(house.getRooms()));
+        roomsListViews.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     private void refreshTreeView() {
@@ -512,6 +543,105 @@ public class SHModulesController implements Initializable {
         addRoomToZoneButton.setDisable(!shh);
         removeRoomFromZoneButton.setDisable(!shh);
         overwriteTempButton.setDisable(!shhOvr);
+    }
+    private void initializeSHPComponents() {
+        toggleAwayMode.setOnAction(event -> handleToggleAwayMode(toggleAwayMode.isSelected()));
+
+        SpinnerValueFactory<Integer> valueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 600, 30, 1);
+        timerToCallPolice.setValueFactory(valueFactory);
+        timerToCallPolice.setEditable(true);
+
+        setLocationButton.setOnAction(event -> setMotionDetectorLocation());
+        setTimerButton.setOnAction(event -> {
+            int seconds = timerToCallPolice.getValue();
+            startCountdown(seconds);
+            startPoliceCallTimer();
+
+        });
+
+    }
+
+    private void handleToggleAwayMode(boolean isAwayModeOn) {
+        House.getInstance().setAwayMode(isAwayModeOn);
+        String logMessage = "Away mode is now " + (isAwayModeOn ? "enabled" : "disabled");
+        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + logMessage);
+        Log.getInstance().getLogEntries().add(logMessage);
+
+        showAlert("Away Mode", logMessage);
+
+        if (isAwayModeOn) {
+            activateSecurityFeatures();
+        } else {
+            deactivateSecurityFeatures();
+        }
+    }
+
+    private void setMotionDetectorLocation() {
+        Room selectedRoom = roomsListViews.getSelectionModel().getSelectedItem();
+        if (selectedRoom != null) {
+            String location = selectedRoom.toString();
+            String logEntry = "Motion detector location set to: " + location;
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + logEntry);
+            Log.getInstance().getLogEntries().add(logEntry);
+
+            showAlert("Motion Detector Location", "Location set to: " + location);
+        } else {
+            showAlert("Motion Detector Location", "No room selected.");
+        }
+    }
+    private void activateSecurityFeatures() {
+        String logEntry = "Activating security features...";
+        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + logEntry);
+        Log.getInstance().getLogEntries().add(logEntry);
+
+        showAlert("Security Features", "Activating security features...");
+    }
+
+    private void deactivateSecurityFeatures() {
+        String logEntry = "Deactivating security features...";
+        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + logEntry);
+        Log.getInstance().getLogEntries().add(logEntry);
+
+        showAlert("Security Features", "Deactivating security features...");
+    }
+    public void startCountdown(int seconds) {
+        final IntegerProperty timeSeconds = new SimpleIntegerProperty(seconds);
+        countdownLabel.textProperty().bind(timeSeconds.asString());
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        new KeyValue(timeSeconds, seconds)),
+                new KeyFrame(Duration.seconds(seconds),
+                        e -> {
+                        },
+                        new KeyValue(timeSeconds, 0))
+        );
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+    @FXML
+    public void startPoliceCallTimer() {
+        int delay = 0;
+        int period = 1000;
+        int[] time = {timerToCallPolice.getValue()};
+
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+                Platform.runLater(() -> {
+                    if (time[0] > 0) {
+                        System.out.println(time[0]);
+                        time[0]--;
+                    } else {
+                        timer.cancel();
+                        showAlert("Emergency", "Calling police...");
+                    }
+                });
+            }
+        };
+
+        timer.scheduleAtFixedRate(task, delay, period);
     }
 
     public void addParent() {

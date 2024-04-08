@@ -59,5 +59,20 @@ public class IndoorRoom extends Room{
                         "\nEvent Details: Window is now " + ((isWindowBlocked == true) ? "BLOCKED" : "UNBLOCKED")
         );
     }
+    public void setAllDoorsLocked(boolean locked) {
+        this.setDoorOpen(!locked);
+        notifyObservers(this);
+        String logEntry = "All doors in " + roomName + " are now " + (locked ? "locked" : "unlocked");
+        System.out.println(logEntry);
+        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + logEntry);
+    }
+
+    public void setAllWindowsClosed(boolean closed) {
+        this.isWindowOpen = !closed;
+        notifyObservers(this);
+        String logEntry = "All windows in " + roomName + " are now " + (closed ? "closed" : "opened");
+        System.out.println(logEntry);
+        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + logEntry);
+    }
 
 }

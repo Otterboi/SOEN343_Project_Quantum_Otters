@@ -24,6 +24,8 @@ public abstract class Room implements Observable {
     protected boolean isCooling, isHeating, isOff, isOverwritingTemp = false;
     protected boolean isTempDecaying = false;
     protected boolean isAway = false;
+    private boolean hasMotionDetector;
+
 
     public boolean isTempDecaying(){
         return this.isTempDecaying;
@@ -243,4 +245,10 @@ public abstract class Room implements Observable {
         return this.roomName;
     }
 
+    public boolean hasMotionDetector() {
+        return hasMotionDetector;
+    }
+    public void setMotionDetector(boolean hasDetector) {
+        this.hasMotionDetector = hasDetector;
+    }
 }

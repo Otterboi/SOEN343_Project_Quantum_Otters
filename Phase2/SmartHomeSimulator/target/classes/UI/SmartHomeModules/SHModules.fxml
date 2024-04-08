@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.Spinner?>
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
@@ -46,7 +47,18 @@
                 </Tab>
                 <Tab text="SHP">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <ToggleButton fx:id="toggleAwayMode" layoutX="50.0" layoutY="20.0" text="Toggle Away Mode" />
+                                <Label layoutX="50.0" layoutY="60.0" text="Select Detector Location:" />
+                                <ListView fx:id="roomsListViews" layoutX="50.0" layoutY="80.0" prefHeight="100.0" prefWidth="200.0" />
+                                <Button fx:id="setLocationButton" layoutX="316.0" layoutY="79.0" prefHeight="24.0" prefWidth="107.0" text="Set Location" />
+                                <Label layoutX="18.0" layoutY="207.0" text="Timer to Call Police (sec):" />
+                                <Spinner fx:id="timerToCallPolice" initialValue="30" layoutX="163.0" layoutY="203.0" prefHeight="19.0" prefWidth="114.0" />
+                                <Button fx:id="setTimerButton" layoutX="299.0" layoutY="202.0" prefHeight="19.0" prefWidth="78.0" text="Set Timer" />
+                                <Label fx:id="countdownLabel" layoutX="394.0" layoutY="207.0" prefHeight="18.0" prefWidth="68.0" text="Countdown" />
+                            </children>
+                        </AnchorPane>
                     </content>
                 </Tab>
                 <Tab text="SHH">
