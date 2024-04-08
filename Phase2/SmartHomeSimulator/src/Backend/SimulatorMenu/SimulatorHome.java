@@ -13,6 +13,7 @@ public class SimulatorHome implements Observable {
     private String season;
     private static SimulatorHome instance;
     private boolean isTempOverwritten, awayMode;
+    private int policeTimer;
 
     private SimulatorHome(String date, String time, float temp, String user, String room){
         this.date = date;
@@ -23,6 +24,7 @@ public class SimulatorHome implements Observable {
         this.season = "";
         this.isTempOverwritten = false;
         this.awayMode = false;
+        this.policeTimer = 0;
     }
 
     public static SimulatorHome getInstance(){
@@ -126,5 +128,13 @@ public class SimulatorHome implements Observable {
     public void setAwayMode(boolean awayMode) {
         this.awayMode = awayMode;
         notifyObservers(this);
+    }
+
+    public int getPoliceTimer() {
+        return policeTimer;
+    }
+
+    public void setPoliceTimer(int policeTimer) {
+        this.policeTimer = policeTimer;
     }
 }

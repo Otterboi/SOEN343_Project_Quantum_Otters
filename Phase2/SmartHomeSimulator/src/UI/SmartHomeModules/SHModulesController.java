@@ -30,6 +30,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -71,8 +72,6 @@ public class SHModulesController implements Initializable {
     private ListView<Room> roomsListViews;
 
     private Timer policeCallTimer;
-    @FXML
-    private ToggleButton toggleAwayMode;
     @FXML
     private TextField motionDetectorLocation;
     @FXML
@@ -364,7 +363,7 @@ public class SHModulesController implements Initializable {
 
                     String output = "Morning temperature was set to " + temp + "°C.";
                     Log.getInstance().getLogEntries().add(
-                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
                                     "\nEvent: Zone Temperature & Time State Change" +
                                     "\nZone: " + selectedZone.getName() +
                                     "\nTriggered By: " + House.getLoggedInUser().getName() +
@@ -404,7 +403,7 @@ public class SHModulesController implements Initializable {
 
                     String output = "Afternoon temperature was set to " + temp + "°C.";
                     Log.getInstance().getLogEntries().add(
-                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
                                     "\nEvent: Zone Temperature & Time State Change" +
                                     "\nZone: " + selectedZone.getName() +
                                     "\nTriggered By: " + House.getLoggedInUser().getName() +
@@ -444,7 +443,7 @@ public class SHModulesController implements Initializable {
 
                     String output = "Night temperature was set to " + temp + "°C.";
                     Log.getInstance().getLogEntries().add(
-                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
                                     "\nEvent: Zone Temperature & Time State Change" +
                                     "\nZone: " + selectedZone.getName() +
                                     "\nTriggered By: " + House.getLoggedInUser().getName() +
@@ -544,8 +543,8 @@ public class SHModulesController implements Initializable {
         removeRoomFromZoneButton.setDisable(!shh);
         overwriteTempButton.setDisable(!shhOvr);
     }
+
     private void initializeSHPComponents() {
-        toggleAwayMode.setOnAction(event -> handleToggleAwayMode(toggleAwayMode.isSelected()));
 
         SpinnerValueFactory<Integer> valueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 600, 30, 1);
@@ -555,31 +554,25 @@ public class SHModulesController implements Initializable {
         setLocationButton.setOnAction(event -> setMotionDetectorLocation());
         setTimerButton.setOnAction(event -> {
             int seconds = timerToCallPolice.getValue();
-            startCountdown(seconds);
-            startPoliceCallTimer();
-
+            SimulatorHome.getInstance().setPoliceTimer(seconds);
+            String output = "Motion Sensor timer has been set for " + seconds + " seconds!";
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+            Log.getInstance().getLogEntries().add(
+                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
+                            "\nEvent: Authority Timer" +
+                            "\nLocation: " + "Entire Household" +
+                            "\nTriggered By: SHP" +
+                            "\nDestined to: " + House.getLoggedInUser().getName() +
+                            "\nEvent Details: " + output
+            );
         });
 
-    }
-
-    private void handleToggleAwayMode(boolean isAwayModeOn) {
-        House.getInstance().setAwayMode(isAwayModeOn);
-        String logMessage = "Away mode is now " + (isAwayModeOn ? "enabled" : "disabled");
-        Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + logMessage);
-        Log.getInstance().getLogEntries().add(logMessage);
-
-        showAlert("Away Mode", logMessage);
-
-        if (isAwayModeOn) {
-            activateSecurityFeatures();
-        } else {
-            deactivateSecurityFeatures();
-        }
     }
 
     private void setMotionDetectorLocation() {
         Room selectedRoom = roomsListViews.getSelectionModel().getSelectedItem();
         if (selectedRoom != null) {
+            selectedRoom.setMotionDetector(true);
             String location = selectedRoom.toString();
             String logEntry = "Motion detector location set to: " + location;
             Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + logEntry);
@@ -590,6 +583,7 @@ public class SHModulesController implements Initializable {
             showAlert("Motion Detector Location", "No room selected.");
         }
     }
+
     private void activateSecurityFeatures() {
         String logEntry = "Activating security features...";
         Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + logEntry);
@@ -604,44 +598,6 @@ public class SHModulesController implements Initializable {
         Log.getInstance().getLogEntries().add(logEntry);
 
         showAlert("Security Features", "Deactivating security features...");
-    }
-    public void startCountdown(int seconds) {
-        final IntegerProperty timeSeconds = new SimpleIntegerProperty(seconds);
-        countdownLabel.textProperty().bind(timeSeconds.asString());
-
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(0),
-                        new KeyValue(timeSeconds, seconds)),
-                new KeyFrame(Duration.seconds(seconds),
-                        e -> {
-                        },
-                        new KeyValue(timeSeconds, 0))
-        );
-        timeline.setCycleCount(1);
-        timeline.play();
-    }
-    @FXML
-    public void startPoliceCallTimer() {
-        int delay = 0;
-        int period = 1000;
-        int[] time = {timerToCallPolice.getValue()};
-
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            public void run() {
-                Platform.runLater(() -> {
-                    if (time[0] > 0) {
-                        System.out.println(time[0]);
-                        time[0]--;
-                    } else {
-                        timer.cancel();
-                        showAlert("Emergency", "Calling police...");
-                    }
-                });
-            }
-        };
-
-        timer.scheduleAtFixedRate(task, delay, period);
     }
 
     public void addParent() {
@@ -687,7 +643,7 @@ public class SHModulesController implements Initializable {
 
     }
 
-    public void test1(){
+    public void test1() {
         room.setTemp(135.1f);
         room.getZone().setCurrentTemp(135.1f);
     }

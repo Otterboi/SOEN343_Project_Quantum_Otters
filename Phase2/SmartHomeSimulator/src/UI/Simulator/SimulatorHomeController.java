@@ -66,8 +66,8 @@ public class SimulatorHomeController implements Initializable {
     private SimulatorHome menu;
     private Timer timer = new Timer(); // Timer for scheduling time updates
     private boolean isInitialized = false;
-    private int timeCount = 0;
-    private boolean flag = false;
+    private int timeCount = 0, policeTimerCount = 0;
+    private boolean flag = false, policeFlag = false;
     private float previousTemp = 0f;
 
     @Override
@@ -194,6 +194,28 @@ public class SimulatorHomeController implements Initializable {
         menu.setTime(dateTime.getTimeAsString());
         updateTemperatureDisplay();
         temperatureControl();
+        checkPoliceTimer();
+    }
+
+    private void checkPoliceTimer() {
+        if (SimulatorHome.getInstance().isAwayMode()) {
+            if (!policeFlag) {
+                for (Room room : House.getRooms()) {
+                    if (room.isMotionDetectorTriggered()) {
+                        policeTimerCount++;
+                        break;
+                    }
+                }
+                if (policeTimerCount == SimulatorHome.getInstance().getPoliceTimer() && policeTimerCount != 0) {
+                    showAlert("Emergency", "Calling police...");
+                    policeTimerCount = 0;
+                    policeFlag = true;
+                }
+            }
+        } else {
+            policeFlag = false;
+            policeTimerCount = 0;
+        }
     }
 
     private void temperatureControl() {
@@ -207,7 +229,7 @@ public class SimulatorHomeController implements Initializable {
                 String output = "Home is too cold, pipes are in danger of bursting.";
                 Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
                 Log.getInstance().getLogEntries().add(
-                        "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                        "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
                                 "\nEvent: Temperature Warning" +
                                 "\nLocation: " + "Entire Household" +
                                 "\nTriggered By: SHH" +
@@ -220,22 +242,22 @@ public class SimulatorHomeController implements Initializable {
         for (Room room : House.getRooms()) {
             if (room.getZone() != null) {
 
-                if(!flag) {
+                if (!flag) {
                     previousTemp = room.getTemp();
                     flag = true;
                 }
 
-                if(!room.isOverwritingTemp()){
-                    zoneTemp =  room.getZone().getDesiredTemp();
-                }else{
+                if (!room.isOverwritingTemp()) {
+                    zoneTemp = room.getZone().getDesiredTemp();
+                } else {
                     zoneTemp = room.getOverwritigTemp();
                 }
                 roomTempChange = room.getTemp();
                 zoneTempChange = room.getZone().getCurrentTemp();
 
-                if(House.isHouseEmpty() && !room.getZone().isSummer()){
+                if (House.isHouseEmpty() && !room.getZone().isSummer()) {
                     room.getZone().setDesiredTemp(17);
-                }else if (!House.isHouseEmpty() && !room.getZone().isSummer()){
+                } else if (!House.isHouseEmpty() && !room.getZone().isSummer()) {
                     room.getZone().setUser(false);
                     room.getZone().updateDesiredTemp();
                     room.getZone().setUser(true);
@@ -249,7 +271,7 @@ public class SimulatorHomeController implements Initializable {
                             System.out.println(output);
                             Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
                             Log.getInstance().getLogEntries().add(
-                                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
                                             "\nEvent: Window State Change" +
                                             "\nLocation: " + room.getRoomName() +
                                             "\nTriggered By: SHH" +
@@ -284,15 +306,14 @@ public class SimulatorHomeController implements Initializable {
                     decay(room);
                 }
 
-                //TANZIR CONSOLE LOG TO DO IN THIS FUNCTION
-                if(room.getTemp() >= 135) {
+                if (room.getTemp() >= 135) {
                     room.setAway(false);
                     SimulatorHome.getInstance().setAwayMode(false);
                     showAlert("WARNING", "Temperature in " + room.getRoomName() + " has exceeded 135 degrees celsius!");
                     String output = "Temperature exceeded 135 degrees celsius. Away mode is turned OFF!";
                     Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
                     Log.getInstance().getLogEntries().add(
-                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
                                     "\nEvent: Temperature Warning" +
                                     "\nLocation: " + "Entire Household" +
                                     "\nTriggered By: SHH" +
@@ -301,25 +322,23 @@ public class SimulatorHomeController implements Initializable {
                     );
                 }
 
-                //TANZIR CONSOLE LOG TO DO IN THIS FUNCTION
-                if(timeCount == 60) {
+                if (timeCount == 60) {
                     timeCount = 0;
-                    if(room.getTemp()-previousTemp >= 15) {
+                    if (room.getTemp() - previousTemp >= 15) {
                         room.setAway(false);
                         SimulatorHome.getInstance().setAwayMode(false);
                         showAlert("WARNING", "Temperature in " + room.getRoomName() + " increased too quickly!");
                         String output = "Temperature increased too quickly. Away mode is turned OFF!";
                         Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
                         Log.getInstance().getLogEntries().add(
-                                "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                                "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
                                         "\nEvent: Temperature Warning" +
                                         "\nLocation: " + "Entire Household" +
                                         "\nTriggered By: SHH" +
                                         "\nDestined to: " + House.getLoggedInUser().getName() +
                                         "\nEvent Details: " + output
                         );
-                    }
-                    else {
+                    } else {
                         previousTemp = room.getTemp();
                     }
                 }
@@ -338,18 +357,16 @@ public class SimulatorHomeController implements Initializable {
 
             double temp = room.getTemp() * 100;
             char remain = Double.toString(temp).charAt(3);
-            if(remain == '5'){
+            if (remain == '5') {
                 StringBuilder strBuild = new StringBuilder(Double.toString(temp));
                 strBuild.setCharAt(3, '0');
-                room.setTemp((float) Double.parseDouble(strBuild.toString())/100);
-                room.getZone().setCurrentTemp((float) Double.parseDouble(strBuild.toString())/100);
-            }else{
-                room.setTemp((float) temp/100);
-                room.getZone().setCurrentTemp((float) temp/100);
+                room.setTemp((float) Double.parseDouble(strBuild.toString()) / 100);
+                room.getZone().setCurrentTemp((float) Double.parseDouble(strBuild.toString()) / 100);
+            } else {
+                room.setTemp((float) temp / 100);
+                room.getZone().setCurrentTemp((float) temp / 100);
             }
 
-            //room.setTemp((float) (Math.floor((room.getTemp() - 0.05) * 100.0) / 100.0));
-            //room.getZone().setCurrentTemp((float) (Math.floor((room.getZone().getCurrentTemp() - 0.05) * 100.0) / 100.0));
             room.setTempDecaying(false);
             room.getZone().setDesiredTempChanged(false);
         } else {
@@ -412,7 +429,7 @@ public class SimulatorHomeController implements Initializable {
     }
 
     public void updateTemperatureDisplay() {
-        if(!menu.isTempOverwritten()){
+        if (!menu.isTempOverwritten()) {
             float temperature = Float.parseFloat(TemperatureUtil.getTemperatureForCurrentTime());
             menu.setTemp(temperature);
         }
@@ -420,15 +437,38 @@ public class SimulatorHomeController implements Initializable {
 
     public void handleAwayClick() {
         if (awayModeButton.isSelected()) {
-            for(Room room : House.getRooms()) {
+            for (Room room : House.getRooms()) {
                 room.setAway(true);
             }
+
+            String output = "House is in away mode. All the doors and windows are closed!";
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+            Log.getInstance().getLogEntries().add(
+                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
+                            "\nEvent: Away Mode" +
+                            "\nLocation: " + "Entire Household" +
+                            "\nTriggered By: SHP" +
+                            "\nDestined to: " + House.getLoggedInUser().getName() +
+                            "\nEvent Details: " + output
+            );
             awayModeButton.setText("Away Mode OFF");
             SimulatorHome.getInstance().setAwayMode(true);
         } else {
-            for(Room room : House.getRooms()) {
+            for (Room room : House.getRooms()) {
                 room.setAway(false);
+                room.setMotionDetectorTriggered(false);
             }
+
+            String output = "House is no longer in away mode. Welcome Home!";
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+            Log.getInstance().getLogEntries().add(
+                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
+                            "\nEvent: Away Mode" +
+                            "\nLocation: " + "Entire Household" +
+                            "\nTriggered By: SHP" +
+                            "\nDestined to: " + House.getLoggedInUser().getName() +
+                            "\nEvent Details: " + output
+            );
             awayModeButton.setText("Away Mode ON");
             SimulatorHome.getInstance().setAwayMode(false);
         }

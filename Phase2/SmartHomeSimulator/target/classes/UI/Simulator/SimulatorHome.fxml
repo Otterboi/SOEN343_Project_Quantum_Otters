@@ -55,6 +55,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r2" layoutX="158.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -67,6 +68,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature1" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage1" fitHeight="49.0" fitWidth="49.0" layoutX="56.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor1" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r3" layoutX="316.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -79,6 +81,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature2" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage2" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor11" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r4" layoutX="474.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -91,6 +94,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature3" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage3" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor12" fitHeight="49.0" fitWidth="49.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r5" layoutY="146.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -103,6 +107,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature4" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="122.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage4" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor13" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r6" layoutX="158.0" layoutY="146.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -115,6 +120,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature5" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage5" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor14" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r7" layoutX="316.0" layoutY="146.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -127,6 +133,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature6" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage6" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor15" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r8" layoutX="474.0" layoutY="146.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -139,6 +146,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature7" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage7" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor16" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r9" layoutY="292.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -151,6 +159,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature8" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage8" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor17" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r10" layoutX="158.0" layoutY="292.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -163,6 +172,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature9" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage9" fitHeight="49.0" fitWidth="49.0" layoutX="56.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor18" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r11" layoutX="316.0" layoutY="292.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -175,6 +185,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature10" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage10" fitHeight="49.0" fitWidth="49.0" layoutX="55.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor19" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                   <Pane fx:id="r12" layoutX="474.0" layoutY="292.0" onMouseClicked="#handleBedroomClick" visible="false">
@@ -187,6 +198,7 @@
                         <ImageView fitHeight="49.0" fitWidth="49.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="zoneTemperature11" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="124.0" prefHeight="17.0" prefWidth="152.0" text="0°C" textAlignment="CENTER" />
                         <ImageView fx:id="shhTypeImage11" fitHeight="49.0" fitWidth="49.0" layoutX="56.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="motionSensor110" fitHeight="49.0" fitWidth="49.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </Pane>
                </children></AnchorPane>

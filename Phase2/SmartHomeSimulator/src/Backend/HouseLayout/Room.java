@@ -25,31 +25,32 @@ public abstract class Room implements Observable {
     protected boolean isTempDecaying = false;
     protected boolean isAway = false;
     private boolean hasMotionDetector;
+    private boolean motionDetectorTriggered = false;
 
 
-    public boolean isTempDecaying(){
+    public boolean isTempDecaying() {
         return this.isTempDecaying;
     }
 
-    public boolean isOverwritingTemp(){
+    public boolean isOverwritingTemp() {
         return this.isOverwritingTemp;
     }
 
-    public void setOverwritingTemp(boolean isOverwritingTemp){
+    public void setOverwritingTemp(boolean isOverwritingTemp) {
         this.isOverwritingTemp = isOverwritingTemp;
         notifyObservers(this);
     }
 
-    public float getOverwritigTemp(){
+    public float getOverwritigTemp() {
         return this.overwritingTemp;
     }
 
-    public void setOverwritingTemp(float overwritingTemp){
+    public void setOverwritingTemp(float overwritingTemp) {
         this.overwritingTemp = overwritingTemp;
         notifyObservers(this);
     }
 
-    public void setTempDecaying(boolean isTempDecaying){
+    public void setTempDecaying(boolean isTempDecaying) {
         this.isTempDecaying = isTempDecaying;
     }
 
@@ -97,7 +98,7 @@ public abstract class Room implements Observable {
         notifyObservers(this);
     }
 
-    public void deleteZone(Zone zone){
+    public void deleteZone(Zone zone) {
         this.zone = null;
         this.temp = 0f;
         notifyObservers(this);
@@ -168,10 +169,11 @@ public abstract class Room implements Observable {
         } else if (this.autoModeEnabled && this.peopleInRoom.isEmpty()) {
             setLightOn(false);
         }
+        setMotionDetectorTriggered(isAway && hasMotionDetector);
         notifyObservers(this);
     }
 
-    public boolean isRoomEmpty(){
+    public boolean isRoomEmpty() {
         return this.peopleInRoom.isEmpty();
     }
 
@@ -220,13 +222,13 @@ public abstract class Room implements Observable {
     public void setAutoModeEnabled(boolean autoModeEnabled) {
         this.autoModeEnabled = autoModeEnabled;
         notifyObservers(this);
-        String output = "Automode is " + (autoModeEnabled? "enabled" : "disabled") + " in " + roomName;
+        String output = "Automode is " + (autoModeEnabled ? "enabled" : "disabled") + " in " + roomName;
         Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
         Log.getInstance().getLogEntries().add(
-                "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
                         "\nEvent: Door State Change" +
                         "\nLocation: " + roomName +
-                        "\nTriggered By: " +House.getLoggedInUser().getName()+
+                        "\nTriggered By: " + House.getLoggedInUser().getName() +
                         "\nEvent Details: " + output
         );
     }
@@ -248,7 +250,17 @@ public abstract class Room implements Observable {
     public boolean hasMotionDetector() {
         return hasMotionDetector;
     }
+
     public void setMotionDetector(boolean hasDetector) {
         this.hasMotionDetector = hasDetector;
+    }
+
+    public boolean isMotionDetectorTriggered() {
+        return motionDetectorTriggered;
+    }
+
+    public void setMotionDetectorTriggered(boolean motionDetectorTriggered) {
+        this.motionDetectorTriggered = motionDetectorTriggered;
+        notifyObservers(this);
     }
 }
