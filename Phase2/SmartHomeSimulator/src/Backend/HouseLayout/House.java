@@ -1,8 +1,8 @@
 package Backend.HouseLayout;
 
 
+import Backend.Mediator.*;
 import Backend.Users.User;
-import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
@@ -25,6 +25,11 @@ public class House {
 
     private static boolean isHouseEmpty;
     private static boolean isAway;
+    protected static boolean isDoorBlocked = false;
+    protected static SmartHomeMediator mediator;
+    protected static SHHComponent shh;
+    protected static SHPComponent shp;
+
 
     private House(){
         indoorRooms = new ArrayList<>();
@@ -35,6 +40,11 @@ public class House {
         rooms = new ArrayList<>();
         isSHHOn = true;
         isHouseEmpty = true;
+        mediator = new SmartHomeMediator();
+        shh = new SHHComponent(mediator);
+        shp = new SHPComponent(mediator);
+        mediator.setSHH(shh);
+        mediator.setSHP(shp);
     }
 
     public static House getInstance(){
@@ -163,7 +173,17 @@ public class House {
 
     public static void setIsAway(boolean isAway) {
         House.isAway = isAway;
+        shp.setAwayMode(isAway);
     }
+
+    public static boolean isDoorBlocked() {;
+        return isDoorBlocked;
+    }
+
+    public static void setDoorBlocked(boolean doorBlocked) {
+        isDoorBlocked = doorBlocked;
+    }
+
     public static boolean isAwayModeOn() {
         return isAwayModeOn;
     }
