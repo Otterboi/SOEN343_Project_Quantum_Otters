@@ -440,7 +440,7 @@ public class SimulatorHomeController implements Initializable {
                 room.setAway(true);
             }
 
-            String output = "House is in away mode. All the doors and windows are closed!";
+            String output = "Away mode activated. All the doors and windows are closed!";
             Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
             Log.getInstance().getLogEntries().add(
                     "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString() +
@@ -452,16 +452,6 @@ public class SimulatorHomeController implements Initializable {
             );
             awayModeButton.setText("Away Mode OFF");
             SimulatorHome.getInstance().setAwayMode(true);
-            String output = "Away mode activated. All the doors and windows are closed!";
-            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
-            Log.getInstance().getLogEntries().add(
-                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
-                            "\nEvent: Temperature Warning" +
-                            "\nLocation: " + "Entire Household" +
-                            "\nTriggered By: SHH" +
-                            "\nDestined to: " + House.getLoggedInUser().getName() +
-                            "\nEvent Details: " + output
-            );
             House.setIsAway(true);
         } else {
             for (Room room : House.getRooms()) {
@@ -481,16 +471,6 @@ public class SimulatorHomeController implements Initializable {
             );
             awayModeButton.setText("Away Mode ON");
             SimulatorHome.getInstance().setAwayMode(false);
-            String output = "Away mode disabled.";
-            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
-            Log.getInstance().getLogEntries().add(
-                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
-                            "\nEvent: Temperature Warning" +
-                            "\nLocation: " + "Entire Household" +
-                            "\nTriggered By: SHH" +
-                            "\nDestined to: " + House.getLoggedInUser().getName() +
-                            "\nEvent Details: " + output
-            );
             House.setIsAway(false);
         }
     }
