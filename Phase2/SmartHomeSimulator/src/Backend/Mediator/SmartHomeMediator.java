@@ -2,23 +2,23 @@ package Backend.Mediator;
 
 // Concrete Mediator
 public class SmartHomeMediator implements Mediator{
-    SHP shp;
-    SHH shh;
+    private SHPComponent shp;
+    private SHHComponent shh;
 
-    public void setSHH(SHH shh){
+    public void setSHH(SHHComponent shh){
         this.shh = shh;
     }
 
-    public void setSHP(SHP shp){
+    public void setSHP(SHPComponent shp){
         this.shp = shp;
     }
 
     @Override
-    public void notify(Component sender, String event) {
-        if (sender instanceof SHH) {
-
-        } else if (sender instanceof SHP) {
-
+    public void notify(boolean isAway) {
+        if(isAway){
+            shh.blockDoorsAndWindows();
+        } else {
+            shh.unblockDoorsAndWindows();
         }
     }
 }

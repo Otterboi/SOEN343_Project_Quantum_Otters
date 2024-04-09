@@ -76,7 +76,6 @@ public class SimulatorHomeController implements Initializable {
         consoleLog.setFocusTraversable(false);
         menu = SimulatorHome.getInstance();
         dateTime = DateTime.getInstance();
-
         Pane[] initPanes = {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12};
         paneArray = initPanes;
 
@@ -239,7 +238,7 @@ public class SimulatorHomeController implements Initializable {
                     room.getZone().setUser(true);
                 }
 
-                if (!House.isHouseEmpty() && room.getZone().isSummer() && room instanceof IndoorRoom && House.isSHHOn()) {
+                if (!House.isHouseEmpty() && room.getZone().isSummer() && room instanceof IndoorRoom && House.isSHHOn() && !House.isDoorBlocked()) {
                     if (SimulatorHome.getInstance().getTemp() >= 20 && room.getTemp() > SimulatorHome.getInstance().getTemp()) {
                         if (!((IndoorRoom) room).isWindowBlocked()) {
                             ((IndoorRoom) room).setWindowOpen(true);
@@ -423,12 +422,34 @@ public class SimulatorHomeController implements Initializable {
             }
             awayModeButton.setText("Away Mode OFF");
             SimulatorHome.getInstance().setAwayMode(true);
+            String output = "Away mode activated. All the doors and windows are closed!";
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+            Log.getInstance().getLogEntries().add(
+                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\nEvent: Temperature Warning" +
+                            "\nLocation: " + "Entire Household" +
+                            "\nTriggered By: SHH" +
+                            "\nDestined to: " + House.getLoggedInUser().getName() +
+                            "\nEvent Details: " + output
+            );
+            House.setIsAway(true);
         } else {
             for(Room room : House.getRooms()) {
                 room.setAway(false);
             }
             awayModeButton.setText("Away Mode ON");
             SimulatorHome.getInstance().setAwayMode(false);
+            String output = "Away mode disabled.";
+            Log.getInstance().getLogEntriesConsole().add("[" + DateTime.getInstance().getTimeAsString() + "] " + output);
+            Log.getInstance().getLogEntries().add(
+                    "\n\n\nTimestamp: " + DateTime.getInstance().getTimeAndDateAsString()+
+                            "\nEvent: Temperature Warning" +
+                            "\nLocation: " + "Entire Household" +
+                            "\nTriggered By: SHH" +
+                            "\nDestined to: " + House.getLoggedInUser().getName() +
+                            "\nEvent Details: " + output
+            );
+            House.setIsAway(false);
         }
     }
 
