@@ -502,11 +502,12 @@ public class SHModulesController implements Initializable {
         boolean autolightmode = false;
         boolean shh = false;
         boolean shhOvr = false;
+        boolean shp = false;
 
         switch (currentUserRole) {
             case PARENT:
             case ADMIN:
-                doors = windows = lights = autolightmode = shh = shhOvr = true;
+                doors = windows = lights = autolightmode = shh = shhOvr = shp = true;
                 break;
             case CHILD:
                 if (SimulatorHome.getInstance().getRoom().equals(room.getRoomName()) == true) {
@@ -542,6 +543,8 @@ public class SHModulesController implements Initializable {
         addRoomToZoneButton.setDisable(!shh);
         removeRoomFromZoneButton.setDisable(!shh);
         overwriteTempButton.setDisable(!shhOvr);
+        setLocationButton.setDisable(!shp);
+        setTimerButton.setDisable(!shp);
     }
 
     private void initializeSHPComponents() {
